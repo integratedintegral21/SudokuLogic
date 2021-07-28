@@ -3,6 +3,27 @@
 //
 
 #include "Cell.h"
+#include <stdexcept>
+#include <iostream>
+
+using namespace std;
+
+Cell::Cell(int number)
+try
+{
+    if(!isNumberValid(number)) {
+        throw invalid_argument("Invalid number");
+    }
+    this->number = number;
+    this->initStates();
+}
+catch (const invalid_argument& e){
+    throw e;
+}
+
+Cell::Cell() {
+    this->initStates();
+}
 
 int Cell::getNumber() const {
     return number;
@@ -16,19 +37,16 @@ Cell::~Cell() {
 
 }
 
-Cell::Cell(int number) : number(number) {
-    this->initStates();
-}
-
-bool Cell::isNumberPossible(int number) const {
+bool Cell::isNumberPossible(int number) const
+try{
     if(!isNumberValid(number))
-        return false;
+        throw invalid_argument("Invalid number");
     return this->possibleNumbers[number - 1];
 }
-
-Cell::Cell() {
-    this->initStates();
+catch (const invalid_argument& e){
+    throw e;
 }
+
 
 void Cell::initStates() {
     for (bool& state: this->possibleNumbers){
@@ -36,24 +54,37 @@ void Cell::initStates() {
     }
 }
 
-void Cell::setNumberPossible(int number){
+void Cell::setNumberPossible(int number)
+try{
     if(!isNumberValid(number))
-        return;
+        throw invalid_argument("Invalid number");
     this->possibleNumbers[number - 1] = true;
 }
-
-void Cell::setNumberNotPossible(int number) {
-    if(!isNumberValid(number))
-        return;
-    this->possibleNumbers[number - 1] = false;
+catch (const invalid_argument& e){
+    throw e;
 }
 
-void Cell::setNumber(int number) {
+void Cell::setNumberNotPossible(int number)
+try{
+    if(!isNumberValid(number))
+        throw invalid_argument("Invalid number");
+    this->possibleNumbers[number - 1] = false;
+}
+catch (const invalid_argument& e){
+    throw e;
+}
+
+void Cell::setNumber(int number)
+try{
     if (!isNumberValid(number)){
-        return;
+        throw invalid_argument("Invalid number");
     }
     Cell::number = number;
 }
+catch (const invalid_argument& e){
+    throw e;
+}
+
 
 bool Cell::isNumberValid(int number) const {
     return number >= 1 && number <= 9;

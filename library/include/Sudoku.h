@@ -6,9 +6,14 @@
 #define SUDOKULOGIC_SUDOKU_H
 
 #include <vector>
+#include "typedefs.h"
 
 class Sudoku {
-
+private:
+    // flattened 9x9 board
+    std::vector<CellPtr> board;
+    // list of numbers of cells where all numbers are unique
+    std::vector<std::vector<int>> constraints;
 };
 
 
