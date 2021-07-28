@@ -11,4 +11,7 @@ class Cell;
 
 typedef std::shared_ptr<Cell> CellPtr;
 
+typedef std::tuple<int, int, int> NumPosition;
+typedef std::tuple<int, int> CellPos;
+
 #endif //CINEMA_TYPEDEFS_H

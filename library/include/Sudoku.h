@@ -13,7 +13,14 @@ private:
     // flattened 9x9 board
     std::vector<CellPtr> board;
     // list of numbers of cells where all numbers are unique
-    std::vector<std::vector<int>> constraints;
+    std::vector<std::vector<CellPos>> constraints;
+    void fillWithPossibleNumbers();
+public:
+    Sudoku(std::vector<NumPosition>, std::vector<std::vector<CellPos>> constraints);
+    std::string to_string() const;
+    bool isNumAllowed(NumPosition numPosition) const;
+    bool isSolved() const;
+    void solve();
 };
 
 
