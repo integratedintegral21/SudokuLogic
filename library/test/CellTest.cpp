@@ -60,7 +60,17 @@ BOOST_FIXTURE_TEST_SUITE(TestSuiteCell, TestSuiteCellFixture)
     }
 
     BOOST_AUTO_TEST_CASE(PossibleNumbersTest){
-
+        for (int num = 1 ; num <= 5 ; num++){
+            cell0->setNumberPossible(num);
+            BOOST_TEST(cell0->isNumberPossible(num));
+        }
+        for (int num = 6 ; num <= 9 ; num++){
+            BOOST_TEST(!cell0->isNumberPossible(num));
+        }
+        for (int num = 1 ; num <= 5 ; num++){
+            cell0->setNumberNotPossible(num);
+            BOOST_TEST(!cell0->isNumberPossible(num));
+        }
     }
 
 BOOST_AUTO_TEST_SUITE_END()
