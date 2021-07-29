@@ -5,10 +5,23 @@
 #include "Sudoku.h"
 #include "Cell.h"
 #include <string>
+#include <stdexcept>
 
 using namespace std;
 
-Sudoku::Sudoku(vector<NumPosition> initialBoard, vector<vector<CellPos>> constraints) {
+Sudoku::Sudoku(vector<NumPosition> initialBoard, vector<vector<CellPos>> constraints)
+try{
+    if(initialBoard.size() != 81){
+        throw invalid_argument("Board size incorrect");
+    }
+    if(constraints.size() != 9){
+        throw invalid_argument("Constraints size incorrect");
+    }
+    for(auto& cons: constraints){
+        if(cons.size() != 9){
+            throw invalid_argument("Constraints size incorrect");
+        }
+    }
     for (int i = 0 ; i < 9*9 ; i++){
         this->board.push_back(make_shared<Cell>());
     }
@@ -21,21 +34,16 @@ Sudoku::Sudoku(vector<NumPosition> initialBoard, vector<vector<CellPos>> constra
     }
     this->constraints = constraints;
 }
+catch (const invalid_argument& e){
+    throw e;
+}
 
 std::string Sudoku::to_string() const {
     return string();
 }
 
-// sets all numbers possible and prunes impossible numbers in each empty cell
 void Sudoku::fillWithPossibleNumbers() {
-    // set all numbers possible in empty cells
-    for(CellPtr cell: this->board){
-        if(!cell->isEmpty())
-            continue;
-        for (int i = 1; i <= 9 ; i++){
-            cell->setNumberPossible(i);
-        }
-    }
+
 }
 
 bool Sudoku::isNumAllowed(NumPosition numPosition) const{
