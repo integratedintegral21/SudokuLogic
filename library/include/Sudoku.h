@@ -16,20 +16,23 @@ private:
     // list of lists of cells where all numbers are unique
     std::vector<std::vector<CellPos>> constraints;
     // list containing cell separators
-    std::vector<std::vector<std::string>> horizontalBoarders;
     std::vector<std::vector<std::string>> verticalBoarders;
 
     const std::string verticalSeparator = "\u2502";
-    const std::string horizontalSeparator = "\u250C\u2500\u2510";
-    const std::string verticalHighlightSeparator = "\u001b[33m" + verticalSeparator + "\u001b[0m";
-    const std::string horizontalHighlightSeparator = "\u001b[33m" + horizontalSeparator + "\u001b[0m";
+    const std::string leftUpperCorner = "\u250C";
+    const std::string leftLowerCorner = "\u2514";
+    const std::string rightUpperCorner = "\u2510";
+    const std::string rightLowerCorner = "\u2518";
+    const std::string horizontalBar = "\u2500\u2500\u2500";
+    const std::string upperJunction = "\u252C";
+    const std::string lowerJunction = "\u2534";
 
     void fillWithPossibleNumbers();
     void initializeBoarders();
     int getFlattenedCoord(int row, int col) const;
     int getFlattenedIndex(int row, int col) const;
-    std::string getUpperHorizontalLine(bool isHighlighted) const;
-    std::string getLowerHorizontalLine(bool isHighlighted) const;
+    std::string getUpperHorizontalLine() const;
+    std::string getLowerHorizontalLine() const;
 public:
     Sudoku(std::vector<NumPosition>, std::vector<std::vector<CellPos>> constraints);
     std::string getBoardString() const;
