@@ -19,8 +19,8 @@ private:
     std::vector<std::vector<std::string>> horizontalBoarders;
     std::vector<std::vector<std::string>> verticalBoarders;
 
-    const std::string verticalSeparator = "\u2551";
-    const std::string horizontalSeparator = "\u2553 \u2556";
+    const std::string verticalSeparator = "\u2502";
+    const std::string horizontalSeparator = "\u250C\u2500\u2510";
     const std::string verticalHighlightSeparator = "\u001b[33m" + verticalSeparator + "\u001b[0m";
     const std::string horizontalHighlightSeparator = "\u001b[33m" + horizontalSeparator + "\u001b[0m";
 
@@ -28,7 +28,8 @@ private:
     void initializeBoarders();
     int getFlattenedCoord(int row, int col) const;
     int getFlattenedIndex(int row, int col) const;
-    std::string getHorizontalLine(bool isHighlighted) const;
+    std::string getUpperHorizontalLine(bool isHighlighted) const;
+    std::string getLowerHorizontalLine(bool isHighlighted) const;
 public:
     Sudoku(std::vector<NumPosition>, std::vector<std::vector<CellPos>> constraints);
     std::string getBoardString() const;

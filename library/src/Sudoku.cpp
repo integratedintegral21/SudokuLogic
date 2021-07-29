@@ -37,8 +37,9 @@ catch (const invalid_argument& e){
 }
 
 string Sudoku::getBoardString() const {
-    string boardString = this->getHorizontalLine(true) + "\n";
+    string boardString = "";
     for (int row = 1 ; row <= 9 ; row++){
+        boardString += this->getUpperHorizontalLine(true) + "\n";
         string rowString = this->verticalHighlightSeparator;
         for (int col = 1 ; col <= 9 ; col++){
             int numIndex = this->getFlattenedIndex(row, col);
@@ -54,7 +55,7 @@ string Sudoku::getBoardString() const {
             }
         }
         rowString += this->verticalHighlightSeparator + "\n";
-        boardString += rowString + this->getHorizontalLine(row == 9) + "\n";
+        boardString += rowString + this->getLowerHorizontalLine(row == 9) + "\n";
     }
     return boardString;
 }
@@ -100,14 +101,27 @@ void Sudoku::initializeBoarders() {
     }
 }
 
-std::string Sudoku::getHorizontalLine(bool isHighlighted) const {
-    string lineString = "";
-    for(int i = 0 ; i < 9 ; i++){
+std::string Sudoku::getUpperHorizontalLine(bool isHighlighted) const {
+    string lineString = "\u250C";
+    for(int i = 0 ; i < 8 ; i++){
         if(isHighlighted)
-            lineString += this->horizontalHighlightSeparator;
+            lineString += "\u2500\u252C";
         else
-            lineString += this->horizontalSeparator;
+            lineString += "\u2500\u252C";
     }
+    lineString += "\u2500\u2510";
+    return lineString;
+}
+
+std::string Sudoku::getLowerHorizontalLine(bool isHighlighted) const {
+    string lineString = "\u2514";
+    for(int i = 0 ; i < 8 ; i++){
+        if(isHighlighted)
+            lineString += "\u2500\u2534";
+        else
+            lineString += "\u2500\u2534";
+    }
+    lineString += "\u2500\u2518";
     return lineString;
 }
 
