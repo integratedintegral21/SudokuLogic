@@ -50,7 +50,7 @@ string Sudoku::getBoardString() const {
                 rowString += to_string(cell->getNumber());
             }
             if(col != 9){
-                rowString += this->verticalSeparator;
+                rowString += this->verticalBoarders[row - 1][col - 1];
             }
         }
         rowString += this->verticalHighlightSeparator + "\n";
@@ -84,15 +84,19 @@ int Sudoku::getFlattenedIndex(int row, int col) const {
 }
 
 void Sudoku::initializeBoarders() {
-    for(int i = 0 ; i < 8 ; i++){
-        vector<string> rowHorizontalBoarders;
+    for(int i = 0 ; i < 9 ; i++){
         vector<string> rowVerticalBoarders;
         for(int j = 0 ; j < 8 ; j++){
-            rowHorizontalBoarders.push_back(this->horizontalSeparator);
             rowVerticalBoarders.push_back(this->verticalSeparator);
         }
-        this->horizontalBoarders.push_back(rowVerticalBoarders);
         this->verticalBoarders.push_back(rowVerticalBoarders);
+    }
+    for(int i = 0 ; i < 8 ; i ++){
+        vector<string> rowHorizontalBoarders;
+        for(int j = 0 ; j < 8 ; j++){
+            rowHorizontalBoarders.push_back(this->horizontalSeparator);
+        }
+        this->horizontalBoarders.push_back(rowHorizontalBoarders);
     }
 }
 

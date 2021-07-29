@@ -19,10 +19,10 @@ private:
     std::vector<std::vector<std::string>> horizontalBoarders;
     std::vector<std::vector<std::string>> verticalBoarders;
 
-    const std::string verticalSeparator = "|";
-    const std::string horizontalSeparator = "\u2015\u2015";
-    const std::string verticalHighlightSeparator = "\u001b[33m|\u001b[0m";
-    const std::string horizontalHighlightSeparator = "\u001b[33m\u2015\u2015\u001b[0m";
+    const std::string verticalSeparator = "\u2551";
+    const std::string horizontalSeparator = "\u2553 \u2556";
+    const std::string verticalHighlightSeparator = "\u001b[33m" + verticalSeparator + "\u001b[0m";
+    const std::string horizontalHighlightSeparator = "\u001b[33m" + horizontalSeparator + "\u001b[0m";
 
     void fillWithPossibleNumbers();
     void initializeBoarders();
