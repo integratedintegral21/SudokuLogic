@@ -17,6 +17,7 @@ vector<vector<CellPos>> getSimpleConstraints(){
                     square.push_back(make_tuple(3 * sqRow + i + 1, 3 * sqCol + j + 1));
                 }
             }
+            simpleConstraints.push_back(square);
         }
     }
     return simpleConstraints;
@@ -63,5 +64,6 @@ int main(){
     };
     vector<vector<CellPos>> simpleConstraints = getSimpleConstraints();
     Sudoku sudoku(board0, simpleConstraints);
+    cout << sudoku.getBoardString() << endl;
     return 0;
 }
