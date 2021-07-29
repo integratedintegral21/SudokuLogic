@@ -33,6 +33,7 @@ private:
     int getFlattenedIndex(int row, int col) const;
     std::string getUpperHorizontalLine() const;
     std::string getLowerHorizontalLine() const;
+    bool isNumPosValid(NumPosition num) const;
 public:
     Sudoku(std::vector<NumPosition>, std::vector<std::vector<CellPos>> constraints);
     std::string getBoardString() const;

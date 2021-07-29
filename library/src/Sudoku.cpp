@@ -11,18 +11,16 @@ using namespace std;
 
 Sudoku::Sudoku(vector<NumPosition> initialBoard, vector<vector<CellPos>> constraints)
 try{
-    if(constraints.size() != 9){
-        throw invalid_argument("Constraints size incorrect");
-    }
-    for(auto& cons: constraints){
-        if(cons.size() != 9){
-            throw invalid_argument("Constraints size incorrect");
-        }
+    if(initialBoard.size() > 81){
+        throw invalid_argument("too many initial positions given");
     }
     for (int i = 0 ; i < 9*9 ; i++){
         this->board.push_back(make_shared<Cell>());
     }
     for(auto& numPos: initialBoard){
+        if(!this->isNumPosValid(numPos)){
+            throw invalid_argument("Incorrect initial state");
+        }
         int row = get<0>(numPos);
         int col = get<1>(numPos);
         int num = get<2>(numPos);
@@ -110,5 +108,11 @@ std::string Sudoku::getLowerHorizontalLine() const {
     }
     lineString += this->horizontalBar + this->rightLowerCorner;
     return lineString;
+}
+
+bool Sudoku::isNumPosValid(NumPosition num) const {
+    return get<0>(num) >= 1 && get<0>(num) <= 9 &&
+            get<1>(num) >= 1 && get<1>(num) <= 9 &&
+            get<2>(num) >= 1 && get<2>(num) <= 9;
 }
 
