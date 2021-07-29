@@ -62,5 +62,6 @@ int main(){
             make_tuple(9, 6, 8),
     };
     vector<vector<CellPos>> simpleConstraints = getSimpleConstraints();
+    Sudoku sudoku(board0, simpleConstraints);
     return 0;
 }

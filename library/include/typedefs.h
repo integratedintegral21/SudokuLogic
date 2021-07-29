@@ -11,6 +11,7 @@ class Cell;
 
 typedef std::shared_ptr<Cell> CellPtr;
 
+// (row, col, number)
 typedef std::tuple<int, int, int> NumPosition;
 typedef std::tuple<int, int> CellPos;
 
