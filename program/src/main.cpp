@@ -10,6 +10,5 @@
 using namespace std;
 
 int main(){
-    cout << BOOST_LIB_VERSION << endl;
     return 0;
 }

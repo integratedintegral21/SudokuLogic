@@ -202,3 +202,26 @@ std::vector<CellPtr> Sudoku::getCellsFromRow(CellPos cellPos) const {
     return cells;
 }
 
+int Sudoku::getCellValue(CellPos cellPos) const {
+    return this->board[this->getFlattenedIndex(get<0>(cellPos), get<1>(cellPos))]->getNumber();
+}
+
+bool Sudoku::isNumberAllowed(NumPosition numPosition) const {
+    int row = get<0>(numPosition);
+    int col = get<1>(numPosition);
+    int num = get<2>(numPosition);
+    int cellIndex = this->getFlattenedIndex(row, col);
+    return this->board[cellIndex]->isNumberPossible(num);
+}
+
+void Sudoku::fillNumber(NumPosition numPosition) const {
+    int row = get<0>(numPosition);
+    int col = get<1>(numPosition);
+    int num = get<2>(numPosition);
+    int cellIndex = this->getFlattenedIndex(row, col);
+    if (isNumberAllowed(numPosition)){
+        this->board[cellIndex]->setNumber(num);
+    }
+}
+
+

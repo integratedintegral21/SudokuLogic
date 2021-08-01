@@ -5,6 +5,7 @@ set(SOURCE_FILES src/Sudoku.cpp test/master.cpp src/Cell.cpp include/Cell.h test
 add_library(Library ${SOURCE_FILES})
 
 TARGET_INCLUDE_DIRECTORIES(Library PUBLIC include)
+target_include_directories(Library PUBLIC ${include/model})
 
 enable_testing()
 find_package (Boost 1.75.0 COMPONENTS "unit_test_framework" REQUIRED)

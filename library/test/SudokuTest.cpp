@@ -2,16 +2,15 @@
 // Created by wojciech on 01/08/2021.
 //
 
-#include "boost/test/unit_test.hpp"
-#include "Cell.h"
-#include "typedefs.h"
-#include <memory>
-#include <utils.h>
 #include <Sudoku.h>
+#include "boost/test/unit_test.hpp"
+#include "utils.h"
+#include <map>
 
 using namespace std;
 
 struct TestSuiteSudokuFixture{
+
     vector<NumPosition> board0 = {
             make_tuple(1, 4, 2),
             make_tuple(1, 5, 6),
@@ -51,15 +50,26 @@ struct TestSuiteSudokuFixture{
             make_tuple(9, 6, 8),
     };
     vector<vector<CellPos>> simpleConstraints = getSimpleConstraints();
+    SudokuPtr sudoku0;
     TestSuiteSudokuFixture(){
-
+        sudoku0 = make_shared<Sudoku>(board0, simpleConstraints);
     }
 };
-
 BOOST_FIXTURE_TEST_SUITE(TestSuiteSudoku, TestSuiteSudokuFixture)
 
-BOOST_AUTO_TEST_CASE(ConstructorTest){
-        BOOST_TEST(true);
-}
+    BOOST_AUTO_TEST_CASE(ConstructorTest){
+        for (NumPosition& numPosition: board0){
+            CellPos cellPos = make_tuple(get<0>(numPosition), get<1>(numPosition));
+            int expectedNumber = get<2>(numPosition);
+            int actualNumber = sudoku0->getCellValue(cellPos);
+            BOOST_REQUIRE(expectedNumber == actualNumber);
+        }
+    }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+
+
+
+
+

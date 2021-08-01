@@ -37,11 +37,14 @@ private:
     std::vector<CellPtr> getCellsFromConstraints(CellPos cellPos) const;
     std::vector<CellPtr> getCellsFromColumn(CellPos cellPos) const;
     std::vector<CellPtr> getCellsFromRow(CellPos cellPos) const;
+    bool isNumAllowed(NumPosition numPosition) const;
 public:
     Sudoku(std::vector<NumPosition>, std::vector<std::vector<CellPos>> constraints);
     std::string getBoardString() const;
-    bool isNumAllowed(NumPosition numPosition) const;
+    bool isNumberAllowed(NumPosition) const;
+    int getCellValue(CellPos) const;
     bool isSolved() const;
+    void fillNumber(NumPosition) const;
     void solve();
 };
 
