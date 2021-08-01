@@ -1,14 +1,17 @@
 //
-// Created by wojciech on 28/07/2021.
+// Created by wojciech on 01/08/2021.
 //
 
-#include <iostream>
-#include "Sudoku.h"
-#include "utils.h"
+#include "boost/test/unit_test.hpp"
+#include "Cell.h"
+#include "typedefs.h"
+#include <memory>
+#include <utils.h>
+#include <Sudoku.h>
 
 using namespace std;
 
-int main(){
+struct TestSuiteSudokuFixture{
     vector<NumPosition> board0 = {
             make_tuple(1, 4, 2),
             make_tuple(1, 5, 6),
@@ -48,7 +51,15 @@ int main(){
             make_tuple(9, 6, 8),
     };
     vector<vector<CellPos>> simpleConstraints = getSimpleConstraints();
-    Sudoku sudoku(board0, simpleConstraints);
-    cout << sudoku.getBoardString() << endl;
-    return 0;
+    TestSuiteSudokuFixture(){
+        Sudoku sudoku(board0, simpleConstraints);
+    }
+};
+
+BOOST_FIXTURE_TEST_SUITE(TestSuiteSudoku, TestSuiteSudokuFixture)
+
+BOOST_AUTO_TEST_CASE(ConstructorTest){
+        BOOST_TEST(true);
 }
+
+BOOST_AUTO_TEST_SUITE_END()

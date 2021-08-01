@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.19)
 project(Library)
 
-set(SOURCE_FILES src/Sudoku.cpp test/master.cpp include/Cell.cpp include/Cell.h test/CellTest.cpp include/typedefs.h)
+set(SOURCE_FILES src/Sudoku.cpp test/master.cpp src/Cell.cpp include/Cell.h test/CellTest.cpp include/typedefs.h src/utils.cpp include/utils.h test/SudokuTest.cpp test/SudokuTest.cpp)
 add_library(Library ${SOURCE_FILES})
 
 TARGET_INCLUDE_DIRECTORIES(Library PUBLIC include)
@@ -13,7 +13,7 @@ include_directories(
         ${CMAKE_CURRENT_SOURCE_DIR}/include
         ${Boost_INCLUDE_DIRS}
 )
-set(SOURCE_TEST_FILES include/Cell.cpp include/Cell.h test/CellTest.cpp include/typedefs.h)
+set(SOURCE_TEST_FILES src/Cell.cpp include/Cell.h test/CellTest.cpp include/typedefs.h src/utils.cpp include/utils.h test/SudokuTest.cpp test/SudokuTest.cpp)
 add_executable (LibraryTest ${SOURCE_TEST_FILES} test/master.cpp)
 target_link_libraries (LibraryTest
         Library
