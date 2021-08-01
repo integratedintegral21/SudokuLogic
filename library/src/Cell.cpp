@@ -15,8 +15,8 @@ try
         throw invalid_argument("Invalid number");
     }
     this->number = number;
-    this->setNumberPossible(number);
     this->initStates();
+    this->setNumberPossible(number);
 }
 catch (const invalid_argument& e){
     throw e;
