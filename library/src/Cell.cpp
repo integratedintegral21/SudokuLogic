@@ -15,6 +15,7 @@ try
         throw invalid_argument("Invalid number");
     }
     this->number = number;
+    this->setNumberPossible(number);
     this->initStates();
 }
 catch (const invalid_argument& e){
@@ -80,6 +81,7 @@ try{
         throw invalid_argument("Invalid number");
     }
     Cell::number = number;
+    this->setNumberPossible(number);
 }
 catch (const invalid_argument& e){
     throw e;
