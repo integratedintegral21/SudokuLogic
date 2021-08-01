@@ -66,6 +66,44 @@ BOOST_FIXTURE_TEST_SUITE(TestSuiteSudoku, TestSuiteSudokuFixture)
         }
     }
 
+    BOOST_AUTO_TEST_CASE(NumberAllowanceTest){
+        for(NumPosition numPosition: board0){
+            BOOST_TEST(sudoku0->isNumberAllowed(numPosition));
+            int row = get<0>(numPosition);
+            int col = get<1>(numPosition);
+            int num = get<2>(numPosition);
+            for (int rowIter = 1 ; rowIter <= 9; rowIter++){
+                if(rowIter == row)
+                    continue;
+                NumPosition sameColumnPosition = make_tuple(rowIter, col, num);
+                BOOST_TEST(!sudoku0->isNumberAllowed(sameColumnPosition));
+            }
+            for (int colIter = 1 ; colIter <= 9 ; colIter++){
+                if (colIter == col)
+                    continue;
+                NumPosition sameRowPosition = make_tuple(row, colIter, num);
+                BOOST_TEST(!sudoku0->isNumberAllowed(sameRowPosition));
+            }
+            vector<vector<CellPos>> cellConstraints;
+            CellPos cellPos = make_tuple(row, col);
+            for(vector<CellPos> con: simpleConstraints){
+                for(CellPos pos: con){
+                    if(pos == cellPos)
+                        cellConstraints.push_back(con);
+                }
+            }
+            for(vector<CellPos> con: cellConstraints){
+                for(CellPos pos: con){
+                    if (pos == cellPos)
+                        continue;
+                    int row = get<0>(pos);
+                    int col = get<1>(pos);
+                    BOOST_TEST(!sudoku0->isNumberAllowed(make_tuple(row, col, num)));
+                }
+            }
+        }
+    }
+
 BOOST_AUTO_TEST_SUITE_END()
 
 
