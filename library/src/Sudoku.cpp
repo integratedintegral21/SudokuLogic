@@ -29,6 +29,7 @@ try{
     }
     this->constraints = constraints;
     this->initializeBoarders();
+    this->fillWithPossibleNumbers();
 }
 catch (const invalid_argument& e){
     throw e;
@@ -59,20 +60,40 @@ string Sudoku::getBoardString() const {
 }
 
 void Sudoku::fillWithPossibleNumbers() {
-
+    for (int row = 1 ; row <= 9 ; row++){
+        for (int col = 1 ; col <= 9 ; col++){
+            CellPtr cell = this->board[this->getFlattenedIndex(row, col)];
+            if(!cell->isEmpty())
+                continue;
+            for(int num = 1; num <= 9 ; num++){
+                NumPosition numPosition = make_tuple(row, col, num);
+                if(this->isNumAllowed(numPosition)){
+                    cell->setNumberPossible(num);
+                }
+            }
+        }
+    }
 }
 
 bool Sudoku::isNumAllowed(NumPosition numPosition) const{
     int row = get<0>(numPosition);
     int col = get<1>(numPosition);
     int num = get<2>(numPosition);
-    if(isNumInColumn(col, num, row))
-        return false;
-    if(isNumInRow(row, num, col))
-        return false;
     CellPos cellPos = make_tuple(row, col);
+    vector<CellPtr> columnCells = this->getCellsFromColumn(cellPos);
+    vector<CellPtr> rowCells = this->getCellsFromRow(cellPos);
     vector<CellPtr> constrainedCells = this->getCellsFromConstraints(cellPos);
-    for (CellPtr cell : constrainedCells){
+    for (const CellPtr& cell : constrainedCells){
+        if(cell->getNumber() == num){
+            return false;
+        }
+    }
+    for (const CellPtr& cell : rowCells){
+        if(cell->getNumber() == num){
+            return false;
+        }
+    }
+    for (const CellPtr& cell : columnCells){
         if(cell->getNumber() == num){
             return false;
         }
@@ -130,34 +151,6 @@ bool Sudoku::isNumPosValid(NumPosition num) const {
             get<2>(num) >= 1 && get<2>(num) <= 9;
 }
 
-bool Sudoku::isNumInColumn(int col, int num, int numRow) const {
-    for (int rowNr = 1 ; rowNr <= 9 ; rowNr++){
-        if(rowNr = numRow){
-            continue;
-        }
-        int cellIndex = this->getFlattenedIndex(rowNr, col);
-        CellPtr cell = this->board[cellIndex];
-        if(cell->getNumber() == num){
-            return false;
-        }
-    }
-    return true;
-}
-
-bool Sudoku::isNumInRow(int row, int num, int numColumn) const {
-    for (int colNr = 1 ; colNr <= 9 ; colNr++){
-        if(colNr == numColumn){
-            continue;
-        }
-        int cellIndex = this->getFlattenedIndex(row, colNr);
-        CellPtr cell = this->board[cellIndex];
-        if(cell->getNumber() == num){
-            return false;
-        }
-    }
-    return true;
-}
-
 std::vector<CellPtr> Sudoku::getCellsFromConstraints(CellPos cellPos) const {
     vector<CellPtr> constrainedCells;
     vector<vector<CellPos>> cellConstraints;
@@ -167,7 +160,7 @@ std::vector<CellPtr> Sudoku::getCellsFromConstraints(CellPos cellPos) const {
                 cellConstraints.push_back(con);
         }
     }
-    for(vector<CellPos> constraint : cellConstraints){
+    for(const vector<CellPos>& constraint : cellConstraints){
         for(CellPos cellPos: constraint){
             int row = get<0>(cellPos);
             int col = get<1>(cellPos);
@@ -177,5 +170,35 @@ std::vector<CellPtr> Sudoku::getCellsFromConstraints(CellPos cellPos) const {
         }
     }
     return constrainedCells;
+}
+
+std::vector<CellPtr> Sudoku::getCellsFromColumn(CellPos cellPos) const {
+    vector<CellPtr> cells;
+    int row = get<0>(cellPos);
+    int col = get<1>(cellPos);
+    for (int rowNr = 1 ; rowNr <= 9 ; rowNr++){
+        if(rowNr == row){
+            continue;
+        }
+        int cellIndex = this->getFlattenedIndex(rowNr, col);
+        CellPtr cell = this->board[cellIndex];
+        cells.push_back(cell);
+    }
+    return cells;
+}
+
+std::vector<CellPtr> Sudoku::getCellsFromRow(CellPos cellPos) const {
+    vector<CellPtr> cells;
+    int row = get<0>(cellPos);
+    int col = get<1>(cellPos);
+    for (int colNr = 1 ; colNr <= 9 ; colNr++){
+        if(colNr == col){
+            continue;
+        }
+        int cellIndex = this->getFlattenedIndex(row, colNr);
+        CellPtr cell = this->board[cellIndex];
+        cells.push_back(cell);
+    }
+    return cells;
 }
 
