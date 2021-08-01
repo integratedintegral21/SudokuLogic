@@ -34,6 +34,9 @@ private:
     std::string getUpperHorizontalLine() const;
     std::string getLowerHorizontalLine() const;
     bool isNumPosValid(NumPosition num) const;
+    bool isNumInColumn(int col, int num, int numRow) const;
+    bool isNumInRow(int row, int num, int numColumn) const;
+    std::vector<CellPtr> getCellsFromConstraints(CellPos cellPos) const;
 public:
     Sudoku(std::vector<NumPosition>, std::vector<std::vector<CellPos>> constraints);
     std::string getBoardString() const;
