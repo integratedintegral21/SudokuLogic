@@ -52,7 +52,7 @@ struct TestSuiteSudokuFixture{
     };
     vector<vector<CellPos>> simpleConstraints = getSimpleConstraints();
     TestSuiteSudokuFixture(){
-        Sudoku sudoku(board0, simpleConstraints);
+
     }
 };
 
