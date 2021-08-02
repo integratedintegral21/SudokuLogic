@@ -12,14 +12,14 @@ using namespace std;
 Sudoku::Sudoku(vector<NumPosition> initialBoard, vector<vector<CellPos>> constraints)
 try{
     if(initialBoard.size() > 81){
-        throw invalid_argument("too many initial positions given");
+        throw invalid_argument("Too many initial positions given");
     }
     for (int i = 0 ; i < 9*9 ; i++){
         this->board.push_back(make_shared<Cell>());
     }
     for(auto& numPos: initialBoard){
         if(!this->isNumPosValid(numPos)){
-            throw invalid_argument("Incorrect initial state");
+            throw invalid_argument("NumPosition invalid");
         }
         int row = get<0>(numPos);
         int col = get<1>(numPos);
@@ -220,19 +220,36 @@ std::vector<CellPtr> Sudoku::getCellsFromRow(CellPos cellPos) const {
     return cells;
 }
 
-int Sudoku::getCellValue(CellPos cellPos) const {
+int Sudoku::getCellValue(CellPos cellPos) const
+try{
+    if(!this->isCellPosValid(cellPos)){
+        throw invalid_argument("CellPos invalid");
+    }
     return this->board[this->getFlattenedIndex(get<0>(cellPos), get<1>(cellPos))]->getNumber();
 }
+catch(const invalid_argument& e){
+    throw e;
+}
 
-bool Sudoku::isNumberAllowed(NumPosition numPosition) const {
+bool Sudoku::isNumberAllowed(NumPosition numPosition) const
+try{
+    if(!this->isNumPosValid(numPosition)){
+        throw invalid_argument("NumPosition invalid");
+    }
     int row = get<0>(numPosition);
     int col = get<1>(numPosition);
     int num = get<2>(numPosition);
     int cellIndex = this->getFlattenedIndex(row, col);
     return this->board[cellIndex]->isNumberAllowed(num);
 }
+catch(const invalid_argument& e){
+    throw e;
+}
 
-void Sudoku::setNumber(NumPosition numPosition) const {
+void Sudoku::setNumber(NumPosition numPosition) const
+try{
+    if(!this->isNumPosValid(numPosition))
+        throw invalid_argument("NumPosition invalid");
     int row = get<0>(numPosition);
     int col = get<1>(numPosition);
     int num = get<2>(numPosition);
@@ -241,6 +258,9 @@ void Sudoku::setNumber(NumPosition numPosition) const {
         this->board[cellIndex]->setNumber(num);
 
     }
+}
+catch(const invalid_argument& e){
+    throw e;
 }
 
 Sudoku::~Sudoku() {
@@ -263,6 +283,11 @@ void Sudoku::initializeConstraintsMap(std::vector<std::vector<CellPos>> constrai
             this->constraintsMap.insert(make_pair(cell, constrainedCells));
         }
     }
+}
+
+bool Sudoku::isCellPosValid(CellPos cellPos) const {
+    return get<0>(cellPos) >= 1 && get<0>(cellPos) <= 9 &&
+            get<1>(cellPos) >= 1 && get<0>(cellPos) <=9;
 }
 
 

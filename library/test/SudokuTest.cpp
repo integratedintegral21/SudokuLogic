@@ -49,6 +49,18 @@ struct TestSuiteSudokuFixture{
             make_tuple(9, 5, 1),
             make_tuple(9, 6, 8),
     };
+    vector<NumPosition> allowedNumPoses = {
+            make_tuple(1, 1, 4),
+            make_tuple(1, 1, 3),
+            make_tuple(4, 2, 2),
+            make_tuple(7, 7, 8),
+    };
+    vector<NumPosition> invalidNumPoses = {
+            make_tuple(1, 1, -5),
+            make_tuple(1, 1, 15),
+            make_tuple(4, 2, 10),
+            make_tuple(7, 7, 0),
+    };
     vector<vector<CellPos>> simpleConstraints = getSimpleConstraints();
     SudokuPtr sudoku0;
     TestSuiteSudokuFixture(){
@@ -67,7 +79,17 @@ BOOST_FIXTURE_TEST_SUITE(TestSuiteSudoku, TestSuiteSudokuFixture)
     }
 
     BOOST_AUTO_TEST_CASE(NumberAllowanceTest){
+        for (NumPosition numPosition: allowedNumPoses){
+            BOOST_TEST(sudoku0->isNumberAllowed(numPosition));
+        }
+        for (NumPosition numPosition: invalidNumPoses){
+            BOOST_CHECK_EXCEPTION(sudoku0->isNumberAllowed(numPosition), invalid_argument, [](const logic_error& e){
+                string expectedMsg = "NumPosition invalid";
+                return e.what() == expectedMsg;
+            });
+        }
         for(NumPosition numPosition: board0){
+
             BOOST_TEST(sudoku0->isNumberAllowed(numPosition));
             int row = get<0>(numPosition);
             int col = get<1>(numPosition);
@@ -101,6 +123,15 @@ BOOST_FIXTURE_TEST_SUITE(TestSuiteSudoku, TestSuiteSudokuFixture)
                     BOOST_TEST(!sudoku0->isNumberAllowed(make_tuple(row, col, num)));
                 }
             }
+        }
+    }
+
+    BOOST_AUTO_TEST_CASE(FillingTest){
+        for (NumPosition numPosition: invalidNumPoses){
+            BOOST_CHECK_EXCEPTION(sudoku0->setNumber(numPosition), invalid_argument, [](const logic_error& e){
+                string expectedMsg = "NumPosition invalid";
+                return e.what() == expectedMsg;
+            });
         }
     }
 

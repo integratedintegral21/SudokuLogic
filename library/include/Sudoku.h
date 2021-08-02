@@ -38,6 +38,7 @@ private:
     std::string getUpperHorizontalLine() const;
     std::string getLowerHorizontalLine() const;
     bool isNumPosValid(NumPosition num) const;
+    bool isCellPosValid(CellPos) const;
     // returns constrained cells specified in constraints
     std::vector<CellPtr> getCellsFromConstraints(CellPos cellPos, std::vector<std::vector<CellPos>>&) const;
     std::vector<CellPtr> getCellsFromColumn(CellPos cellPos) const;
@@ -47,7 +48,7 @@ private:
     std::string getHorizontalBar() const;
 public:
     /**
-     * @param initialBoard vector of NumPositions containing initial state of the board
+     * @param initialBoard vector of NumPositions containing initial state of the board. Throws invalid_argument
      * @param constraints vector of vectors containing coordinates of cells where numbers cannot repeat
      */
     Sudoku(std::vector<NumPosition> initialBoard, std::vector<std::vector<CellPos>> constraints);
@@ -56,14 +57,14 @@ public:
      */
     std::string getBoardString() const;
     /**
-     * @brief Checks if the given number can be put inside the given cell
+     * @brief Checks if the given number can be put inside the given cell. Throws invalid_argument
      * @param numPosition a NumPosition value
      * @return true if the number can be put inside the cell
      */
     bool isNumberAllowed(NumPosition numPosition) const;
     /**
      * @param cellPos a CellPos value
-     * @return the value of given cell
+     * @return the value of the given cell
      */
     int getCellValue(CellPos cellPos) const;
     /**
@@ -71,7 +72,7 @@ public:
      */
     bool isSolved() const;
     /**
-     * @brief puts the given number in the given cell
+     * @brief puts the given number in the given cell. Throws invalid_argument
      */
     void setNumber(NumPosition) const;
     /**
