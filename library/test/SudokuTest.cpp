@@ -57,9 +57,15 @@ struct TestSuiteSudokuFixture{
     };
     vector<NumPosition> invalidNumPoses = {
             make_tuple(1, 1, -5),
-            make_tuple(1, 1, 15),
-            make_tuple(4, 2, 10),
+            make_tuple(-1, 1, 15),
+            make_tuple(4, 12, 10),
             make_tuple(7, 7, 0),
+    };
+    vector<CellPos> invalidCellPoses = {
+            make_tuple(1, -5),
+            make_tuple(1, 15),
+            make_tuple(-5, 10),
+            make_tuple(7, 0),
     };
     vector<vector<CellPos>> simpleConstraints = getSimpleConstraints();
     SudokuPtr sudoku0;
@@ -75,6 +81,15 @@ BOOST_FIXTURE_TEST_SUITE(TestSuiteSudoku, TestSuiteSudokuFixture)
             int expectedNumber = get<2>(numPosition);
             int actualNumber = sudoku0->getCellValue(cellPos);
             BOOST_REQUIRE(expectedNumber == actualNumber);
+        }
+    }
+
+    BOOST_AUTO_TEST_CASE(CellValueTest){
+        for(CellPos cellPos: invalidCellPoses){
+            BOOST_CHECK_EXCEPTION(sudoku0->getCellValue(cellPos), invalid_argument, [](const logic_error& e){
+                string expectedMsg = "CellPos invalid";
+                return e.what() == expectedMsg;
+            });
         }
     }
 
@@ -136,9 +151,3 @@ BOOST_FIXTURE_TEST_SUITE(TestSuiteSudoku, TestSuiteSudokuFixture)
     }
 
 BOOST_AUTO_TEST_SUITE_END()
-
-
-
-
-
-

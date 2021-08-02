@@ -287,7 +287,7 @@ void Sudoku::initializeConstraintsMap(std::vector<std::vector<CellPos>> constrai
 
 bool Sudoku::isCellPosValid(CellPos cellPos) const {
     return get<0>(cellPos) >= 1 && get<0>(cellPos) <= 9 &&
-            get<1>(cellPos) >= 1 && get<0>(cellPos) <=9;
+            get<1>(cellPos) >= 1 && get<1>(cellPos) <=9;
 }
 
 
