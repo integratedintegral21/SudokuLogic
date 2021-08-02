@@ -39,12 +39,37 @@ private:
     std::vector<CellPtr> getCellsFromRow(CellPos cellPos) const;
     bool isNumAllowed(NumPosition numPosition) const;
 public:
-    Sudoku(std::vector<NumPosition>, std::vector<std::vector<CellPos>> constraints);
+    /**
+     * @param initialBoard vector of NumPositions containing initial state of the board
+     * @param constraints vector of vectors containing coordinates of cells where numbers cannot repeat
+     */
+    Sudoku(std::vector<NumPosition> initialBoard, std::vector<std::vector<CellPos>> constraints);
+    /**
+     * @return a string presenting the board after printing in console
+     */
     std::string getBoardString() const;
-    bool isNumberAllowed(NumPosition) const;
-    int getCellValue(CellPos) const;
+    /**
+     * @brief Checks if the given number can be put inside the given cell
+     * @param numPosition a NumPosition value
+     * @return true if the number can be put inside the cell
+     */
+    bool isNumberAllowed(NumPosition numPosition) const;
+    /**
+     * @param cellPos a CellPos value
+     * @return the value of given cell
+     */
+    int getCellValue(CellPos cellPos) const;
+    /**
+     * @return true if sudoku is solved
+     */
     bool isSolved() const;
+    /**
+     * @brief puts the given number in the given cell
+     */
     void fillNumber(NumPosition) const;
+    /**
+     * @brief solves sudoku
+     */
     void solve();
 
     virtual ~Sudoku();
