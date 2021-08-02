@@ -46,6 +46,10 @@ private:
     // Checks if number is allowed before allowed numbers are set by fillWithAllowedNumbers
     bool isNumAllowed(NumPosition numPosition);
     std::string getHorizontalBar() const;
+    NumPosition buildNumPos(int flattenedCoord, int num) const;
+    std::vector<int> getAllowedNumbers(int flattenedCoord) const;
+    void solveByPruning(int entryFlattenedCoord);
+    bool isSolvedFrom(int entryFlattenedCoord);
 public:
     /**
      * @param initialBoard vector of NumPositions containing initial state of the board. Throws invalid_argument
@@ -68,7 +72,7 @@ public:
      */
     int getCellValue(CellPos cellPos) const;
     /**
-     * @return true if sudoku is solved
+     * @return true if sudoku is solved (every cell is filled)
      */
     bool isSolved() const;
     /**
@@ -78,8 +82,8 @@ public:
     /**
      * @brief solves sudoku
      */
+    void unsetCell(CellPos cellPos);
     void solve();
-
     virtual ~Sudoku();
 };
 

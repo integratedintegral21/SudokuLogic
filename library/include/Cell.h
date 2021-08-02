@@ -51,6 +51,7 @@ public:
      * @param number
      */
     void setNumber(int number);
+    void unset();
     /**
      * @brief Adds the given number to allowed numbers
      * @param number

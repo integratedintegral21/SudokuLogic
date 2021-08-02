@@ -101,5 +101,10 @@ BOOST_FIXTURE_TEST_SUITE(TestSuiteCell, TestSuiteCellFixture)
             BOOST_TEST(!cell0->isNumberAllowed(num));
         }
     }
+    BOOST_AUTO_TEST_CASE(NumberUnsetterTest) {
+        cell1->unset();
+        BOOST_TEST(cell1->isEmpty());
+    }
+
 
 BOOST_AUTO_TEST_SUITE_END()

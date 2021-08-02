@@ -92,3 +92,7 @@ bool Cell::isNumberValid(int number) const {
     return number >= 1 && number <= 9;
 }
 
+void Cell::unset() {
+    this->number = -1;
+}
+

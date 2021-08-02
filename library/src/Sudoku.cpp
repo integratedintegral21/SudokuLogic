@@ -120,11 +120,15 @@ bool Sudoku::isNumAllowed(NumPosition numPosition){
 }
 
 void Sudoku::solve(){
-
+    this->solveByPruning(1);
 }
 
 bool Sudoku::isSolved() const {
-    return false;
+    for(CellPtr cell: this->board){
+        if(cell->isEmpty())
+            return false;
+    }
+    return true;
 }
 
 int Sudoku::getFlattenedCoord(int row, int col) const {
@@ -262,6 +266,20 @@ try{
 catch(const invalid_argument& e){
     throw e;
 }
+void Sudoku::unsetCell(CellPos cellPos)
+try{
+    if(!this->isCellPosValid(cellPos)){
+        throw("CellPos invalid");
+    }
+    int row = get<0>(cellPos);
+    int col = get<1>(cellPos);
+    int cellIndex = this->getFlattenedIndex(row, col);
+    this->board[cellIndex]->unset();
+    this->fillWithAllowedNumbers();
+}
+catch (const invalid_argument& e){
+    throw e;
+}
 
 Sudoku::~Sudoku() {
 
@@ -290,6 +308,52 @@ bool Sudoku::isCellPosValid(CellPos cellPos) const {
             get<1>(cellPos) >= 1 && get<1>(cellPos) <=9;
 }
 
+NumPosition Sudoku::buildNumPos(int flattenedCoord, int num) const {
+    return make_tuple(flattenedCoord / 9, flattenedCoord % 9, num);
+}
 
+void Sudoku::solveByPruning(int entryFlattenedCoord) {
+    if(entryFlattenedCoord > 81){
+        return;
+    }
+    CellPtr cell = this->board[entryFlattenedCoord - 1];
+    if(cell->isEmpty()){
+        vector<int> allowedNumbers = this->getAllowedNumbers(entryFlattenedCoord);
+        if (allowedNumbers.size() == 0){
+            return;
+        }
+        for(int number: allowedNumbers){
+            cell->setNumber(number);
+            this->fillWithAllowedNumbers();
+            this->solveByPruning(entryFlattenedCoord + 1);
+            // success
+            if(this->isSolvedFrom(entryFlattenedCoord)){
+                return;
+            }
+            // no solution for this number
+            cell->unset();
+        }
+    }
+    else {
+        this->solveByPruning(entryFlattenedCoord + 1);
+    }
+}
 
+vector<int> Sudoku::getAllowedNumbers(int flattenedCoord) const {
+    vector<int> allowedNumbers;
+    for(int num = 1 ; num <= 9 ; num++){
+        if(this->board[flattenedCoord - 1]->isNumberAllowed(num)){
+            allowedNumbers.push_back(num);
+        }
+    }
+    return allowedNumbers;
+}
 
+bool Sudoku::isSolvedFrom(int entryFlattenedCoord) {
+    for(int index = entryFlattenedCoord ; index < 81 ; index++){
+        CellPtr cell = this->board[index];
+        if(cell->isEmpty())
+            return false;
+    }
+    return true;
+}
