@@ -29,8 +29,9 @@ try{
     }
     this->constraints = constraints;
     this->initializeBoarders();
-    this->fillWithPossibleNumbers();
+    this->fillWithAllowedNumbers();
     this->horizontalBar = this->getHorizontalBar();
+    this->initializeConstraintsMap();
 }
 catch (const invalid_argument& e){
     throw e;
@@ -70,7 +71,7 @@ string Sudoku::getBoardString() const {
     return boardString;
 }
 
-void Sudoku::fillWithPossibleNumbers() {
+void Sudoku::fillWithAllowedNumbers() {
     for (int row = 1 ; row <= 9 ; row++){
         for (int col = 1 ; col <= 9 ; col++){
             CellPtr cell = this->board[this->getFlattenedIndex(row, col)];
@@ -246,5 +247,17 @@ std::string Sudoku::getHorizontalBar() const {
     }
     return horizontalBar;
 }
+
+void Sudoku::initializeConstraintsMap() {
+    for (int row = 1 ; row <= 9 ; row++){
+        for (int col = 1; col <= 9 ; col++){
+            CellPtr cell = this->board[this->getFlattenedIndex(row, col)];
+            vector<CellPtr> constrainedCells = this->getCellsFromConstraints(make_pair(row, col));
+            this->constraintsMap.insert(make_pair(cell, constrainedCells));
+        }
+    }
+}
+
+
 
 

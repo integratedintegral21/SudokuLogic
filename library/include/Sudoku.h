@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <string>
+#include <map>
 #include "typedefs.h"
 
 class Sudoku {
@@ -15,6 +16,8 @@ private:
     std::vector<CellPtr> board;
     // list of lists of cells where all numbers are unique
     std::vector<std::vector<CellPos>> constraints;
+    // assigns constrained cells to every Cell
+    std::map<CellPtr, std::vector<CellPtr>> constraintsMap;
     // list containing cell separators
     std::vector<std::vector<std::string>> verticalBoarders;
 
@@ -27,16 +30,20 @@ private:
     const std::string upperJunction = "\u252C";
     const std::string lowerJunction = "\u2534";
 
-    void fillWithPossibleNumbers();
+    // fills cells with possible number based on already filled cells
+    void fillWithAllowedNumbers();
     void initializeBoarders();
+    void initializeConstraintsMap();
     int getFlattenedCoord(int row, int col) const;
     int getFlattenedIndex(int row, int col) const;
     std::string getUpperHorizontalLine() const;
     std::string getLowerHorizontalLine() const;
     bool isNumPosValid(NumPosition num) const;
+    // returns constrained cells specified in constraints
     std::vector<CellPtr> getCellsFromConstraints(CellPos cellPos) const;
     std::vector<CellPtr> getCellsFromColumn(CellPos cellPos) const;
     std::vector<CellPtr> getCellsFromRow(CellPos cellPos) const;
+    // Checks if number is allowed before allowed numbers are set by fillWithAllowedNumbers
     bool isNumAllowed(NumPosition numPosition) const;
     std::string getHorizontalBar() const;
 public:
