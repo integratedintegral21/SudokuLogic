@@ -74,7 +74,7 @@ public:
     /**
      * @brief puts the given number in the given cell. Throws invalid_argument
      */
-    void setNumber(NumPosition) const;
+    void setNumber(NumPosition);
     /**
      * @brief solves sudoku
      */

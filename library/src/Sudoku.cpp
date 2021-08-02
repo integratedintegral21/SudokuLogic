@@ -246,7 +246,7 @@ catch(const invalid_argument& e){
     throw e;
 }
 
-void Sudoku::setNumber(NumPosition numPosition) const
+void Sudoku::setNumber(NumPosition numPosition)
 try{
     if(!this->isNumPosValid(numPosition))
         throw invalid_argument("NumPosition invalid");
@@ -256,7 +256,7 @@ try{
     int cellIndex = this->getFlattenedIndex(row, col);
     if (isNumberAllowed(numPosition)){
         this->board[cellIndex]->setNumber(num);
-
+        this->fillWithAllowedNumbers();
     }
 }
 catch(const invalid_argument& e){

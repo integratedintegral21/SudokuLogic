@@ -50,6 +50,7 @@ int main(){
     };
     vector<vector<CellPos>> simpleConstraints = getSimpleConstraints();
     Sudoku sudoku(board0, simpleConstraints);
+    sudoku.setNumber(make_tuple(1, 3, 5));
     cout << sudoku.getBoardString() << endl;
     return 0;
 }
