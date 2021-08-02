@@ -28,9 +28,10 @@ private:
     const std::string upperJunction = "\u252C";
     const std::string lowerJunction = "\u2534";
 
-    // fills cells with possible number based on already filled cells
+    // clears allowed numbers and fills cells with possible number based on already filled cells
     void fillWithAllowedNumbers();
     void initializeBoarders();
+    // initializes constraintsMap
     void initializeConstraintsMap(std::vector<std::vector<CellPos>>);
     int getFlattenedCoord(int row, int col) const;
     int getFlattenedIndex(int row, int col) const;
@@ -72,7 +73,7 @@ public:
     /**
      * @brief puts the given number in the given cell
      */
-    void fillNumber(NumPosition) const;
+    void setNumber(NumPosition) const;
     /**
      * @brief solves sudoku
      */
