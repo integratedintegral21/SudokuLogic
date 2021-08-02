@@ -27,11 +27,10 @@ try{
         CellPtr cell = this->board[this->getFlattenedIndex(row, col)];
         cell->setNumber(num);
     }
-    this->constraints = constraints;
     this->initializeBoarders();
-    this->fillWithAllowedNumbers();
     this->horizontalBar = this->getHorizontalBar();
-    this->initializeConstraintsMap();
+    this->initializeConstraintsMap(constraints);
+    this->fillWithAllowedNumbers();
 }
 catch (const invalid_argument& e){
     throw e;
@@ -87,14 +86,15 @@ void Sudoku::fillWithAllowedNumbers() {
     }
 }
 
-bool Sudoku::isNumAllowed(NumPosition numPosition) const{
+bool Sudoku::isNumAllowed(NumPosition numPosition){
     int row = get<0>(numPosition);
     int col = get<1>(numPosition);
     int num = get<2>(numPosition);
+    CellPtr thisCell = this->board[this->getFlattenedIndex(row, col)];
     CellPos cellPos = make_tuple(row, col);
     vector<CellPtr> columnCells = this->getCellsFromColumn(cellPos);
     vector<CellPtr> rowCells = this->getCellsFromRow(cellPos);
-    vector<CellPtr> constrainedCells = this->getCellsFromConstraints(cellPos);
+    vector<CellPtr> constrainedCells = this->constraintsMap[thisCell];
     for (const CellPtr& cell : constrainedCells){
         if(cell->getNumber() == num){
             return false;
@@ -163,10 +163,10 @@ bool Sudoku::isNumPosValid(NumPosition num) const {
             get<2>(num) >= 1 && get<2>(num) <= 9;
 }
 
-std::vector<CellPtr> Sudoku::getCellsFromConstraints(CellPos cellPos) const {
+std::vector<CellPtr> Sudoku::getCellsFromConstraints(CellPos cellPos, vector<vector<CellPos>>& constraints) const{
     vector<CellPtr> constrainedCells;
     vector<vector<CellPos>> cellConstraints;
-    for(vector<CellPos> con: this->constraints){
+    for(vector<CellPos> con: constraints){
         for(CellPos pos: con){
             if(pos == cellPos)
                 cellConstraints.push_back(con);
@@ -248,11 +248,11 @@ std::string Sudoku::getHorizontalBar() const {
     return horizontalBar;
 }
 
-void Sudoku::initializeConstraintsMap() {
+void Sudoku::initializeConstraintsMap(std::vector<std::vector<CellPos>> constraints) {
     for (int row = 1 ; row <= 9 ; row++){
         for (int col = 1; col <= 9 ; col++){
             CellPtr cell = this->board[this->getFlattenedIndex(row, col)];
-            vector<CellPtr> constrainedCells = this->getCellsFromConstraints(make_pair(row, col));
+            vector<CellPtr> constrainedCells = this->getCellsFromConstraints(make_pair(row, col), constraints);
             this->constraintsMap.insert(make_pair(cell, constrainedCells));
         }
     }
