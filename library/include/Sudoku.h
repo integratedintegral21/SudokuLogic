@@ -23,7 +23,7 @@ private:
     const std::string leftLowerCorner = "\u2514";
     const std::string rightUpperCorner = "\u2510";
     const std::string rightLowerCorner = "\u2518";
-    const std::string horizontalBar = "\u2500\u2500\u2500";
+    std::string horizontalBar;
     const std::string upperJunction = "\u252C";
     const std::string lowerJunction = "\u2534";
 
@@ -38,6 +38,7 @@ private:
     std::vector<CellPtr> getCellsFromColumn(CellPos cellPos) const;
     std::vector<CellPtr> getCellsFromRow(CellPos cellPos) const;
     bool isNumAllowed(NumPosition numPosition) const;
+    std::string getHorizontalBar() const;
 public:
     /**
      * @param initialBoard vector of NumPositions containing initial state of the board

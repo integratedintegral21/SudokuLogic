@@ -30,6 +30,7 @@ try{
     this->constraints = constraints;
     this->initializeBoarders();
     this->fillWithPossibleNumbers();
+    this->horizontalBar = this->getHorizontalBar();
 }
 catch (const invalid_argument& e){
     throw e;
@@ -48,6 +49,16 @@ string Sudoku::getBoardString() const {
             }
             else{
                 rowString += " " + to_string(cell->getNumber()) + " ";
+            }
+            rowString += ": ";
+            for (int num = 1 ; num <= 9 ; num++){
+                if(cell->isNumberAllowed(num)){
+                    rowString += to_string(num);
+                }
+                else{
+                    rowString += " ";
+                }
+                rowString += ",";
             }
             if(col != 9){
                 rowString += this->verticalBoarders[row - 1][col - 1];
@@ -226,6 +237,14 @@ void Sudoku::fillNumber(NumPosition numPosition) const {
 
 Sudoku::~Sudoku() {
 
+}
+
+std::string Sudoku::getHorizontalBar() const {
+    string horizontalBar = "";
+    for (int i = 0 ; i < 23 ; i++){
+        horizontalBar += "\u2500";
+    }
+    return horizontalBar;
 }
 
 
