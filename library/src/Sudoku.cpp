@@ -68,7 +68,7 @@ void Sudoku::fillWithPossibleNumbers() {
             for(int num = 1; num <= 9 ; num++){
                 NumPosition numPosition = make_tuple(row, col, num);
                 if(this->isNumAllowed(numPosition)){
-                    cell->setNumberPossible(num);
+                    cell->setNumberAllowed(num);
                 }
             }
         }
@@ -211,7 +211,7 @@ bool Sudoku::isNumberAllowed(NumPosition numPosition) const {
     int col = get<1>(numPosition);
     int num = get<2>(numPosition);
     int cellIndex = this->getFlattenedIndex(row, col);
-    return this->board[cellIndex]->isNumberPossible(num);
+    return this->board[cellIndex]->isNumberAllowed(num);
 }
 
 void Sudoku::fillNumber(NumPosition numPosition) const {
@@ -222,6 +222,10 @@ void Sudoku::fillNumber(NumPosition numPosition) const {
     if (isNumberAllowed(numPosition)){
         this->board[cellIndex]->setNumber(num);
     }
+}
+
+Sudoku::~Sudoku() {
+
 }
 
 

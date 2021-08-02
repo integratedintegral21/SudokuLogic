@@ -16,7 +16,7 @@ try
     }
     this->number = number;
     this->initStates();
-    this->setNumberPossible(number);
+    this->setNumberAllowed(number);
 }
 catch (const invalid_argument& e){
     throw e;
@@ -38,11 +38,11 @@ Cell::~Cell() {
 
 }
 
-bool Cell::isNumberPossible(int number) const
+bool Cell::isNumberAllowed(int number) const
 try{
     if(!isNumberValid(number))
         throw invalid_argument("Invalid number");
-    return this->possibleNumbers[number - 1];
+    return this->allowedNumbers[number - 1];
 }
 catch (const invalid_argument& e){
     throw e;
@@ -50,26 +50,26 @@ catch (const invalid_argument& e){
 
 
 void Cell::initStates() {
-    for (bool& state: this->possibleNumbers){
+    for (bool& state: this->allowedNumbers){
         state = false;
     }
 }
 
-void Cell::setNumberPossible(int number)
+void Cell::setNumberAllowed(int number)
 try{
     if(!isNumberValid(number))
         throw invalid_argument("Invalid number");
-    this->possibleNumbers[number - 1] = true;
+    this->allowedNumbers[number - 1] = true;
 }
 catch (const invalid_argument& e){
     throw e;
 }
 
-void Cell::setNumberNotPossible(int number)
+void Cell::setNumberNotAllowed(int number)
 try{
     if(!isNumberValid(number))
         throw invalid_argument("Invalid number");
-    this->possibleNumbers[number - 1] = false;
+    this->allowedNumbers[number - 1] = false;
 }
 catch (const invalid_argument& e){
     throw e;
@@ -81,7 +81,7 @@ try{
         throw invalid_argument("Invalid number");
     }
     Cell::number = number;
-    this->setNumberPossible(number);
+    this->setNumberAllowed(number);
 }
 catch (const invalid_argument& e){
     throw e;

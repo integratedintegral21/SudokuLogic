@@ -5,29 +5,62 @@
 #ifndef CINEMA_CELL_H
 #define CINEMA_CELL_H
 
-
+/**
+ * @brief Represents single sudoku cell
+ */
 class Cell {
 private:
     // a number0 inside a cell object (-1 if empty)
     int number = -1;
     // possible numbers inside
-    bool possibleNumbers[9];
+    bool allowedNumbers[9];
 
-    // initializes all possibleNumbers with false
+    // initializes all allowedNumbers with false
     void initStates();
     // checks if number is in range <1, 9>
     bool isNumberValid(int number) const;
 public:
+    /**
+     * @brief Initializes an empty cell. No numbers allowed by default
+     */
     Cell();
+    /**
+     * @brief Initializes a cell with given number. Only this number allowed by default. Throws invalid_argument
+     * @param number Number inside the sudoku cell
+     */
     explicit Cell(int number);
 
+    /**
+     * @brief returns the number inside.
+     * @return the number inside; -1 if empty
+     */
     int getNumber() const;
+    /**
+     * @return true if a cell is empty
+     */
     bool isEmpty() const;
-    bool isNumberPossible(int number) const;
+    /**
+     * @brief Checks if the given number can be put inside a cell. Throws invalid_argument
+     * @param number
+     * @return true if the given number can be put inside a cell
+     */
+    bool isNumberAllowed(int number) const;
 
+    /**
+     * @brief Puts the given number inside a cell
+     * @param number
+     */
     void setNumber(int number);
-    void setNumberPossible(int number);
-    void setNumberNotPossible(int number);
+    /**
+     * @brief Adds the given number to allowed numbers
+     * @param number
+     */
+    void setNumberAllowed(int number);
+    /**
+     * @brief Removes the given number form allowed numbers
+     * @param number
+     */
+    void setNumberNotAllowed(int number);
 
     virtual ~Cell();
 };

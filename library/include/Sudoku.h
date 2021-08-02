@@ -46,6 +46,8 @@ public:
     bool isSolved() const;
     void fillNumber(NumPosition) const;
     void solve();
+
+    virtual ~Sudoku();
 };
 
 
