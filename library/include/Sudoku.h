@@ -91,6 +91,11 @@ public:
      * @brief solves sudoku by pruning
      */
     void solve();
+    /**
+     * @brief returns all allowed numbers of given cell
+     * @param flattenedCoord specifies the cell
+     * @return vector of allowed values (integers)
+     */
     std::vector<int> getAllowedNumbers(int flattenedCoord) const;
     virtual ~Sudoku();
 };
