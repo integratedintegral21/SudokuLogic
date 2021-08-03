@@ -1,11 +1,13 @@
 cmake_minimum_required(VERSION 3.19)
-project(Library)
+project(SudokuLibrary VERSION 0.0.1)
 
 set(SOURCE_FILES src/Sudoku.cpp test/master.cpp src/Cell.cpp include/Cell.h test/CellTest.cpp include/typedefs.h src/utils.cpp include/utils.h test/SudokuTest.cpp)
-add_library(Library ${SOURCE_FILES})
+add_library(SudokuLibrary ${SOURCE_FILES})
 
-TARGET_INCLUDE_DIRECTORIES(Library PUBLIC include)
-target_include_directories(Library PUBLIC ${include/model})
+set_target_properties(SudokuLibrary PROPERTIES VERSION ${PROJECT_VERSION})
+
+TARGET_INCLUDE_DIRECTORIES(SudokuLibrary PUBLIC include)
+target_include_directories(SudokuLibrary PUBLIC ${include/model})
 
 enable_testing()
 find_package (Boost 1.60.0 COMPONENTS "unit_test_framework" REQUIRED)
@@ -17,7 +19,7 @@ include_directories(
 set(SOURCE_TEST_FILES src/Cell.cpp include/Cell.h test/CellTest.cpp include/typedefs.h src/utils.cpp include/utils.h test/SudokuTest.cpp)
 add_executable (LibraryTest ${SOURCE_TEST_FILES} test/master.cpp)
 target_link_libraries (LibraryTest
-        Library
+        SudokuLibrary
         ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
         ${Boost_LIBRARY_DIR_RELEASE}/libboost_regex.so
         )
