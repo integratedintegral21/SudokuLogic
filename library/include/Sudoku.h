@@ -78,12 +78,12 @@ public:
     bool isSolved() const;
     /**
      * @brief puts the given number in the given cell if allowed and updates cells' allowed numbers. Throws invalid_argument
-     * @param NumPosition value specifying cell and value (row, col, value)
+     * @param numPosition coordinates of the cell and target value (row, col, value)
      */
-    void setNumber(NumPosition);
+    void setNumber(NumPosition numPosition);
     /**
-     * @brief
-     * @param cellPos
+     * @brief clears the value of the given cell and updates cells' allowed numbers. Throws invalid_argument
+     * @param cellPos coordinates of the cell (row, col)
      */
     void unsetCell(CellPos cellPos);
     /**
