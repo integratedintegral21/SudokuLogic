@@ -63,8 +63,8 @@ public:
     std::string getBoardString(bool showAllowedNumbers = false) const;
     /**
      * @brief Checks if the given number can be put inside the given cell. Throws invalid_argument
-     * @param numPosition specifies coordinates of the cell and the candidate number (row, column, number) tuple
-     * ; 1 <= row, column, number <= 9
+     * @param numPosition specifies coordinates of the cell and the candidate number (row, column, number) tuple.
+     * 1 <= row, column, number <= 9
      * @return true if the number can be put inside the cell
      */
     bool isNumberAllowed(NumPosition numPosition) const;
@@ -79,14 +79,12 @@ public:
     bool isSolved() const;
     /**
      * @brief puts the given number in the given cell if allowed and updates cells' allowed numbers. Throws invalid_argument
-     * ; 1 <= row, column, number <= 9
-     * @param numPosition coordinates of the cell and target value (row, column, value) tuple
+     * @param numPosition coordinates of the cell and target value (row, column, value) tuple. 1 <= row, column, number <= 9
      */
     void setNumber(NumPosition numPosition);
     /**
      * @brief clears the value of the given cell and updates cells' allowed numbers. Throws invalid_argument
-     * ; 1 <= row, column <= 9
-     * @param cellPos coordinates of the cell (row, column) tuple
+     * @param cellPos coordinates of the cell (row, column) tuple, 1 <= row, column <= 9
      */
     void unsetCell(CellPos cellPos);
     /**
