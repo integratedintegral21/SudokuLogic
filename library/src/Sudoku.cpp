@@ -28,7 +28,8 @@ try{
         cell->setNumber(num);
     }
     this->initializeBoarders();
-    this->horizontalBar = this->getHorizontalBar();
+    this->longHorizontalBar = this->getHorizontalBar(true);
+    this->shortHorizontalBar = this->getHorizontalBar(false);
     this->initializeConstraintsMap(constraints);
     this->fillWithAllowedNumbers();
 }
@@ -36,10 +37,10 @@ catch (const invalid_argument& e){
     throw e;
 }
 
-string Sudoku::getBoardString() const {
+string Sudoku::getBoardString(bool showAllowedNumbers) const {
     string boardString = "";
     for (int row = 1 ; row <= 9 ; row++){
-        boardString += this->getUpperHorizontalLine() + "\n";
+        boardString += this->getUpperHorizontalLine(showAllowedNumbers) + "\n";
         string rowString = this->verticalSeparator;
         for (int col = 1 ; col <= 9 ; col++){
             int numIndex = this->getFlattenedIndex(row, col);
@@ -50,22 +51,24 @@ string Sudoku::getBoardString() const {
             else{
                 rowString += " " + to_string(cell->getNumber()) + " ";
             }
-            rowString += ": ";
-            for (int num = 1 ; num <= 9 ; num++){
-                if(cell->isNumberAllowed(num)){
-                    rowString += to_string(num);
+            if(showAllowedNumbers){
+                rowString += ": ";
+                for (int num = 1 ; num <= 9 ; num++){
+                    if(cell->isNumberAllowed(num)){
+                        rowString += to_string(num);
+                    }
+                    else{
+                        rowString += " ";
+                    }
+                    rowString += ",";
                 }
-                else{
-                    rowString += " ";
-                }
-                rowString += ",";
             }
             if(col != 9){
                 rowString += this->verticalBoarders[row - 1][col - 1];
             }
         }
         rowString += this->verticalSeparator + "\n";
-        boardString += rowString + this->getLowerHorizontalLine() + "\n";
+        boardString += rowString + this->getLowerHorizontalLine(showAllowedNumbers) + "\n";
     }
     return boardString;
 }
@@ -149,21 +152,23 @@ void Sudoku::initializeBoarders() {
     }
 }
 
-std::string Sudoku::getUpperHorizontalLine() const {
+std::string Sudoku::getUpperHorizontalLine(bool isLong) const {
     string lineString = this->leftUpperCorner;
+    string horizontalBar = (isLong) ? this->longHorizontalBar : this->shortHorizontalBar;
     for(int i = 0 ; i < 8 ; i++){
-        lineString += this->horizontalBar + upperJunction;
+        lineString += horizontalBar + upperJunction;
     }
-    lineString += this->horizontalBar + rightUpperCorner;
+    lineString += horizontalBar + rightUpperCorner;
     return lineString;
 }
 
-std::string Sudoku::getLowerHorizontalLine() const {
+std::string Sudoku::getLowerHorizontalLine(bool isLong) const {
     string lineString = this->leftLowerCorner;
+    string horizontalBar = (isLong) ? this->longHorizontalBar : this->shortHorizontalBar;
     for(int i = 0 ; i < 8 ; i++){
-        lineString += this->horizontalBar + this->lowerJunction;
+        lineString += horizontalBar + this->lowerJunction;
     }
-    lineString += this->horizontalBar + this->rightLowerCorner;
+    lineString += horizontalBar + this->rightLowerCorner;
     return lineString;
 }
 
@@ -285,9 +290,10 @@ Sudoku::~Sudoku() {
 
 }
 
-std::string Sudoku::getHorizontalBar() const {
+std::string Sudoku::getHorizontalBar(bool isLong) const {
     string horizontalBar = "";
-    for (int i = 0 ; i < 23 ; i++){
+    int length = (isLong) ? 23 : 3;
+    for (int i = 0 ; i < length ; i++){
         horizontalBar += "\u2500";
     }
     return horizontalBar;

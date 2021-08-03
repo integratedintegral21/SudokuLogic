@@ -24,7 +24,8 @@ private:
     const std::string leftLowerCorner = "\u2514";
     const std::string rightUpperCorner = "\u2510";
     const std::string rightLowerCorner = "\u2518";
-    std::string horizontalBar;
+    std::string longHorizontalBar;
+    std::string shortHorizontalBar;
     const std::string upperJunction = "\u252C";
     const std::string lowerJunction = "\u2534";
 
@@ -35,8 +36,8 @@ private:
     void initializeConstraintsMap(std::vector<std::vector<CellPos>>);
     int getFlattenedCoord(int row, int col) const;
     int getFlattenedIndex(int row, int col) const;
-    std::string getUpperHorizontalLine() const;
-    std::string getLowerHorizontalLine() const;
+    std::string getUpperHorizontalLine(bool isLong) const;
+    std::string getLowerHorizontalLine(bool isLong) const;
     bool isNumPosValid(NumPosition num) const;
     bool isCellPosValid(CellPos) const;
     // returns constrained cells specified in constraints
@@ -45,7 +46,7 @@ private:
     std::vector<CellPtr> getCellsFromRow(CellPos cellPos) const;
     // Checks if number is allowed before allowed numbers are set by fillWithAllowedNumbers
     bool isNumAllowed(NumPosition numPosition);
-    std::string getHorizontalBar() const;
+    std::string getHorizontalBar(bool isLong) const;
     NumPosition buildNumPos(int flattenedCoord, int num) const;
     std::vector<int> getAllowedNumbers(int flattenedCoord) const;
     void solveByPruning(int entryFlattenedCoord);
@@ -59,7 +60,7 @@ public:
     /**
      * @return a string presenting the board after printing in console
      */
-    std::string getBoardString() const;
+    std::string getBoardString(bool showAllowedNumbers = false) const;
     /**
      * @brief Checks if the given number can be put inside the given cell. Throws invalid_argument
      * @param numPosition a NumPosition value

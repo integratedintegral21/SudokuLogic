@@ -8,7 +8,7 @@ TARGET_INCLUDE_DIRECTORIES(Library PUBLIC include)
 target_include_directories(Library PUBLIC ${include/model})
 
 enable_testing()
-find_package (Boost 1.75.0 COMPONENTS "unit_test_framework" REQUIRED)
+find_package (Boost 1.60.0 COMPONENTS "unit_test_framework" REQUIRED)
 
 include_directories(
         ${CMAKE_CURRENT_SOURCE_DIR}/include
