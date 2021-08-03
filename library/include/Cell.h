@@ -25,7 +25,7 @@ public:
      */
     Cell();
     /**
-     * @brief Initializes a cell with given number. Only this number allowed by default. Throws invalid_argument
+     * @brief Initializes a cell object with given number inside. Only this number allowed by default. Throws invalid_argument
      * @param number Number inside the sudoku cell
      */
     explicit Cell(int number);
@@ -40,14 +40,14 @@ public:
      */
     bool isEmpty() const;
     /**
-     * @brief Checks if the given number can be put inside a cell. Throws invalid_argument
+     * @brief Checks if the given number can be put inside the cell. Throws invalid_argument
      * @param number
-     * @return true if the given number can be put inside a cell
+     * @return true if the given number can be put inside the cell
      */
     bool isNumberAllowed(int number) const;
 
     /**
-     * @brief Puts the given number inside a cell and adds it to allowedNumbers
+     * @brief Puts the given number inside the cell and adds it to allowedNumbers
      * @param number
      */
     void setNumber(int number);

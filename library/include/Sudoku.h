@@ -58,17 +58,19 @@ public:
      */
     Sudoku(std::vector<NumPosition> initialBoard, std::vector<std::vector<CellPos>> constraints);
     /**
+     * @param showAllowedNumbers the function includes allowed numbers in the string if true
      * @return a string presenting the board after printing in console
      */
     std::string getBoardString(bool showAllowedNumbers = false) const;
     /**
      * @brief Checks if the given number can be put inside the given cell. Throws invalid_argument
-     * @param numPosition a NumPosition value
-     * @return true if the number can be put inside the cell
+     * @param numPosition specifies coordinates of the cell and the candidate number (row, column, number) tuple
+     * ; 1 <= row, column, number <= 9
+     * @return true if the number can be put inside the cell or if is already there.
      */
     bool isNumberAllowed(NumPosition numPosition) const;
     /**
-     * @param cellPos a CellPos value
+     * @param cellPos specifies the cell (row, column) tuple; 1 <= row, column <= 9
      * @return the value of the given cell
      */
     int getCellValue(CellPos cellPos) const;
@@ -78,16 +80,18 @@ public:
     bool isSolved() const;
     /**
      * @brief puts the given number in the given cell if allowed and updates cells' allowed numbers. Throws invalid_argument
-     * @param numPosition coordinates of the cell and target value (row, col, value)
+     * ; 1 <= row, column, number <= 9
+     * @param numPosition coordinates of the cell and target value (row, column, value) tuple
      */
     void setNumber(NumPosition numPosition);
     /**
      * @brief clears the value of the given cell and updates cells' allowed numbers. Throws invalid_argument
-     * @param cellPos coordinates of the cell (row, col)
+     * ; 1 <= row, column <= 9
+     * @param cellPos coordinates of the cell (row, column) tuple
      */
     void unsetCell(CellPos cellPos);
     /**
-     * @brief solves sudoku
+     * @brief solves sudoku by pruning
      */
     void solve();
     virtual ~Sudoku();
