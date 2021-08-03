@@ -48,7 +48,6 @@ private:
     bool isNumAllowed(NumPosition numPosition);
     std::string getHorizontalBar(bool isLong) const;
     NumPosition buildNumPos(int flattenedCoord, int num) const;
-    std::vector<int> getAllowedNumbers(int flattenedCoord) const;
     void solveByPruning(int entryFlattenedCoord);
     bool isSolvedFrom(int entryFlattenedCoord);
 public:
@@ -71,7 +70,7 @@ public:
     bool isNumberAllowed(NumPosition numPosition) const;
     /**
      * @param cellPos specifies the cell (row, column) tuple; 1 <= row, column <= 9
-     * @return the value of the given cell
+     * @return the value of the given cell (-1 if empty)
      */
     int getCellValue(CellPos cellPos) const;
     /**
@@ -94,6 +93,7 @@ public:
      * @brief solves sudoku by pruning
      */
     void solve();
+    std::vector<int> getAllowedNumbers(int flattenedCoord) const;
     virtual ~Sudoku();
 };
 

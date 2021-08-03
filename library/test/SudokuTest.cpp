@@ -148,6 +148,20 @@ BOOST_FIXTURE_TEST_SUITE(TestSuiteSudoku, TestSuiteSudokuFixture)
                 return e.what() == expectedMsg;
             });
         }
+        for (int row = 1 ; row <= 9 ; row++){
+            for (int col = 1 ; col <= 9 ; col++){
+                CellPos cellPos = make_tuple(row, col);
+                if(sudoku0->getCellValue(cellPos) == -1)
+                    continue;
+                vector<int> allowedNumbers = sudoku0->getAllowedNumbers(9 * (row - 1) + col);
+                for (int num: allowedNumbers){
+                    this->sudoku0->setNumber(make_tuple(row, col, num));
+                    BOOST_TEST(this->sudoku0->getCellValue(cellPos) == num);
+                    this->sudoku0->unsetCell(cellPos);
+
+                }
+            }
+        }
     }
 
 BOOST_AUTO_TEST_SUITE_END()
