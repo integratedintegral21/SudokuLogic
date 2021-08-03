@@ -29,7 +29,7 @@ private:
     const std::string upperJunction = "\u252C";
     const std::string lowerJunction = "\u2534";
 
-    // clears allowed numbers and fills cells with possible number based on already filled cells
+    // clears allowed numbers and fills cells with allowed number based on non-empty filled cells
     void fillWithAllowedNumbers();
     void initializeBoarders();
     // initializes constraintsMap
@@ -77,13 +77,18 @@ public:
      */
     bool isSolved() const;
     /**
-     * @brief puts the given number in the given cell. Throws invalid_argument
+     * @brief puts the given number in the given cell if allowed and updates cells' allowed numbers. Throws invalid_argument
+     * @param NumPosition value specifying cell and value (row, col, value)
      */
     void setNumber(NumPosition);
     /**
-     * @brief solves sudoku
+     * @brief
+     * @param cellPos
      */
     void unsetCell(CellPos cellPos);
+    /**
+     * @brief solves sudoku
+     */
     void solve();
     virtual ~Sudoku();
 };
