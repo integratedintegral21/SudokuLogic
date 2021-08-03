@@ -7,10 +7,7 @@ set(SOURCE_FILES src/main.cpp
         ../library/src/Sudoku.cpp ../library/src/Cell.cpp ../library/include/Cell.h ../library/include/typedefs.h ../library/src/utils.cpp ../library/include/utils.h)
 
 add_executable(Program ${SOURCE_FILES})
-include_directories(
-        ../library/include
-)
-
+target_link_libraries(Program Library ${Boost_LIBRARY_DIR_RELEASE}/libboost_regex.so)
 target_include_directories(Program PUBLIC include)
 
 
