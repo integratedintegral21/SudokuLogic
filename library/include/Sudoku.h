@@ -65,7 +65,7 @@ public:
      * @brief Checks if the given number can be put inside the given cell. Throws invalid_argument
      * @param numPosition specifies coordinates of the cell and the candidate number (row, column, number) tuple
      * ; 1 <= row, column, number <= 9
-     * @return true if the number can be put inside the cell or if is already there.
+     * @return true if the number can be put inside the cell
      */
     bool isNumberAllowed(NumPosition numPosition) const;
     /**

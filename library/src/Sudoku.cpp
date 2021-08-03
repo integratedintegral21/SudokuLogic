@@ -76,8 +76,7 @@ string Sudoku::getBoardString(bool showAllowedNumbers) const {
 void Sudoku::fillWithAllowedNumbers() {
     for (CellPtr cell: this->board){
         for(int num = 1; num <= 9 ; num++){
-            if(cell->getNumber() != num)
-                cell->setNumberNotAllowed(num);
+            cell->setNumberNotAllowed(num);
         }
     }
     for (int row = 1 ; row <= 9 ; row++){
@@ -249,7 +248,11 @@ try{
     int col = get<1>(numPosition);
     int num = get<2>(numPosition);
     int cellIndex = this->getFlattenedIndex(row, col);
-    return this->board[cellIndex]->isNumberAllowed(num);
+    CellPtr cellPtr = this->board[cellIndex];
+    if(!cellPtr->isEmpty()){
+        return false;
+    }
+    return cellPtr->isNumberAllowed(num);
 }
 catch(const invalid_argument& e){
     throw e;

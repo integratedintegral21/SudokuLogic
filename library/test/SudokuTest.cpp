@@ -52,7 +52,6 @@ struct TestSuiteSudokuFixture{
     vector<NumPosition> allowedNumPoses = {
             make_tuple(1, 1, 4),
             make_tuple(1, 1, 3),
-            make_tuple(4, 2, 2),
             make_tuple(7, 7, 8),
     };
     vector<NumPosition> invalidNumPoses = {
@@ -104,8 +103,6 @@ BOOST_FIXTURE_TEST_SUITE(TestSuiteSudoku, TestSuiteSudokuFixture)
             });
         }
         for(NumPosition numPosition: board0){
-
-            BOOST_TEST(sudoku0->isNumberAllowed(numPosition));
             int row = get<0>(numPosition);
             int col = get<1>(numPosition);
             int num = get<2>(numPosition);

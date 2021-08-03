@@ -51,6 +51,6 @@ int main(){
     vector<vector<CellPos>> simpleConstraints = getSimpleConstraints();
     Sudoku sudoku(board0, simpleConstraints);
     sudoku.solve();
-    cout << sudoku.getBoardString() << endl;
+    cout << sudoku.getBoardString(true) << endl;
     return 0;
 }

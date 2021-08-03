@@ -32,7 +32,6 @@ BOOST_FIXTURE_TEST_SUITE(TestSuiteCell, TestSuiteCellFixture)
     BOOST_AUTO_TEST_CASE(ConstructorTest){
         BOOST_REQUIRE(cell0->getNumber() == -1);
         BOOST_REQUIRE(cell1->getNumber() == number0);
-        BOOST_REQUIRE(cell1->isNumberAllowed(number0));
 
         for(int num = 1 ; num <= 9 ; num++){
             BOOST_TEST(cell0->isNumberAllowed(num) == false);

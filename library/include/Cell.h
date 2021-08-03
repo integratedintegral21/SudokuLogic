@@ -47,7 +47,7 @@ public:
     bool isNumberAllowed(int number) const;
 
     /**
-     * @brief Puts the given number inside the cell and adds it to allowedNumbers
+     * @brief Puts the given number inside the cell
      * @param number
      */
     void setNumber(int number);
