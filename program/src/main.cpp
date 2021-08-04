@@ -5,7 +5,6 @@
 #include <iostream>
 #include "Sudoku.h"
 #include "utils.h"
-#include "boost/version.hpp"
 
 using namespace std;
 
@@ -52,5 +51,6 @@ int main(){
     Sudoku sudoku(board0, simpleConstraints);
     cout << sudoku.getBoardString(true) << endl;
     sudoku.solve();
+    cout << sudoku.getBoardString() << endl;
     return 0;
 }

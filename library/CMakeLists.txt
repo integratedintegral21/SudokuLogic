@@ -6,8 +6,7 @@ add_library(SudokuLibrary ${SOURCE_FILES})
 
 set_target_properties(SudokuLibrary PROPERTIES VERSION ${PROJECT_VERSION})
 
-TARGET_INCLUDE_DIRECTORIES(SudokuLibrary PUBLIC include)
-target_include_directories(SudokuLibrary PUBLIC ${include/model})
+target_include_directories(SudokuLibrary PUBLIC include)
 
 enable_testing()
 find_package (Boost 1.60.0 COMPONENTS "unit_test_framework" REQUIRED)
