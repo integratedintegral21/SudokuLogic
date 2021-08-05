@@ -4,7 +4,7 @@
  * [General Info](#general-information)
  * [Technologies Used](#technologies-used)
  * [Features](#features)
- * [Setup])(#setup)
+ * [Setup](#setup)
  * [Usage](#usage)
  ## General Inforamtion
   - The project contains 3 subdirectories: 
@@ -34,39 +34,39 @@
    - (Windows only) **Microsoft Visual Studio 2019**
    - (Testing only) BOOST >= 1.60.0
   ### Linux 
-  `cd PROJECT_DIR/SudokuLogic/library`
-  `cmake .`
-  `make`
+  `cd PROJECT_DIR/SudokuLogic/library`<br/>
+  `cmake .`<br/>
+  `make`<br/>
   Now *libSudokuLogicLibrary.a* and *libSudokuLogicLibrary.so* should be present inside *library/* directory. You can link them to your project with CMake (see #usage section)
   ### Windows
-  Open Powershell windows in PROJECT_DIR/SudokuLogic/library
-  `cmake .`
-  Open .sln file with Visual Studio 2019
-  Right panel -> RMB click on ALL_BUILD -> Build
-  Now *libSudokuLogicLibrary.lib* and *libSudokuLogicLibrary.dll* are generated in PROJECT_DIR/SudokuLogic/library/Debug
+  Open Powershell windows in PROJECT_DIR/SudokuLogic/library<br/>
+  `cmake .`<br/>
+  Open .sln file with Visual Studio 2019<br/>
+  Right panel -> RMB click on ALL_BUILD -> Build<br/>
+  Now *libSudokuLogicLibrary.lib* and *libSudokuLogicLibrary.dll* are generated in PROJECT_DIR/SudokuLogic/library/Debug<br/>
  ## Usage
   ### Linking the library
-  Create directory Sudoku
-  `mkdir Sudoku && cd Sudoku && git clone https://github.com/integratedintegral21/SudokuLogic.git`
-  Copy and paste the *main.cpp* file
-  `cp SudokuLogic/program/src/main.cpp`
-  The file includes an example of initializing, displaying and solving a Sudoku puzzle. Now it is time to create CMakeLists.txt file
-  `touch CMakeLists.txt`
-  Open the file in the editor of your choice and paste the following code
-  `cmake_minimum_required(VERSION 3.4)	# determines minmum version of cmake	`
-  `project(Sudoku)		# creates new project  `
-  `set(SOURCE_FILES main.cpp)	# appends the only source file to SOURCE_FILES variable  `
+  Create directory Sudoku<br/>
+  `mkdir Sudoku && cd Sudoku && git clone https://github.com/integratedintegral21/SudokuLogic.git` <br/>
+  Copy and paste the *main.cpp* file<br/>
+  `cp SudokuLogic/program/src/main.cpp`<br/>
+  The file includes an example of initializing, displaying and solving a Sudoku puzzle. Now it is time to create CMakeLists.txt file<br/>
+  `touch CMakeLists.txt`<br/>
+  Open the file in the editor of your choice and paste the following code<br/>
+  `cmake_minimum_required(VERSION 3.4)	# determines minmum version of cmake	`<br/>
+  `project(Sudoku)		# creates new project  `<br/>
+  `set(SOURCE_FILES main.cpp)	# appends the only source file to SOURCE_FILES variable  `<br/>
   `find_library(SUDOKU_LIBRARY SudokuLogicLibrary HINTS SudokuLogic/library REQUIRED)	# finds the path to Sudoku Logic`  
-  `Library `
+  `Library `<br/>
   `add_executable(Sudoku ${SOURCE_FILES})		# An executable file 'Sudoku' will be created as a result of compilation of  `
-  `SOURCE_FILES`
-  `target_link_libraries(Sudoku PUBLIC ${SUDOKU_LIBRARY})		# Link the library to Sudoku`
-  `target_include_directories(Sudoku PUBLIC SudokuLogic/library/include)		# To avoid include errors`
-  Then compile our mini project
-  `cmake .`
-  `make`
-  And execute the program
-  `./Sudoku`
+  `SOURCE_FILES`<br/>
+  `target_link_libraries(Sudoku PUBLIC ${SUDOKU_LIBRARY})		# Link the library to Sudoku`<br/>
+  `target_include_directories(Sudoku PUBLIC SudokuLogic/library/include)		# To avoid include errors`<br/>
+  Then compile our mini project<br/>
+  `cmake .`<br/>
+  `make`<br/>
+  And execute the program<br/>
+  `./Sudoku`<br/>
  ## Project Status
   __in progress__
  
