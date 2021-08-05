@@ -17,7 +17,7 @@ set(SOURCE_TEST_FILES
         SudokuTest.cpp)
 add_executable (LibraryTest ${SOURCE_TEST_FILES} master.cpp)
 target_link_libraries (LibraryTest
-        SudokuLibrary
+        SudokuLogicLibrary
         ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
         ${Boost_LIBRARY_DIR_RELEASE}/libboost_regex.so
         )
