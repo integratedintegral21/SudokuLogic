@@ -37,7 +37,7 @@
   `cd PROJECT_DIR/SudokuLogic/library`<br/>
   `cmake .`<br/>
   `make`<br/>
-  Now *libSudokuLogicLibrary.a* and *libSudokuLogicLibrary.so* should be present inside *library/* directory. You can link them to your project with CMake (see #usage section)
+  Now *libSudokuLogicLibrary.a* and *libSudokuLogicLibrary.so* should be present inside *library/* directory. You can link them to your project with CMake (see (#usage) section)
   ### Windows
   Open Powershell windows in PROJECT_DIR/SudokuLogic/library<br/>
   `cmake .`<br/>
