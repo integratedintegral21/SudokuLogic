@@ -19,15 +19,15 @@ private:
     // list containing cell separators
     std::vector<std::vector<std::string>> verticalBoarders;
 
-    const std::string verticalSeparator = "\u2502";
-    const std::string leftUpperCorner = "\u250C";
-    const std::string leftLowerCorner = "\u2514";
-    const std::string rightUpperCorner = "\u2510";
-    const std::string rightLowerCorner = "\u2518";
+    const std::string verticalSeparator = "│";
+    const std::string leftUpperCorner = "┌";
+    const std::string leftLowerCorner = "└";
+    const std::string rightUpperCorner = "┐";
+    const std::string rightLowerCorner = "┘";
     std::string longHorizontalBar;
     std::string shortHorizontalBar;
-    const std::string upperJunction = "\u252C";
-    const std::string lowerJunction = "\u2534";
+    const std::string upperJunction = "┬";
+    const std::string lowerJunction = "┴";
 
     // clears allowed numbers and fills cells with allowed number based on non-empty filled cells
     void fillWithAllowedNumbers();
