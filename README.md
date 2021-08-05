@@ -7,13 +7,13 @@
  * [Setup](#setup)
  * [Usage](#usage)
  ## General Inforamtion
-  - The project contains 3 subdirectories: 
-    -**library/** - the library's main directory, contains CMakeLists.txt and source files;
-    -**test/** - unit tests directory, uses BOOST framework
-    -**program/** - a sample program using the library
-  - Sudoku Logic library implements logic of Sudoku puzzle - allows to create custom game boards, verifies player's moves and solves Sudoku by means of *pruning* (filling the grid with all allowed numbers, testing every possible case and stopping when solved)
-  - The library can be used as a component of a Sudoku application
-  - Inspired by a CS assignment - The original project was written in Haskell 
+  - The project contains 3 subdirectories: <br/>
+    -**library/** - the library's main directory, contains CMakeLists.txt and source files;<br/>
+    -**test/** - unit tests directory, uses BOOST framework<br/>
+    -**program/** - a sample program using the library<br/>
+  - Sudoku Logic library implements logic of Sudoku puzzle - allows to create custom game boards, verifies player's moves and solves Sudoku by means of *pruning* (filling the grid with all allowed numbers, testing every possible case and stopping when solved)<br/>
+  - The library can be used as a component of a Sudoku application<br/>
+  - Inspired by a CS assignment - The original project was written in Haskell <br/>
  ## Technologies Used
   - **C++11**
   - **CMake** - version 3.19
