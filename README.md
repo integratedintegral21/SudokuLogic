@@ -6,7 +6,7 @@
  * [Features](#features)
  * [Setup](#setup)
  * [Usage](#usage)
- ## General Inforamtion
+ ## General Information
   - The project contains 3 subdirectories: <br/>
     -**library/** - the library's main directory, contains CMakeLists.txt and source files;<br/>
     -**test/** - unit tests directory, uses BOOST framework<br/>
@@ -37,7 +37,7 @@
   `cd PROJECT_DIR/SudokuLogic/library`<br/>
   `cmake .`<br/>
   `make`<br/>
-  Now *libSudokuLogicLibrary.a* and *libSudokuLogicLibrary.so* should be present inside *library/* directory. You can link them to your project with CMake (see #usage section)
+  Now *libSudokuLogicLibrary.a* and *libSudokuLogicLibrary.so* should be present inside *library/* directory. You can link them to your project with CMake (see (#usage) section)
   ### Windows
   Open Powershell windows in PROJECT_DIR/SudokuLogic/library<br/>
   `cmake .`<br/>
@@ -56,8 +56,7 @@
   `cmake_minimum_required(VERSION 3.4)	# determines minmum version of cmake	`<br/>
   `project(Sudoku)		# creates new project  `<br/>
   `set(SOURCE_FILES main.cpp)	# appends the only source file to SOURCE_FILES variable  `<br/>
-  `find_library(SUDOKU_LIBRARY SudokuLogicLibrary HINTS SudokuLogic/library REQUIRED)	# finds the path to Sudoku Logic`  
-  `Library `<br/>
+  `find_library(SUDOKU_LIBRARY SudokuLogicLibrary HINTS SudokuLogic/library REQUIRED)	# finds the path to Sudoku Logic Library `<br/>
   `add_executable(Sudoku ${SOURCE_FILES})		# An executable file 'Sudoku' will be created as a result of compilation of  `
   `SOURCE_FILES`<br/>
   `target_link_libraries(Sudoku PUBLIC ${SUDOKU_LIBRARY})		# Link the library to Sudoku`<br/>
