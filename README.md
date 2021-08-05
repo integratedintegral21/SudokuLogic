@@ -6,7 +6,7 @@
  * [Features](#features)
  * [Setup](#setup)
  * [Usage](#usage)
- ## General Inforamtion
+ ## General Information
   - The project contains 3 subdirectories: <br/>
     -**library/** - the library's main directory, contains CMakeLists.txt and source files;<br/>
     -**test/** - unit tests directory, uses BOOST framework<br/>
