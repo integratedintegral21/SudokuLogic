@@ -9,7 +9,7 @@ set(SOURCE_FILES
         src/utils.cpp
         include/utils.h
         )
-add_library(SudokuLibrary ${SOURCE_FILES})
+add_library(SudokuLibrary STATIC SHARED ${SOURCE_FILES})
 
 set_target_properties(SudokuLibrary PROPERTIES VERSION ${PROJECT_VERSION})
 
