@@ -10,6 +10,7 @@
 #include <map>
 #include "typedefs.h"
 
+
 class Sudoku {
 private:
     // flattened 9x9 board
