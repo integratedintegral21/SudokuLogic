@@ -56,8 +56,7 @@
   `cmake_minimum_required(VERSION 3.4)	# determines minmum version of cmake	`<br/>
   `project(Sudoku)		# creates new project  `<br/>
   `set(SOURCE_FILES main.cpp)	# appends the only source file to SOURCE_FILES variable  `<br/>
-  `find_library(SUDOKU_LIBRARY SudokuLogicLibrary HINTS SudokuLogic/library REQUIRED)	# finds the path to Sudoku Logic`  
-  `Library `<br/>
+  `find_library(SUDOKU_LIBRARY SudokuLogicLibrary HINTS SudokuLogic/library REQUIRED)	# finds the path to Sudoku Logic Library `<br/>
   `add_executable(Sudoku ${SOURCE_FILES})		# An executable file 'Sudoku' will be created as a result of compilation of  `
   `SOURCE_FILES`<br/>
   `target_link_libraries(Sudoku PUBLIC ${SUDOKU_LIBRARY})		# Link the library to Sudoku`<br/>
