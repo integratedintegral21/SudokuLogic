@@ -91,6 +91,39 @@ void Sudoku::fillWithAllowedNumbers() {
     }
 }
 
+// after clearing a cell
+void Sudoku::fillWithAllowedNumbers(CellPos & cellPos){
+    int row = get<0>(cellPos);
+    int col = get<1>(cellPos);
+    int currentCellIndex = this->getFlattenedIndex(row, col);
+    for (int rowNr = 1 ; rowNr <= 9 ; rowNr++){
+        int cellIndex = this->getFlattenedIndex(rowNr, col);
+        CellPtr cell = this->board[cellIndex];
+        for(int num = 1; num <= 9 ; num++){
+            if (this->isNumAllowed(make_tuple(rowNr, col, num)))
+                cell->setNumberAllowed(num);
+        }
+    }
+    for (int colNr = 1 ; colNr <= 9 ; colNr++){
+        int cellIndex = this->getFlattenedIndex(row, colNr);
+        CellPtr cell = this->board[cellIndex];
+        for(int num = 1; num <= 9 ; num++){
+            if (this->isNumAllowed(make_tuple(row, colNr, num)))
+                cell->setNumberAllowed(num);
+        }
+    }
+    vector<int> constraints = this->constraintsList[currentCellIndex];
+    for (int cellIndex: constraints){
+        CellPtr cell = this->board[cellIndex];
+        int rowNr = cellIndex / 9 + 1;
+        int colNr = cellIndex % 9 + 1;
+        for(int num = 1; num <= 9 ; num++){
+            if (this->isNumAllowed(make_tuple(rowNr, colNr, num)))
+                cell->setNumberAllowed(num);
+        }
+    }
+}
+
 bool Sudoku::isNumAllowed(NumPosition numPosition){
     int row = get<0>(numPosition);
     int col = get<1>(numPosition);
@@ -98,8 +131,8 @@ bool Sudoku::isNumAllowed(NumPosition numPosition){
     int index = this->getFlattenedIndex(row, col);
     CellPtr thisCell = this->board[this->getFlattenedIndex(row, col)];
     CellPos cellPos = make_tuple(row, col);
-    vector<CellPtr> columnCells = this->getCellsFromColumn(cellPos);
-    vector<CellPtr> rowCells = this->getCellsFromRow(cellPos);
+    vector<int> columnCellsIndexes = this->getCellsFromColumn(cellPos);
+    vector<int> rowCellsIndexes = this->getCellsFromRow(cellPos);
     vector<int> constrainedCellsIndexes = this->constraintsList[index];
     for (int cellIndex : constrainedCellsIndexes){
         CellPtr cell = this->board[cellIndex];
@@ -107,12 +140,14 @@ bool Sudoku::isNumAllowed(NumPosition numPosition){
             return false;
         }
     }
-    for (const CellPtr& cell : rowCells){
+    for (int cellIndex : rowCellsIndexes){
+        CellPtr cell = this->board[cellIndex];
         if(cell->getNumber() == num){
             return false;
         }
     }
-    for (const CellPtr& cell : columnCells){
+    for (int cellIndex : columnCellsIndexes){
+        CellPtr cell = this->board[cellIndex];
         if(cell->getNumber() == num){
             return false;
         }
@@ -196,8 +231,8 @@ std::vector<int> Sudoku::getCellIndexesFromConstraints(CellPos cellPos, vector<v
     return constrainedCells;
 }
 
-std::vector<CellPtr> Sudoku::getCellsFromColumn(CellPos cellPos) const {
-    vector<CellPtr> cells;
+std::vector<int> Sudoku::getCellsFromColumn(CellPos cellPos) const {
+    vector<int> cells;
     int row = get<0>(cellPos);
     int col = get<1>(cellPos);
     for (int rowNr = 1 ; rowNr <= 9 ; rowNr++){
@@ -205,14 +240,13 @@ std::vector<CellPtr> Sudoku::getCellsFromColumn(CellPos cellPos) const {
             continue;
         }
         int cellIndex = this->getFlattenedIndex(rowNr, col);
-        CellPtr cell = this->board[cellIndex];
-        cells.push_back(cell);
+        cells.push_back(cellIndex);
     }
     return cells;
 }
 
-std::vector<CellPtr> Sudoku::getCellsFromRow(CellPos cellPos) const {
-    vector<CellPtr> cells;
+std::vector<int> Sudoku::getCellsFromRow(CellPos cellPos) const {
+    vector<int> cells;
     int row = get<0>(cellPos);
     int col = get<1>(cellPos);
     for (int colNr = 1 ; colNr <= 9 ; colNr++){
@@ -220,8 +254,7 @@ std::vector<CellPtr> Sudoku::getCellsFromRow(CellPos cellPos) const {
             continue;
         }
         int cellIndex = this->getFlattenedIndex(row, colNr);
-        CellPtr cell = this->board[cellIndex];
-        cells.push_back(cell);
+        cells.push_back(cellIndex);
     }
     return cells;
 }
@@ -283,8 +316,8 @@ try{
     int row = get<0>(cellPos);
     int col = get<1>(cellPos);
     int cellIndex = this->getFlattenedIndex(row, col);
-    int num = this->board[cellIndex]->getNumber();
     this->board[cellIndex]->unset();
+    this->fillWithAllowedNumbers(cellPos);
 }
 catch (const invalid_argument& e){
     throw e;
@@ -346,7 +379,6 @@ void Sudoku::solveByPruning(int entryFlattenedCoord) {
             }
             // no solution for this number
             this->unsetCell(make_tuple(row, col));
-            this->fillWithAllowedNumbers();
         }
     }
     else {

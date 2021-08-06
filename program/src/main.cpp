@@ -76,7 +76,7 @@ int main(){
             }
     };
     vector<vector<CellPos>> simpleConstraints = getSimpleConstraints();
-    Sudoku sudoku(simpleBoards[0], simpleConstraints);
+    Sudoku sudoku(simpleBoards[1], simpleConstraints);
     cout << sudoku.getBoardString() << endl;
     time_t start, end;
     time(&start);

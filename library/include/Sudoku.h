@@ -32,6 +32,7 @@ private:
 
     // clears allowed numbers and fills cells with allowed number based on non-empty filled cells
     void fillWithAllowedNumbers();
+    void fillWithAllowedNumbers(CellPos & cellPos);
     void initializeBoarders();
     // initializes constraintsList
     void initializeConstraintsList(std::vector<std::vector<CellPos>> constraints);
@@ -43,8 +44,8 @@ private:
     bool isCellPosValid(CellPos) const;
     // returns constrained cells specified in constraints
     std::vector<int> getCellIndexesFromConstraints(CellPos cellPos, std::vector<std::vector<CellPos>>&) const;
-    std::vector<CellPtr> getCellsFromColumn(CellPos cellPos) const;
-    std::vector<CellPtr> getCellsFromRow(CellPos cellPos) const;
+    std::vector<int> getCellsFromColumn(CellPos cellPos) const;
+    std::vector<int> getCellsFromRow(CellPos cellPos) const;
     // Checks if number is allowed before allowed numbers are set by fillWithAllowedNumbers
     bool isNumAllowed(NumPosition numPosition);
     std::string getHorizontalBar(bool isLong) const;
