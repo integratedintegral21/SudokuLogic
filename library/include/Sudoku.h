@@ -49,6 +49,8 @@ private:
     bool isNumAllowed(NumPosition numPosition);
     std::string getHorizontalBar(bool isLong) const;
     NumPosition buildNumPos(int flattenedCoord, int num) const;
+    void pruneNumber(NumPosition numPosition);
+    void unpruneNumber(NumPosition numPosition);
     void solveByPruning(int entryFlattenedCoord);
     bool isSolvedFrom(int entryFlattenedCoord);
 public:
