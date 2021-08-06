@@ -16,7 +16,7 @@ private:
     // flattened 9x9 board
     std::vector<CellPtr> board;
     // assigns constrained cells to every Cell
-    std::map<CellPtr, std::vector<CellPtr>> constraintsMap;
+    std::vector<std::vector<int>> constraintsList;
     // list containing cell separators
     std::vector<std::vector<std::string>> verticalBoarders;
 
@@ -33,8 +33,8 @@ private:
     // clears allowed numbers and fills cells with allowed number based on non-empty filled cells
     void fillWithAllowedNumbers();
     void initializeBoarders();
-    // initializes constraintsMap
-    void initializeConstraintsMap(std::vector<std::vector<CellPos>>);
+    // initializes constraintsList
+    void initializeConstraintsList(std::vector<std::vector<CellPos>> constraints);
     int getFlattenedCoord(int row, int col) const;
     int getFlattenedIndex(int row, int col) const;
     std::string getUpperHorizontalLine(bool isLong) const;
@@ -42,7 +42,7 @@ private:
     bool isNumPosValid(NumPosition num) const;
     bool isCellPosValid(CellPos) const;
     // returns constrained cells specified in constraints
-    std::vector<CellPtr> getCellsFromConstraints(CellPos cellPos, std::vector<std::vector<CellPos>>&) const;
+    std::vector<int> getCellIndexesFromConstraints(CellPos cellPos, std::vector<std::vector<CellPos>>&) const;
     std::vector<CellPtr> getCellsFromColumn(CellPos cellPos) const;
     std::vector<CellPtr> getCellsFromRow(CellPos cellPos) const;
     // Checks if number is allowed before allowed numbers are set by fillWithAllowedNumbers
@@ -50,7 +50,6 @@ private:
     std::string getHorizontalBar(bool isLong) const;
     NumPosition buildNumPos(int flattenedCoord, int num) const;
     void pruneNumber(NumPosition numPosition);
-    void unpruneNumber(NumPosition numPosition);
     void solveByPruning(int entryFlattenedCoord);
     bool isSolvedFrom(int entryFlattenedCoord);
 public:

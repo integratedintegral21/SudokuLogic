@@ -17,7 +17,8 @@ try{
     for (int i = 0 ; i < 9*9 ; i++){
         this->board.push_back(make_shared<Cell>());
     }
-    this->initializeConstraintsMap(constraints);
+    this->constraintsList = std::vector<std::vector<int>>(81);
+    this->initializeConstraintsList(constraints);
     this->fillWithAllowedNumbers();
     for(auto& numPos: initialBoard){
         if(!this->isNumPosValid(numPos)){
@@ -94,12 +95,14 @@ bool Sudoku::isNumAllowed(NumPosition numPosition){
     int row = get<0>(numPosition);
     int col = get<1>(numPosition);
     int num = get<2>(numPosition);
+    int index = this->getFlattenedIndex(row, col);
     CellPtr thisCell = this->board[this->getFlattenedIndex(row, col)];
     CellPos cellPos = make_tuple(row, col);
     vector<CellPtr> columnCells = this->getCellsFromColumn(cellPos);
     vector<CellPtr> rowCells = this->getCellsFromRow(cellPos);
-    vector<CellPtr> constrainedCells = this->constraintsMap[thisCell];
-    for (const CellPtr& cell : constrainedCells){
+    vector<int> constrainedCellsIndexes = this->constraintsList[index];
+    for (int cellIndex : constrainedCellsIndexes){
+        CellPtr cell = this->board[cellIndex];
         if(cell->getNumber() == num){
             return false;
         }
@@ -173,8 +176,8 @@ bool Sudoku::isNumPosValid(NumPosition num) const {
             get<2>(num) >= 1 && get<2>(num) <= 9;
 }
 
-std::vector<CellPtr> Sudoku::getCellsFromConstraints(CellPos cellPos, vector<vector<CellPos>>& constraints) const{
-    vector<CellPtr> constrainedCells;
+std::vector<int> Sudoku::getCellIndexesFromConstraints(CellPos cellPos, vector<vector<CellPos>>& constraints) const{
+    vector<int> constrainedCells;
     vector<vector<CellPos>> cellConstraints;
     for(vector<CellPos> con: constraints){
         for(CellPos pos: con){
@@ -187,8 +190,7 @@ std::vector<CellPtr> Sudoku::getCellsFromConstraints(CellPos cellPos, vector<vec
             int row = get<0>(cellPos);
             int col = get<1>(cellPos);
             int index = this->getFlattenedIndex(row, col);
-            CellPtr cell = this->board[index];
-            constrainedCells.push_back(cell);
+            constrainedCells.push_back(index);
         }
     }
     return constrainedCells;
@@ -283,7 +285,6 @@ try{
     int cellIndex = this->getFlattenedIndex(row, col);
     int num = this->board[cellIndex]->getNumber();
     this->board[cellIndex]->unset();
-    this->unpruneNumber(make_tuple(row, col, num));
 }
 catch (const invalid_argument& e){
     throw e;
@@ -302,12 +303,13 @@ std::string Sudoku::getHorizontalBar(bool isLong) const {
     return horizontalBar;
 }
 
-void Sudoku::initializeConstraintsMap(std::vector<std::vector<CellPos>> constraints) {
+void Sudoku::initializeConstraintsList(std::vector<std::vector<CellPos>> constraints) {
     for (int row = 1 ; row <= 9 ; row++){
         for (int col = 1; col <= 9 ; col++){
-            CellPtr cell = this->board[this->getFlattenedIndex(row, col)];
-            vector<CellPtr> constrainedCells = this->getCellsFromConstraints(make_pair(row, col), constraints);
-            this->constraintsMap.insert(make_pair(cell, constrainedCells));
+            int index = this->getFlattenedIndex(row, col);
+            CellPtr cell = this->board[index];
+            vector<int> constrainedCells = this->getCellIndexesFromConstraints(make_pair(row, col), constraints);
+            this->constraintsList[index] = constrainedCells;
         }
     }
 }
@@ -326,21 +328,25 @@ void Sudoku::solveByPruning(int entryFlattenedCoord) {
         return;
     }
     CellPtr cell = this->board[entryFlattenedCoord - 1];
+    int row = (entryFlattenedCoord - 1) / 9 + 1;
+    int col = (entryFlattenedCoord - 1) % 9 + 1;
     if(cell->isEmpty()){
         vector<int> allowedNumbers = this->getAllowedNumbers(entryFlattenedCoord);
         if (allowedNumbers.empty()){
             return;
         }
         for(int number: allowedNumbers){
-            cell->setNumber(number);
-            this->fillWithAllowedNumbers();
+            // cell->setNumber(number);
+            // this->fillWithAllowedNumbers();
+            this->setNumber(make_tuple(row, col, number));
             this->solveByPruning(entryFlattenedCoord + 1);
             // success
             if(this->isSolvedFrom(entryFlattenedCoord)){
                 return;
             }
             // no solution for this number
-            cell->unset();
+            this->unsetCell(make_tuple(row, col));
+            this->fillWithAllowedNumbers();
         }
     }
     else {
@@ -371,32 +377,15 @@ void Sudoku::pruneNumber(NumPosition numPosition) {
     int row = get<0>(numPosition);
     int col = get<1>(numPosition);
     int num = get<2>(numPosition);
-    CellPtr currentCell = this->board[this->getFlattenedIndex(row, col)];
+    int index = this->getFlattenedIndex(row, col);
     for (int colNr = 1 ; colNr <= 9 ; colNr++){
         this->board[this->getFlattenedIndex(row, colNr)]->setNumberNotAllowed(num);
     }
     for (int rowNr = 1 ; rowNr <= 9 ; rowNr++){
         this->board[this->getFlattenedIndex(rowNr, col)]->setNumberNotAllowed(num);
     }
-    vector<CellPtr> constrainedCells = this->constraintsMap[currentCell];
-    for (CellPtr cell: constrainedCells){
-        cell->setNumberNotAllowed(num);
-    }
-}
-
-void Sudoku::unpruneNumber(NumPosition numPosition) {
-    int row = get<0>(numPosition);
-    int col = get<1>(numPosition);
-    int num = get<2>(numPosition);
-    CellPtr currentCell = this->board[this->getFlattenedIndex(row, col)];
-    for (int colNr = 1 ; colNr <= 9 ; colNr++){
-        this->board[this->getFlattenedIndex(row, colNr)]->setNumberAllowed(num);
-    }
-    for (int rowNr = 1 ; rowNr <= 9 ; rowNr++){
-        this->board[this->getFlattenedIndex(rowNr, col)]->setNumberAllowed(num);
-    }
-    vector<CellPtr> constrainedCells = this->constraintsMap[currentCell];
-    for (CellPtr cell: constrainedCells){
-        cell->setNumberAllowed(num);
+    vector<int> constrainedCells = this->constraintsList[index];
+    for (int index: constrainedCells){
+        this->board[index]->setNumberNotAllowed(num);
     }
 }
