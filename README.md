@@ -68,4 +68,6 @@
   `./Sudoku`<br/>
  ## Project Status
   __in progress__
+ ### bugs
+  Unicode characters are not displayed in windows console. Avoid using Sudoku::getBoardString() in Windows.
  
