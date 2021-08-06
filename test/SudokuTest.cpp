@@ -10,7 +10,6 @@
 using namespace std;
 
 struct TestSuiteSudokuFixture{
-
     vector<vector<NumPosition>> simpleBoards = {
             {
                     make_tuple(1, 4, 2),
