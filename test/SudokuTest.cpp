@@ -50,7 +50,8 @@ struct TestSuiteSudokuFixture{
                     make_tuple(9, 5, 1),
                     make_tuple(9, 6, 8),
             },
-
+    };
+    vector<vector<NumPosition>> hardBoards = {
             {
                     make_tuple(1,7,2),
                     make_tuple(2,2,8),
@@ -72,7 +73,7 @@ struct TestSuiteSudokuFixture{
                     make_tuple(8,4,4),
                     make_tuple(8,8,7),
                     make_tuple(9,3,6),
-            }
+            },
     };
     vector<NumPosition> emptyBoard;
     vector<NumPosition> allowedNumPoses = {
