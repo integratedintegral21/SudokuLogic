@@ -50,6 +50,30 @@ struct TestSuiteSudokuFixture{
                     make_tuple(9, 6, 8),
             },
     };
+    vector<vector<NumPosition>> notAllowedBoards = {
+            // 2 numbers in 1 cell
+            {
+                    make_tuple(1, 4, 2),
+                    make_tuple(1, 4, 6),
+            },
+            {
+                    make_tuple(1, 4, 2),
+                    make_tuple(1, 4, 2),
+            },
+            // not allowed number
+            {
+                    make_tuple(1, 4, 2),
+                    make_tuple(1, 5, 2),
+            },
+            {
+                    make_tuple(1, 4, 2),
+                    make_tuple(2, 4, 2),
+            },
+            {
+                    make_tuple(1, 4, 2),
+                    make_tuple(2, 5, 2),
+            },
+    };
     vector<vector<NumPosition>> hardBoards = {
             {
                     make_tuple(1,7,2),
@@ -120,6 +144,12 @@ BOOST_FIXTURE_TEST_SUITE(TestSuiteSudoku, TestSuiteSudokuFixture)
             int expectedNumber = get<2>(numPosition);
             int actualNumber = emptySudoku->getCellValue(cellPos);
             BOOST_REQUIRE(expectedNumber == actualNumber);
+        }
+        for (vector<NumPosition>& numPosition: notAllowedBoards){
+            BOOST_CHECK_EXCEPTION(Sudoku(numPosition, simpleConstraints), invalid_argument, [](const logic_error &e) {
+                string expectedMsg = "Board invalid";
+                return e.what() == expectedMsg;
+            });
         }
     }
 

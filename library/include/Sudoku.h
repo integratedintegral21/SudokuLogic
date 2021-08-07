@@ -35,7 +35,7 @@ private:
     void fillWithAllowedNumbers(CellPos & cellPos);
     void initializeBoarders();
     // initializes constraintsList
-    void initializeConstraintsList(std::vector<std::vector<CellPos>> constraints);
+    void initializeConstraintsList(std::vector<std::vector<CellPos>>& constraints);
     int getFlattenedCoord(int row, int col) const;
     int getFlattenedIndex(int row, int col) const;
     std::string getUpperHorizontalLine(bool isLong) const;
@@ -53,12 +53,18 @@ private:
     void pruneNumber(NumPosition numPosition);
     void solveByPruning(int entryFlattenedCoord);
     bool isSolvedFrom(int entryFlattenedCoord);
+    bool uniqueInPositions(const std::vector<int>& indexes, int num) const;
 public:
+    /**
+     * @brief calls 2-arguments constructor with simple constraints (classic sudoku puzzle)
+     * @param initialBoard vector of NumPositions containing initial state of the board. Throws invalid_argument
+     */
+    Sudoku(const std::vector<NumPosition>& initialBoard);
     /**
      * @param initialBoard vector of NumPositions containing initial state of the board. Throws invalid_argument
      * @param constraints vector of vectors containing coordinates of cells where numbers cannot repeat
      */
-    Sudoku(std::vector<NumPosition> initialBoard, std::vector<std::vector<CellPos>> constraints);
+    Sudoku(const std::vector<NumPosition>& initialBoard, std::vector<std::vector<CellPos>> constraints);
     /**
      * @param showAllowedNumbers the function includes allowed numbers in the string if true
      * @return a string presenting the board after printing in console

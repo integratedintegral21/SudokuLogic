@@ -6,10 +6,12 @@
 #include "Cell.h"
 #include <stdexcept>
 #include <string>
+#include <algorithm>
+#include "utils.h"
 
 using namespace std;
 
-Sudoku::Sudoku(vector<NumPosition> initialBoard, vector<vector<CellPos>> constraints)
+Sudoku::Sudoku(const vector<NumPosition>& initialBoard, vector<vector<CellPos>> constraints)
 try{
     if(initialBoard.size() > 81){
         throw invalid_argument("Too many initial positions given");
@@ -24,6 +26,8 @@ try{
         if(!this->isNumPosValid(numPos)){
             throw invalid_argument("NumPosition invalid");
         }
+        if (!this->isNumberAllowed(numPos))
+            throw invalid_argument("Board invalid");
         this->setNumber(numPos);
     }
     this->initializeBoarders();
@@ -34,8 +38,10 @@ catch (const invalid_argument& e){
     throw e;
 }
 
+Sudoku::Sudoku(const std::vector<NumPosition>& initialBoard): Sudoku(initialBoard, getSimpleConstraints()) {}
+
 string Sudoku::getBoardString(bool showAllowedNumbers) const {
-    string boardString = "";
+    string boardString;
     for (int row = 1 ; row <= 9 ; row++){
         boardString += this->getUpperHorizontalLine(showAllowedNumbers) + "\n";
         string rowString = this->verticalSeparator;
@@ -71,7 +77,7 @@ string Sudoku::getBoardString(bool showAllowedNumbers) const {
 }
 
 void Sudoku::fillWithAllowedNumbers() {
-    for (CellPtr cell: this->board){
+    for (const CellPtr& cell: this->board){
         for(int num = 1; num <= 9 ; num++){
             cell->setNumberNotAllowed(num);
         }
@@ -134,25 +140,8 @@ bool Sudoku::isNumAllowed(NumPosition numPosition){
     vector<int> columnCellsIndexes = this->getCellsFromColumn(cellPos);
     vector<int> rowCellsIndexes = this->getCellsFromRow(cellPos);
     vector<int> constrainedCellsIndexes = this->constraintsList[index];
-    for (int cellIndex : constrainedCellsIndexes){
-        CellPtr cell = this->board[cellIndex];
-        if(cell->getNumber() == num){
-            return false;
-        }
-    }
-    for (int cellIndex : rowCellsIndexes){
-        CellPtr cell = this->board[cellIndex];
-        if(cell->getNumber() == num){
-            return false;
-        }
-    }
-    for (int cellIndex : columnCellsIndexes){
-        CellPtr cell = this->board[cellIndex];
-        if(cell->getNumber() == num){
-            return false;
-        }
-    }
-    return true;
+    return this->uniqueInPositions(columnCellsIndexes, num) && this->uniqueInPositions(rowCellsIndexes, num) &&
+            this->uniqueInPositions(constrainedCellsIndexes, num);
 }
 
 void Sudoku::solve(){
@@ -160,11 +149,9 @@ void Sudoku::solve(){
 }
 
 bool Sudoku::isSolved() const {
-    for(CellPtr cell: this->board){
-        if(cell->isEmpty())
-            return false;
-    }
-    return true;
+    return all_of(this->board.begin(), this->board.end(), [](CellPtr cell){
+        return !cell->isEmpty();
+    });
 }
 
 int Sudoku::getFlattenedCoord(int row, int col) const {
@@ -336,7 +323,7 @@ std::string Sudoku::getHorizontalBar(bool isLong) const {
     return horizontalBar;
 }
 
-void Sudoku::initializeConstraintsList(std::vector<std::vector<CellPos>> constraints) {
+void Sudoku::initializeConstraintsList(std::vector<std::vector<CellPos>>& constraints) {
     for (int row = 1 ; row <= 9 ; row++){
         for (int col = 1; col <= 9 ; col++){
             int index = this->getFlattenedIndex(row, col);
@@ -420,4 +407,14 @@ void Sudoku::pruneNumber(NumPosition numPosition) {
     for (int index: constrainedCells){
         this->board[index]->setNumberNotAllowed(num);
     }
+}
+
+bool Sudoku::uniqueInPositions(const vector<int> &indexes, int num) const {
+    if(!all_of(indexes.begin(), indexes.end(), [this, num](int cellIndex){
+        CellPtr cell = this->board[cellIndex];
+        return cell->getNumber() != num;
+    })){
+        return false;
+    }
+    return true;
 }
