@@ -23,7 +23,7 @@ try{
     this->initializeConstraintsList(constraints);
     this->fillWithAllowedNumbers();
     for(auto& numPos: initialBoard){
-        if(!this->isNumPosValid(numPos)){
+        if(!isNumPosValid(numPos)){
             throw invalid_argument("NumPosition invalid");
         }
         if (!this->isNumberAllowed(numPos))
@@ -31,8 +31,8 @@ try{
         this->setNumber(numPos);
     }
     this->initializeBoarders();
-    this->longHorizontalBar = this->getHorizontalBar(true);
-    this->shortHorizontalBar = this->getHorizontalBar(false);
+    this->longHorizontalBar = getHorizontalBar(true);
+    this->shortHorizontalBar = getHorizontalBar(false);
 }
 catch (const invalid_argument& e){
     throw e;
@@ -154,7 +154,7 @@ bool Sudoku::isSolved() const {
     });
 }
 
-int Sudoku::getFlattenedCoord(int row, int col) const {
+int Sudoku::getFlattenedCoord(int row, int col) {
     return (row - 1) * 9 + col;
 }
 
@@ -192,7 +192,7 @@ std::string Sudoku::getLowerHorizontalLine(bool isLong) const {
     return lineString;
 }
 
-bool Sudoku::isNumPosValid(NumPosition num) const {
+bool Sudoku::isNumPosValid(NumPosition num) {
     return get<0>(num) >= 1 && get<0>(num) <= 9 &&
             get<1>(num) >= 1 && get<1>(num) <= 9 &&
             get<2>(num) >= 1 && get<2>(num) <= 9;
@@ -201,14 +201,13 @@ bool Sudoku::isNumPosValid(NumPosition num) const {
 std::vector<int> Sudoku::getCellIndexesFromConstraints(CellPos cellPos, vector<vector<CellPos>>& constraints) const{
     vector<int> constrainedCells;
     vector<vector<CellPos>> cellConstraints;
-    for(vector<CellPos> con: constraints){
-        for(CellPos pos: con){
-            if(pos == cellPos)
-                cellConstraints.push_back(con);
+    for(vector<CellPos>& con: constraints){
+        if (any_of(con.begin(), con.end(), [cellPos](CellPos pos){return pos==cellPos;})){
+            cellConstraints.push_back(con);
         }
     }
     for(const vector<CellPos>& constraint : cellConstraints){
-        for(CellPos cellPos: constraint){
+        for(const CellPos& cellPos: constraint){
             int row = get<0>(cellPos);
             int col = get<1>(cellPos);
             int index = this->getFlattenedIndex(row, col);
@@ -248,7 +247,7 @@ std::vector<int> Sudoku::getCellsFromRow(CellPos cellPos) const {
 
 int Sudoku::getCellValue(CellPos cellPos) const
 try{
-    if(!this->isCellPosValid(cellPos)){
+    if(!isCellPosValid(cellPos)){
         throw invalid_argument("CellPos invalid");
     }
     return this->board[this->getFlattenedIndex(get<0>(cellPos), get<1>(cellPos))]->getNumber();
@@ -297,8 +296,8 @@ catch(const invalid_argument& e){
 }
 void Sudoku::unsetCell(CellPos cellPos)
 try{
-    if(!this->isCellPosValid(cellPos)){
-        throw("CellPos invalid");
+    if(!isCellPosValid(cellPos)){
+        throw invalid_argument("CellPos invalid");
     }
     int row = get<0>(cellPos);
     int col = get<1>(cellPos);
@@ -310,12 +309,10 @@ catch (const invalid_argument& e){
     throw e;
 }
 
-Sudoku::~Sudoku() {
+Sudoku::~Sudoku() = default;
 
-}
-
-std::string Sudoku::getHorizontalBar(bool isLong) const {
-    string horizontalBar = "";
+std::string Sudoku::getHorizontalBar(bool isLong) {
+    string horizontalBar;
     int length = (isLong) ? 23 : 3;
     for (int i = 0 ; i < length ; i++){
         horizontalBar += "\u2500";
@@ -334,12 +331,12 @@ void Sudoku::initializeConstraintsList(std::vector<std::vector<CellPos>>& constr
     }
 }
 
-bool Sudoku::isCellPosValid(CellPos cellPos) const {
+bool Sudoku::isCellPosValid(CellPos cellPos) {
     return get<0>(cellPos) >= 1 && get<0>(cellPos) <= 9 &&
             get<1>(cellPos) >= 1 && get<1>(cellPos) <=9;
 }
 
-NumPosition Sudoku::buildNumPos(int flattenedCoord, int num) const {
+NumPosition Sudoku::buildNumPos(int flattenedCoord, int num) {
     return make_tuple(flattenedCoord / 9, flattenedCoord % 9, num);
 }
 

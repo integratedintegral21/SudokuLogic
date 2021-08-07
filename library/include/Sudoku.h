@@ -36,20 +36,20 @@ private:
     void initializeBoarders();
     // initializes constraintsList
     void initializeConstraintsList(std::vector<std::vector<CellPos>>& constraints);
-    int getFlattenedCoord(int row, int col) const;
+    static int getFlattenedCoord(int row, int col) ;
     int getFlattenedIndex(int row, int col) const;
     std::string getUpperHorizontalLine(bool isLong) const;
     std::string getLowerHorizontalLine(bool isLong) const;
-    bool isNumPosValid(NumPosition num) const;
-    bool isCellPosValid(CellPos) const;
+    static bool isNumPosValid(NumPosition num) ;
+    static bool isCellPosValid(CellPos) ;
     // returns constrained cells specified in constraints
     std::vector<int> getCellIndexesFromConstraints(CellPos cellPos, std::vector<std::vector<CellPos>>&) const;
     std::vector<int> getCellsFromColumn(CellPos cellPos) const;
     std::vector<int> getCellsFromRow(CellPos cellPos) const;
     // Checks if number is allowed before allowed numbers are set by fillWithAllowedNumbers
     bool isNumAllowed(NumPosition numPosition);
-    std::string getHorizontalBar(bool isLong) const;
-    NumPosition buildNumPos(int flattenedCoord, int num) const;
+    static std::string getHorizontalBar(bool isLong) ;
+    static NumPosition buildNumPos(int flattenedCoord, int num) ;
     void pruneNumber(NumPosition numPosition);
     void solveByPruning(int entryFlattenedCoord);
     bool isSolvedFrom(int entryFlattenedCoord);
