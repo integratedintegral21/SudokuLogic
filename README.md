@@ -50,7 +50,7 @@
   `mkdir Sudoku && cd Sudoku && git clone https://github.com/integratedintegral21/SudokuLogic.git` <br/>
   Build the library (Setup section)<br/>
   Copy and paste the *main.cpp* file<br/>
-  `cp SudokuLogic/program/src/main.cpp`<br/>
+  `cp SudokuLogic/program/src/main.cpp .`<br/>
   The file includes an example of initializing, displaying and solving a Sudoku puzzle. Now it is time to create CMakeLists.txt file<br/>
   `touch CMakeLists.txt`<br/>
   Open the file in the editor of your choice and paste the following code<br/>

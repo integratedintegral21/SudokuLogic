@@ -7,6 +7,6 @@ set(SOURCE_FILES src/main.cpp)
 add_executable(Program ${SOURCE_FILES})
 target_link_libraries(Program SudokuLogicLibrary)
 target_include_directories(Program PUBLIC include)
-target_include_directories(Program PUBLIC ../library/include)
+#target_include_directories(Program PUBLIC ../library/include)
 
 
