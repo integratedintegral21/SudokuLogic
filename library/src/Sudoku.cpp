@@ -435,4 +435,6 @@ Sudoku::Sudoku(const Sudoku &sudoku) {
         copy(verticalBorder.begin(), verticalBorder.end(), newBorder.begin());
         this->verticalBorders.push_back(newBorder);
     }
+    this->longHorizontalBar = sudoku.longHorizontalBar;
+    this->shortHorizontalBar = sudoku.shortHorizontalBar;
 }
