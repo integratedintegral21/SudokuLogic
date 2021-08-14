@@ -76,11 +76,11 @@ int main(){
             }
     };
     vector<vector<CellPos>> simpleConstraints = getSimpleConstraints();
-    Sudoku sudoku(simpleBoards[0]);
+    Sudoku sudoku(simpleBoards[1]);
     cout << sudoku.getBoardString() << endl;
     time_t start, end;
     time(&start);
-    sudoku.solve();
+    Sudoku solvedSudoku = solveSudoku(sudoku);
     time(&end);
     cout << sudoku.getBoardString() << endl;
     cout << "Solved in " << fixed << double(end - start) << setprecision(5) << " sec" << endl;

@@ -5,6 +5,10 @@
 #include <typedefs.h>
 #include <vector>
 #include <tuple>
+#include <utils.h>
+#include <Sudoku.h>
+#include <thread>
+
 
 using namespace std;
 
@@ -22,4 +26,38 @@ vector<vector<CellPos>> getSimpleConstraints(){
         }
     }
     return simpleConstraints;
+}
+
+void solverWrapper(SudokuPtr sudoku){
+    sudoku->solve();
+}
+
+Sudoku solveSudoku(Sudoku sudoku) {
+    if(sudoku.isSolved()){
+        return sudoku;
+    }
+    int maxAllowedNumbers = 0;
+    int maxAllowedNumbersCoord = 1;
+    for(int i = 1 ; i <= 81 ; i++){
+        vector<int> allowedNumbers = sudoku.getAllowedNumbers(i);
+        if(allowedNumbers.size() > maxAllowedNumbers){
+            maxAllowedNumbers = allowedNumbers.size();
+            maxAllowedNumbersCoord = i;
+        }
+    }
+    vector<SudokuPtr> threadedSudokus;
+    vector<int> allowedNumbers = sudoku.getAllowedNumbers(maxAllowedNumbersCoord);
+    for(int num: allowedNumbers){
+        SudokuPtr sudokuCopy = make_shared<Sudoku>(sudoku);
+        int row = (maxAllowedNumbersCoord - 1) / 9 + 1;
+        int col = (maxAllowedNumbersCoord - 1) % 9 + 1;
+        NumPosition numPosition = make_tuple(row, col, num);
+        sudokuCopy->setNumber(numPosition);
+        threadedSudokus.push_back(sudokuCopy);
+    }
+    vector<thread*> threads;
+    for(SudokuPtr thSudoku: threadedSudokus){
+        thread th(solverWrapper, thSudoku);
+        threads.push_back(&th);
+    }
 }
