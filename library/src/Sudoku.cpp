@@ -427,12 +427,18 @@ Sudoku::Sudoku(const Sudoku &sudoku) {
     }
     for(const vector<int>& constraint: sudoku.constraintsList){
         vector<int> newConstraint;
-        copy(constraint.begin(), constraint.end(), newConstraint.begin());
+        // copy(constraint.begin(), constraint.end(), newConstraint.begin());
+        for(int cellIndex: constraint){
+            newConstraint.push_back(cellIndex);
+        }
         this->constraintsList.push_back(newConstraint);
     }
-    for(const vector<string>& verticalBorder: this->verticalBorders){
+    for(const vector<string>& verticalBorder: sudoku.verticalBorders){
         vector<string> newBorder;
-        copy(verticalBorder.begin(), verticalBorder.end(), newBorder.begin());
+        // copy(verticalBorder.begin(), verticalBorder.end(), newBorder.begin());
+        for (string border: verticalBorder){
+            newBorder.push_back(border);
+        }
         this->verticalBorders.push_back(newBorder);
     }
     this->longHorizontalBar = sudoku.longHorizontalBar;

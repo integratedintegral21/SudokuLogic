@@ -254,6 +254,7 @@ BOOST_FIXTURE_TEST_SUITE(TestSuiteSudoku, TestSuiteSudokuFixture)
         for (int i = 0 ; i < simpleSudokus.size() ; i++) {
             auto board = simpleBoards[i];
             auto sudoku = simpleSudokus[i];
+            BOOST_TEST(!sudoku->isSolved());
             sudoku->solve();
             BOOST_TEST(sudoku->isSolved());
             for (int row = 1; row <= 9; row++) {
@@ -274,6 +275,34 @@ BOOST_FIXTURE_TEST_SUITE(TestSuiteSudoku, TestSuiteSudokuFixture)
                 }
             }
         }
+    }
+
+    BOOST_AUTO_TEST_CASE(CopyConstructorTest){
+        auto board = simpleBoards[0];
+        Sudoku originalSudoku (simpleBoards[0], simpleConstraints);
+        Sudoku sudokuCopy(originalSudoku);
+        BOOST_TEST(sudokuCopy.getBoardString() == originalSudoku.getBoardString());
+        BOOST_TEST(sudokuCopy.getBoardString(true) == originalSudoku.getBoardString(true));
+
+        for(int row = 1; row <= 9 ; row++){
+            for(int col = 1 ; col <= 9 ; col++){
+                CellPos cellPos = make_tuple(row, col);
+                for (int num = 1 ; num <= 9 ; num++){
+                    NumPosition numPosition = make_tuple(row, col, num);
+                    BOOST_TEST(sudokuCopy.isNumberAllowed(numPosition) == originalSudoku.isNumberAllowed(numPosition));
+                    if(sudokuCopy.isNumberAllowed(numPosition) && sudokuCopy.getCellValue(cellPos) == -1){
+                        sudokuCopy.setNumber(numPosition);
+                        BOOST_TEST(originalSudoku.getCellValue(cellPos) == -1);
+                        sudokuCopy.unsetCell(cellPos);
+                    }
+                }
+                BOOST_TEST(sudokuCopy.getCellValue(cellPos) == originalSudoku.getCellValue(cellPos));
+            }
+        }
+
+        BOOST_TEST(sudokuCopy.isSolved() == originalSudoku.isSolved());
+
+
     }
 
 BOOST_AUTO_TEST_SUITE_END()
