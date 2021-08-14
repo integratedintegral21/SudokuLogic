@@ -82,7 +82,7 @@ int main(){
     time(&start);
     Sudoku solvedSudoku = solveSudoku(sudoku);
     time(&end);
-    cout << sudoku.getBoardString() << endl;
+    cout << solvedSudoku.getBoardString() << endl;
     cout << "Solved in " << fixed << double(end - start) << setprecision(5) << " sec" << endl;
     return 0;
 }

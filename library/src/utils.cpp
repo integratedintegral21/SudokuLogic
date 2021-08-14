@@ -55,9 +55,16 @@ Sudoku solveSudoku(Sudoku sudoku) {
         sudokuCopy->setNumber(numPosition);
         threadedSudokus.push_back(sudokuCopy);
     }
-    vector<thread*> threads;
+    vector<thread> threads;
     for(SudokuPtr thSudoku: threadedSudokus){
-        thread th(solverWrapper, thSudoku);
-        threads.push_back(&th);
+        threads.emplace_back(thread(solverWrapper, thSudoku));
+    }
+    for(auto& th: threads){
+        th.join();
+    }
+    for(SudokuPtr thSudoku: threadedSudokus){
+        if(thSudoku->isSolved()){
+            return *thSudoku;
+        }
     }
 }
