@@ -299,10 +299,17 @@ BOOST_FIXTURE_TEST_SUITE(TestSuiteSudoku, TestSuiteSudokuFixture)
                 BOOST_TEST(sudokuCopy.getCellValue(cellPos) == originalSudoku.getCellValue(cellPos));
             }
         }
-
         BOOST_TEST(sudokuCopy.isSolved() == originalSudoku.isSolved());
+    }
 
-
+    BOOST_AUTO_TEST_CASE(MultithreadingSolveTest) {
+        for (int i = 0 ; i < simpleSudokus.size() ; i++) {
+            SudokuPtr sudoku = simpleSudokus[i];
+            BOOST_TEST(solveSudoku(*sudoku).isSolved());
+            // already solved
+            sudoku->solve();
+            BOOST_TEST(solveSudoku(*sudoku).isSolved());
+        }
     }
 
 BOOST_AUTO_TEST_SUITE_END()

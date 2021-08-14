@@ -7,7 +7,7 @@
 
 #include "vector"
 
-Sudoku solveSudoku(Sudoku sudoku);
+Sudoku solveSudoku(const Sudoku& sudoku);
 std::vector<std::vector<CellPos>> getSimpleConstraints();
 
 #endif //CINEMA_UTILS_H

@@ -32,7 +32,7 @@ void solverWrapper(SudokuPtr sudoku){
     sudoku->solve();
 }
 
-Sudoku solveSudoku(Sudoku sudoku) {
+Sudoku solveSudoku(const Sudoku& sudoku) {
     if(sudoku.isSolved()){
         return sudoku;
     }
@@ -67,4 +67,5 @@ Sudoku solveSudoku(Sudoku sudoku) {
             return *thSudoku;
         }
     }
+    return sudoku;
 }
