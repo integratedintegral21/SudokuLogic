@@ -116,7 +116,7 @@ struct TestSuiteSudokuFixture{
             make_tuple(-5, 10),
             make_tuple(7, 0),
     };
-    vector<vector<CellPos>> simpleConstraints = getSimpleConstraints();
+    vector<vector<CellPos>> simpleConstraints = Utils::getSimpleConstraints();
     vector<SudokuPtr> simpleSudokus;
     SudokuPtr emptySudoku;
     TestSuiteSudokuFixture(){
@@ -305,10 +305,10 @@ BOOST_FIXTURE_TEST_SUITE(TestSuiteSudoku, TestSuiteSudokuFixture)
     BOOST_AUTO_TEST_CASE(MultithreadingSolveTest) {
         for (int i = 0 ; i < simpleSudokus.size() ; i++) {
             SudokuPtr sudoku = simpleSudokus[i];
-            BOOST_TEST(solveSudoku(*sudoku).isSolved());
+            BOOST_TEST(Utils::solveSudoku(*sudoku).isSolved());
             // already solved
             sudoku->solve();
-            BOOST_TEST(solveSudoku(*sudoku).isSolved());
+            BOOST_TEST(Utils::solveSudoku(*sudoku).isSolved());
         }
     }
 

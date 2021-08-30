@@ -12,7 +12,7 @@
 
 using namespace std;
 
-vector<vector<CellPos>> getSimpleConstraints(){
+vector<vector<CellPos>> Utils::getSimpleConstraints(){
     vector<vector<CellPos>> simpleConstraints;
     for (int sqRow = 0 ; sqRow <= 2 ; sqRow++){
         for (int sqCol = 0 ; sqCol <= 2 ; sqCol++){
@@ -32,7 +32,7 @@ void solverWrapper(SudokuPtr sudoku){
     sudoku->solve();
 }
 
-Sudoku solveSudoku(const Sudoku& sudoku) {
+Sudoku Utils::solveSudoku(const Sudoku &sudoku) {
     if(sudoku.isSolved()){
         return sudoku;
     }

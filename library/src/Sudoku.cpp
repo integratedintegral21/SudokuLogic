@@ -38,7 +38,7 @@ catch (const invalid_argument& e){
     throw e;
 }
 
-Sudoku::Sudoku(const std::vector<NumPosition>& initialBoard): Sudoku(initialBoard, getSimpleConstraints()) {}
+Sudoku::Sudoku(const std::vector<NumPosition>& initialBoard): Sudoku(initialBoard, Utils::getSimpleConstraints()) {}
 
 string Sudoku::getBoardString(bool showAllowedNumbers) const {
     string boardString;
