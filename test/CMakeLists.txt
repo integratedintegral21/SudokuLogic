@@ -2,21 +2,18 @@ cmake_minimum_required(VERSION 3.4)
 project(SudokuLibraryTest)
 enable_testing()
 find_package (Boost 1.60.0 COMPONENTS "unit_test_framework" REQUIRED)
+find_library(SUDOKU_LIBRARY SudokuLogicLibrary HINTS ../library REQUIRED)
 include_directories(
         ${CMAKE_CURRENT_SOURCE_DIR}/include
         ${Boost_INCLUDE_DIRS}
 )
 set(SOURCE_TEST_FILES
-        ../library/src/Cell.cpp
-        ../library/include/Cell.h
         CellTest.cpp
-        ../library/include/typedefs.h
-        ../library/src/utils.cpp
-        ../library/include/utils.h
-        SudokuTest.cpp)
+        SudokuTest.cpp
+        )
 add_executable (LibraryTest ${SOURCE_TEST_FILES} master.cpp)
 target_link_libraries (LibraryTest
-        SudokuLogicLibrary
+        ${SUDOKU_LIBRARY}
         ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
         # uncomment this line in case of undefined reference
         #${Boost_LIBRARY_DIR_RELEASE}/libboost_regex.so
