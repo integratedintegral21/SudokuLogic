@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.4)
-project(SudokuLogicLibrary VERSION 0.0.1)
+project(SudokuLogicLibrary VERSION 0.2.0)
 
 set(SOURCE_FILES
         src/Sudoku.cpp
