@@ -11,12 +11,17 @@
 
 class CellGroup {
 private:
-    std::array<const CellPtr, 9> cells;
+    std::array<CellPtr, 9> cells;
     std::array<CellPos, 9> cellPositions;
+protected:
+    /**
+     * Checks if a number can be inserted based on other cells' number
+     * @return true if the number can be inserted
+     */
+    virtual bool isNumberAllowed(NumPosition) = 0;
 public:
-    CellGroup(std::array<const CellPtr , 9> cells, std::array<const CellPos, 9> cellPositions);
+    CellGroup(std::array<CellPtr , 9> cells, std::array<CellPos, 9> cellPositions);
     void updateAllowedNumbers();
-    virtual void isNumberAllowed(NumPosition) = 0;
 };
 
 
