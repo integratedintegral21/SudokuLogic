@@ -8,9 +8,8 @@
 using namespace std;
 
 
-CellGroup::CellGroup(std::array<CellPtr, 9> cells, std::array<CellPos, 9> cellPositions) {
+CellGroup::CellGroup(std::array<CellPtr, 9> cells) {
     std::copy(cells.begin(), cells.end(), this->cells);
-    std::copy(cellPositions.begin(), cellPositions.end(), this->cellPositions);
 }
 
 void CellGroup::updateAllowedNumbers() {
@@ -28,5 +27,11 @@ void CellGroup::updateAllowedNumbers() {
                 }
             }
         }
+    }
+}
+
+void CellGroup::setNumberNotAllowed(int number) {
+    for (const CellPtr& cellPtr: this->cells){
+        cellPtr->setNumberNotAllowed(number);
     }
 }
