@@ -10,7 +10,26 @@ include_directories(
 set(SOURCE_TEST_FILES
         CellTest.cpp
         SudokuTest.cpp
-        CellGroupTests.cpp)
+        CellGroupTests.cpp
+        # only for debugging
+        ../library/src/Sudoku.cpp
+        ../library/src/Cell.cpp
+        ../library/src/CellGroup.cpp
+        ../library/src/utils.cpp
+        ../library/src/CellUniqueGroup.cpp
+        ../library/include/Cell.h
+        ../library/include/CellGroup.h
+        ../library/include/typedefs.h
+        ../library/include/utils.h
+        ../library/include/CellUniqueGroup.h
+        ../library/src/Row.cpp
+        ../library/include/Row.h
+        ../library/src/Column.cpp
+        ../library/include/Column.h
+        ../library/src/SquareBox.cpp
+        ../library/include/SquareBox.h
+        )
+set(CMAKE_BUILD_TYPE Debug)
 add_executable (LibraryTest ${SOURCE_TEST_FILES} master.cpp)
 target_link_libraries (LibraryTest
         ${SUDOKU_LIBRARY}

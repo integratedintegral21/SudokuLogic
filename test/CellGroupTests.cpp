@@ -36,5 +36,13 @@ BOOST_FIXTURE_TEST_SUITE(TestSuiteCellGroup, TestSuiteCellGroupFixture)
         BOOST_REQUIRE(this->box != nullptr);
     }
 
+    BOOST_AUTO_TEST_CASE(AllowanceTest) {
+        for (int number = 1; number <= 9 ; number++){
+            int cellIndex = number - 1;
+            cells[cellIndex]->setNumber(number);
+            BOOST_TEST(!row->isNumberAllowed(number));
+        }
+    }
+
 
 BOOST_AUTO_TEST_SUITE_END()
