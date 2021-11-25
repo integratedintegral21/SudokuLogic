@@ -4,4 +4,4 @@
 
 #include "Column.h"
 
-CellVerifiers::Column::Column(std::vector<CellPtr> &cells): CellVerifiers::CellUniqueGroup(cells) {}
+CellVerifiers::Column::Column(const std::vector<CellPtr> &cells): CellVerifiers::CellUniqueGroup(cells) {}

@@ -10,7 +10,7 @@
 
 using namespace std;
 
-CellVerifiers::CellUniqueGroup::CellUniqueGroup(const std::vector<CellPtr> &cells) : CellGroup(cells) {}
+CellVerifiers::CellUniqueGroup::CellUniqueGroup(const std::vector<CellPtr> &cells): CellGroup(cells) {}
 
 bool CellVerifiers::CellUniqueGroup::isNumberAllowed(int number) {
     return !any_of(cells.begin(), cells.end(), [number](const CellPtr& cell){

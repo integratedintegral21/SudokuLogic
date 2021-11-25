@@ -11,8 +11,14 @@ set(SOURCE_FILES
         include/CellGroup.h
         include/typedefs.h
         include/utils.h
-        include/CellUniqueGroup.h src/Row.cpp include/Row.h src/Column.cpp include/Column.h include/SquareBox.cpp include/SquareBox.h)
-add_library(SudokuLogicLibrary ${SOURCE_FILES})
+        include/CellUniqueGroup.h
+        src/Row.cpp
+        include/Row.h
+        src/Column.cpp
+        include/Column.h
+        src/SquareBox.cpp
+        include/SquareBox.h)
+add_library(SudokuLogicLibrary SHARED ${SOURCE_FILES})
 
 set_target_properties(SudokuLogicLibrary PROPERTIES VERSION ${PROJECT_VERSION})
 

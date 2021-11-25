@@ -10,7 +10,7 @@
 namespace CellVerifiers{
     class Column: public CellVerifiers::CellUniqueGroup{
     public:
-        explicit Column(std::vector<CellPtr> &cells);
+        explicit Column(const std::vector<CellPtr> &cells);
     };
 }
 
