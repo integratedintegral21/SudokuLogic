@@ -10,7 +10,7 @@ include_directories(
 set(SOURCE_TEST_FILES
         CellTest.cpp
         SudokuTest.cpp
-        )
+        CellGroupTests.cpp)
 add_executable (LibraryTest ${SOURCE_TEST_FILES} master.cpp)
 target_link_libraries (LibraryTest
         ${SUDOKU_LIBRARY}

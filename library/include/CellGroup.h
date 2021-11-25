@@ -28,7 +28,10 @@ namespace CellVerifiers{
          */
         virtual bool isNumberAllowed(int number) = 0;
     };
-
+    class CellUniqueGroup;
+    class Row;
+    class Column;
+    class SquareBox;
 }
 
 
