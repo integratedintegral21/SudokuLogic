@@ -6,11 +6,12 @@ set(SOURCE_FILES
         src/Cell.cpp
         src/CellGroup.cpp
         src/utils.cpp
+        src/CellUniqueGroup.cpp
         include/Cell.h
         include/CellGroup.h
         include/typedefs.h
         include/utils.h
-        )
+        include/CellUniqueGroup.h)
 add_library(SudokuLogicLibrary ${SOURCE_FILES})
 
 set_target_properties(SudokuLogicLibrary PROPERTIES VERSION ${PROJECT_VERSION})

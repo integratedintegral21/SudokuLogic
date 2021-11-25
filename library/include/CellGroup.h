@@ -8,31 +8,28 @@
 #include <vector>
 #include "typedefs.h"
 
+/**
+ * Contains classes representing group of cells (rows, columns etc.)
+ */
+namespace CellVerifiers{
+    /**
+     * An abstract class representing a group of cells.
+     * Any class inheriting from CellGroup must implement isNumberAllowedMethod
+     */
+    class CellGroup {
+    protected:
+        // Pointers to cells
+        std::vector<CellPtr> cells;
+    public:
+        explicit CellGroup(const std::vector<CellPtr>& cells);
+        /**
+         * Checks if a number can be inserted based on other cells' numbers
+         * @return true if the number can be inserted
+         */
+        virtual bool isNumberAllowed(int number) = 0;
+    };
 
-class CellGroup {
-private:
-    // Pointers to cells
-    std::array<CellPtr, 9> cells;
-    // Cell's coordinates
-    std::array<CellPos, 9> cellPositions;
-protected:
-    /**
-     * Checks if a number can be inserted based on other cells' number
-     * @return true if the number can be inserted
-     */
-    virtual bool isNumberAllowed(NumPosition) = 0;
-public:
-    explicit CellGroup(std::array<CellPtr , 9> cells);
-    /**
-     * Sets allowed numbers in each cell from scratch. Use setNumberNotAllowed if possible
-     */
-    void updateAllowedNumbers();
-    /**
-     * Sets given number as not allowed in a CellGroup. Use after inserting a number
-     * @param number the number to be not allowed in a CellGroup
-     */
-    void setNumberNotAllowed(int number);
-};
+}
 
 
 #endif //SUDOKULIBRARYTEST_CELLGROUP_H
