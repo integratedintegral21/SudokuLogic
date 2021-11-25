@@ -39,8 +39,29 @@ BOOST_FIXTURE_TEST_SUITE(TestSuiteCellGroup, TestSuiteCellGroupFixture)
     BOOST_AUTO_TEST_CASE(AllowanceTest) {
         for (int number = 1; number <= 9 ; number++){
             int cellIndex = number - 1;
+            // is the number allowed by default
+            BOOST_TEST(row->isNumberAllowed(number));
+            BOOST_TEST(col->isNumberAllowed(number));
+            BOOST_TEST(box->isNumberAllowed(number));
             cells[cellIndex]->setNumber(number);
+            // is the number no longer allowed
             BOOST_TEST(!row->isNumberAllowed(number));
+            BOOST_TEST(!col->isNumberAllowed(number));
+            BOOST_TEST(!box->isNumberAllowed(number));
+            for (int allowedNumber = number + 1; allowedNumber <= 9 ; allowedNumber++){
+                // are other number not allowed
+                BOOST_TEST(row->isNumberAllowed(allowedNumber));
+                BOOST_TEST(col->isNumberAllowed(allowedNumber));
+                BOOST_TEST(box->isNumberAllowed(allowedNumber));
+            }
+        }
+        // remove a number from each cell and check if it becomes allowed
+        for (int number = 1; number <= 9 ; number++){
+            int cellIndex = number - 1;
+            cells[cellIndex]->unset();
+            BOOST_TEST(row->isNumberAllowed(number));
+            BOOST_TEST(col->isNumberAllowed(number));
+            BOOST_TEST(box->isNumberAllowed(number));
         }
     }
 
