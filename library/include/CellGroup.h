@@ -32,6 +32,7 @@ namespace CellVerifiers{
     class Row;
     class Column;
     class SquareBox;
+    class CustomConstraintCellGroup;
 }
 
 

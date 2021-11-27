@@ -20,7 +20,9 @@ set(SOURCE_FILES
         src/Column.cpp
         include/Column.h
         src/SquareBox.cpp
-        include/SquareBox.h)
+        include/SquareBox.h
+        src/CustomConstraintCellGroup.cpp
+        include/CustomConstraintCellGroup.h)
 add_library(SudokuLogicLibrary SHARED ${SOURCE_FILES})
 target_link_libraries(SudokuLogicLibrary PUBLIC Threads::Threads)
 

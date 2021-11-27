@@ -8,6 +8,8 @@
 #include <utils.h>
 #include <Sudoku.h>
 #include <thread>
+#include <numeric>
+#include "Cell.h"
 
 
 using namespace std;
@@ -68,4 +70,32 @@ Sudoku Utils::solveSudoku(const Sudoku &sudoku) {
         }
     }
     return sudoku;
+}
+
+function<bool(const vector<CellPtr>&, int)> Utils::getSumConstraints(int expectedSum) {
+    return [expectedSum](const vector<CellPtr> &cells, int candidateNum) {
+        // is the candidateNumber the last to add
+        bool finalNum = true;
+        int emptyCount = 0;
+        // checking if there is exactly one free slot
+        for (const CellPtr &cell: cells) {
+            if (cell->isEmpty()) {
+                emptyCount++;
+            }
+            // more than one empty cell, the candidate number is not final
+            if (emptyCount >= 2) {
+                finalNum = false;
+            }
+        }
+        int sum = accumulate(cells.begin(), cells.end(), 0, [](CellPtr a, CellPtr b) {
+            // count a cell only if it is not empty
+            return !a->isEmpty() * a->getNumber() + !b->isEmpty() * b->getNumber();
+        });
+        if (finalNum) {
+            // the sum of all cells and the candidate number must add up to the desired value
+            return sum + candidateNum == expectedSum;
+        }
+        // otherwise, check if there is 'space' for next candidate numbers
+        return sum + candidateNum < expectedSum;
+    };
 }

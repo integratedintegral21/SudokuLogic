@@ -2,6 +2,7 @@
 // Created by wojciech on 25.11.2021.
 //
 
+#include <numeric>
 #include "boost/test/unit_test.hpp"
 #include "typedefs.h"
 #include "CellGroup.h"
@@ -10,6 +11,8 @@
 #include "Column.h"
 #include "SquareBox.h"
 #include "Cell.h"
+#include "functional"
+#include "utils.h"
 
 using namespace std;
 using namespace CellVerifiers;
@@ -18,7 +21,12 @@ struct TestSuiteCellGroupFixture{
     shared_ptr<CellGroup> row;
     shared_ptr<CellGroup> col;
     shared_ptr<CellGroup> box;
+    // all number must sum up to a certain number
+    shared_ptr<CellGroup> sumGroup;
     vector<CellPtr> cells;
+    // 1 + 2 + ... + 9 = 36
+    const int expectedSum = 40;
+    const function<bool(const vector<CellPtr>&, int)> sumConstraint = Utils::getSumConstraints(expectedSum);
     TestSuiteCellGroupFixture(){
         for (int i = 0 ; i < 9 ; i++)
             cells.push_back(make_shared<Cell>());
