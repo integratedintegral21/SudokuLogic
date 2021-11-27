@@ -87,10 +87,13 @@ function<bool(const vector<CellPtr>&, int)> Utils::getSumConstraints(int expecte
                 finalNum = false;
             }
         }
-        int sum = accumulate(cells.begin(), cells.end(), 0, [](CellPtr a, CellPtr b) {
+        int sum = 0;
+        auto init = cells.begin();
+        auto end = cells.end();
+        for(auto current = init; current < end; current++){
             // count a cell only if it is not empty
-            return !a->isEmpty() * a->getNumber() + !b->isEmpty() * b->getNumber();
-        });
+            sum += (*current)->getNumber() * !(*current)->isEmpty();
+        }
         if (finalNum) {
             // the sum of all cells and the candidate number must add up to the desired value
             return sum + candidateNum == expectedSum;

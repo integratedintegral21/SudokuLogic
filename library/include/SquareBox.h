@@ -7,11 +7,10 @@
 
 #include "CellUniqueGroup.h"
 
-namespace CellVerifiers{
-    class SquareBox: public CellUniqueGroup{
-    public:
-        explicit SquareBox(const std::vector<CellPtr> &cells);
-    };
-}
+class CellVerifiers::SquareBox: public CellUniqueGroup{
+public:
+    explicit SquareBox(const std::vector<CellPtr> &cells);
+};
+
 
 #endif //SUDOKULOGICLIBRARY_SQUAREBOX_H

@@ -9,13 +9,9 @@
 #include "typedefs.h"
 #include "CellUniqueGroup.h"
 
-namespace CellVerifiers{
-    class Row: public CellVerifiers::CellUniqueGroup {
-    public:
-        explicit Row(const std::vector<CellPtr>& cells);
-    };
-}
-
-
+class CellVerifiers::Row: public CellVerifiers::CellUniqueGroup {
+public:
+    explicit Row(const std::vector<CellPtr>& cells);
+};
 
 #endif //SUDOKULOGICLIBRARY_ROW_H

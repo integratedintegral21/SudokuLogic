@@ -7,11 +7,9 @@
 
 #include "CellUniqueGroup.h"
 
-namespace CellVerifiers{
-    class Column: public CellVerifiers::CellUniqueGroup{
-    public:
-        explicit Column(const std::vector<CellPtr> &cells);
-    };
-}
+class CellVerifiers::Column: public CellVerifiers::CellUniqueGroup{
+public:
+    explicit Column(const std::vector<CellPtr> &cells);
+};
 
 #endif //SUDOKULOGICLIBRARY_COLUMN_H

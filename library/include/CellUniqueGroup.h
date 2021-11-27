@@ -7,20 +7,19 @@
 
 #include "CellGroup.h"
 
-namespace CellVerifiers{
-    class CellUniqueGroup: public CellGroup{
-    public:
-        /**
-         * @param cells a vector of shared pointers to Cell objects
-         */
-        explicit CellUniqueGroup(const std::vector<CellPtr> &cells);
-        /**
-         * @param number A tested number
-         * @return false if the number is already in a group object. True otherwise
-         */
-        bool isNumberAllowed(int number) override;
-    };
-}
+class CellVerifiers::CellUniqueGroup: public CellGroup{
+public:
+    /**
+     * @param cells a vector of shared pointers to Cell objects
+     */
+    explicit CellUniqueGroup(const std::vector<CellPtr> &cells);
+    /**
+     * @param number A tested number
+     * @return false if the number is already in a group object. True otherwise
+     */
+    bool isNumberAllowed(int number) override;
+};
+
 
 
 #endif //SUDOKULOGICLIBRARY_CELLUNIQUEGROUP_H
