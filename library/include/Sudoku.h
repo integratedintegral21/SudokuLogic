@@ -35,7 +35,7 @@ private:
     void fillWithAllowedNumbers(CellPos & cellPos);
     void initializeBorders();
     // initializes constraintsList
-    void initializeConstraintsList(std::vector<std::vector<CellPos>>& constraints);
+    void initializeConstraintsList(const std::vector<std::vector<CellPos>>& constraints);
     static int getFlattenedCoord(int row, int col) ;
     int getFlattenedIndex(int row, int col) const;
     std::string getUpperHorizontalLine(bool isLong) const;
@@ -43,7 +43,7 @@ private:
     static bool isNumPosValid(NumPosition num) ;
     static bool isCellPosValid(CellPos) ;
     // returns constrained cells specified in constraints
-    std::vector<int> getCellIndexesFromConstraints(CellPos cellPos, std::vector<std::vector<CellPos>>&) const;
+    std::vector<int> getCellIndexesFromConstraints(CellPos cellPos, const std::vector<std::vector<CellPos>>&) const;
     std::vector<int> getCellsFromColumn(CellPos cellPos) const;
     std::vector<int> getCellsFromRow(CellPos cellPos) const;
     // Checks if number is allowed before allowed numbers are set by fillWithAllowedNumbers
@@ -59,12 +59,12 @@ public:
      * @brief calls 2-arguments constructor with simple constraints (classic sudoku puzzle)
      * @param initialBoard vector of NumPositions containing initial state of the board. Throws invalid_argument
      */
-    Sudoku(const std::vector<NumPosition>& initialBoard);
+    explicit Sudoku(const std::vector<NumPosition>& initialBoard);
     /**
      * @param initialBoard vector of NumPositions containing initial state of the board. Throws invalid_argument
      * @param constraints vector of vectors containing coordinates of cells where numbers cannot repeat
      */
-    Sudoku(const std::vector<NumPosition>& initialBoard, std::vector<std::vector<CellPos>> constraints);
+    Sudoku(const std::vector<NumPosition>& initialBoard, const std::vector<std::vector<CellPos>>& constraints);
     Sudoku(const Sudoku& sudoku);
     /**
      * @param showAllowedNumbers the function includes allowed numbers in the string if true

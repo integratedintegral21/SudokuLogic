@@ -11,7 +11,7 @@
 
 using namespace std;
 
-Sudoku::Sudoku(const vector<NumPosition>& initialBoard, vector<vector<CellPos>> constraints)
+Sudoku::Sudoku(const vector<NumPosition>& initialBoard, const vector<vector<CellPos>>& constraints)
 try{
     if(initialBoard.size() > 81){
         throw invalid_argument("Too many initial positions given");
@@ -198,10 +198,10 @@ bool Sudoku::isNumPosValid(NumPosition num) {
             get<2>(num) >= 1 && get<2>(num) <= 9;
 }
 
-std::vector<int> Sudoku::getCellIndexesFromConstraints(CellPos cellPos, vector<vector<CellPos>>& constraints) const{
+std::vector<int> Sudoku::getCellIndexesFromConstraints(CellPos cellPos, const vector<vector<CellPos>>& constraints) const{
     vector<int> constrainedCells;
     vector<vector<CellPos>> cellConstraints;
-    for(vector<CellPos>& con: constraints){
+    for(vector<tuple<int, int>> con: constraints){
         if (any_of(con.begin(), con.end(), [cellPos](CellPos pos){return pos==cellPos;})){
             cellConstraints.push_back(con);
         }
@@ -320,7 +320,7 @@ std::string Sudoku::getHorizontalBar(bool isLong) {
     return horizontalBar;
 }
 
-void Sudoku::initializeConstraintsList(std::vector<std::vector<CellPos>>& constraints) {
+void Sudoku::initializeConstraintsList(const std::vector<std::vector<CellPos>>& constraints) {
     for (int row = 1 ; row <= 9 ; row++){
         for (int col = 1; col <= 9 ; col++){
             int index = this->getFlattenedIndex(row, col);
