@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.4)
 project(SudokuLibraryTest)
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 enable_testing()
 find_package (Boost 1.60.0 COMPONENTS "unit_test_framework" REQUIRED)
 find_library(SUDOKU_LIBRARY SudokuLogicLibrary HINTS ../library REQUIRED)
