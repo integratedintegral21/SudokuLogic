@@ -9,6 +9,10 @@
 #include <string>
 #include <map>
 #include "typedefs.h"
+#include "CellUniqueGroup.h"
+#include "Row.h"
+#include "Column.h"
+#include "SquareBox.h"
 
 
 class Sudoku {
@@ -29,6 +33,10 @@ private:
     std::string shortHorizontalBar;
     const std::string upperJunction = "┬";
     const std::string lowerJunction = "┴";
+
+    std::vector<CellVerifiers::CellUniqueGroup> rows;
+    std::vector<CellVerifiers::CellUniqueGroup> cols;
+    std::vector<CellVerifiers::CellUniqueGroup> boxes;
 
     // clears allowed numbers and fills cells with allowed number based on non-empty filled cells
     void fillWithAllowedNumbers();
