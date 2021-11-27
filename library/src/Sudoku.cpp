@@ -30,7 +30,7 @@ try{
             throw invalid_argument("Board invalid");
         this->setNumber(numPos);
     }
-    this->initializeBoarders();
+    this->initializeBorders();
     this->longHorizontalBar = getHorizontalBar(true);
     this->shortHorizontalBar = getHorizontalBar(false);
 }
@@ -38,7 +38,7 @@ catch (const invalid_argument& e){
     throw e;
 }
 
-Sudoku::Sudoku(const std::vector<NumPosition>& initialBoard): Sudoku(initialBoard, getSimpleConstraints()) {}
+Sudoku::Sudoku(const std::vector<NumPosition>& initialBoard): Sudoku(initialBoard, Utils::getSimpleConstraints()) {}
 
 string Sudoku::getBoardString(bool showAllowedNumbers) const {
     string boardString;
@@ -67,7 +67,7 @@ string Sudoku::getBoardString(bool showAllowedNumbers) const {
                 }
             }
             if(col != 9){
-                rowString += this->verticalBoarders[row - 1][col - 1];
+                rowString += this->verticalBorders[row - 1][col - 1];
             }
         }
         rowString += this->verticalSeparator + "\n";
@@ -162,13 +162,13 @@ int Sudoku::getFlattenedIndex(int row, int col) const {
     return this->getFlattenedCoord(row, col) - 1;
 }
 
-void Sudoku::initializeBoarders() {
+void Sudoku::initializeBorders() {
     for(int i = 0 ; i < 9 ; i++){
-        vector<string> rowVerticalBoarders;
+        vector<string> verticalBorders;
         for(int j = 0 ; j < 8 ; j++){
-            rowVerticalBoarders.push_back(this->verticalSeparator);
+            verticalBorders.push_back(this->verticalSeparator);
         }
-        this->verticalBoarders.push_back(rowVerticalBoarders);
+        this->verticalBorders.push_back(verticalBorders);
     }
 }
 
@@ -371,13 +371,7 @@ void Sudoku::solveByPruning(int entryFlattenedCoord) {
 }
 
 vector<int> Sudoku::getAllowedNumbers(int flattenedCoord) const {
-    vector<int> allowedNumbers;
-    for(int num = 1 ; num <= 9 ; num++){
-        if(this->board[flattenedCoord - 1]->isNumberAllowed(num)){
-            allowedNumbers.push_back(num);
-        }
-    }
-    return allowedNumbers;
+    return this->board[flattenedCoord - 1]->getAllowedNumbers();
 }
 
 bool Sudoku::isSolvedFrom(int entryFlattenedCoord) {
@@ -414,4 +408,39 @@ bool Sudoku::uniqueInPositions(const vector<int> &indexes, int num) const {
         return false;
     }
     return true;
+}
+
+Sudoku::Sudoku(const Sudoku &sudoku) {
+    for(CellPtr cell: sudoku.board){
+        CellPtr newCell;
+        if(cell->isEmpty()){
+            newCell = make_shared<Cell>();
+        }
+        else{
+            newCell = make_shared<Cell>(cell->getNumber());
+        }
+        vector<int> allowedNumbers = cell->getAllowedNumbers();
+        for(int num: allowedNumbers){
+            newCell->setNumberAllowed(num);
+        }
+        this->board.push_back(newCell);
+    }
+    for(const vector<int>& constraint: sudoku.constraintsList){
+        vector<int> newConstraint;
+        // copy(constraint.begin(), constraint.end(), newConstraint.begin());
+        for(int cellIndex: constraint){
+            newConstraint.push_back(cellIndex);
+        }
+        this->constraintsList.push_back(newConstraint);
+    }
+    for(const vector<string>& verticalBorder: sudoku.verticalBorders){
+        vector<string> newBorder;
+        // copy(verticalBorder.begin(), verticalBorder.end(), newBorder.begin());
+        for (string border: verticalBorder){
+            newBorder.push_back(border);
+        }
+        this->verticalBorders.push_back(newBorder);
+    }
+    this->longHorizontalBar = sudoku.longHorizontalBar;
+    this->shortHorizontalBar = sudoku.shortHorizontalBar;
 }

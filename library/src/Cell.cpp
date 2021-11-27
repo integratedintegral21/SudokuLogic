@@ -95,3 +95,13 @@ void Cell::unset() {
     this->number = -1;
 }
 
+std::vector<int> Cell::getAllowedNumbers() const {
+    vector<int> allowedNumbers;
+    for(int num = 1 ; num <= 9; num++){
+        if(this->isNumberAllowed(num)){
+            allowedNumbers.push_back(num);
+        }
+    }
+    return allowedNumbers;
+}
+

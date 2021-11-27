@@ -75,14 +75,14 @@ int main(){
                     make_tuple(9,3,6),
             }
     };
-    vector<vector<CellPos>> simpleConstraints = getSimpleConstraints();
+    vector<vector<CellPos>> simpleConstraints = Utils::getSimpleConstraints();
     Sudoku sudoku(simpleBoards[0]);
     cout << sudoku.getBoardString() << endl;
     time_t start, end;
     time(&start);
-    sudoku.solve();
+    Sudoku solvedSudoku = Utils::solveSudoku(sudoku);
     time(&end);
-    cout << sudoku.getBoardString() << endl;
+    cout << solvedSudoku.getBoardString() << endl;
     cout << "Solved in " << fixed << double(end - start) << setprecision(5) << " sec" << endl;
     return 0;
 }

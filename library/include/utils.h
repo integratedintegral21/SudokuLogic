@@ -7,6 +7,9 @@
 
 #include "vector"
 
-std::vector<std::vector<CellPos>> getSimpleConstraints();
+namespace Utils{
+    Sudoku solveSudoku(const Sudoku& sudoku);
+    std::vector<std::vector<CellPos>> getSimpleConstraints();
+}
 
 #endif //CINEMA_UTILS_H

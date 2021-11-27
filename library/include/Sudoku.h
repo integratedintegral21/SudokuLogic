@@ -18,7 +18,7 @@ private:
     // assigns constrained cells to every Cell
     std::vector<std::vector<int>> constraintsList;
     // list containing cell separators
-    std::vector<std::vector<std::string>> verticalBoarders;
+    std::vector<std::vector<std::string>> verticalBorders;
 
     const std::string verticalSeparator = "│";
     const std::string leftUpperCorner = "┌";
@@ -33,7 +33,7 @@ private:
     // clears allowed numbers and fills cells with allowed number based on non-empty filled cells
     void fillWithAllowedNumbers();
     void fillWithAllowedNumbers(CellPos & cellPos);
-    void initializeBoarders();
+    void initializeBorders();
     // initializes constraintsList
     void initializeConstraintsList(std::vector<std::vector<CellPos>>& constraints);
     static int getFlattenedCoord(int row, int col) ;
@@ -65,6 +65,7 @@ public:
      * @param constraints vector of vectors containing coordinates of cells where numbers cannot repeat
      */
     Sudoku(const std::vector<NumPosition>& initialBoard, std::vector<std::vector<CellPos>> constraints);
+    Sudoku(const Sudoku& sudoku);
     /**
      * @param showAllowedNumbers the function includes allowed numbers in the string if true
      * @return a string presenting the board after printing in console

@@ -5,6 +5,8 @@
 #ifndef CINEMA_CELL_H
 #define CINEMA_CELL_H
 
+#include <vector>
+
 /**
  * @brief Represents single sudoku cell
  */
@@ -62,6 +64,7 @@ public:
      * @param number
      */
     void setNumberNotAllowed(int number);
+    std::vector<int> getAllowedNumbers() const;
 
     virtual ~Cell();
 };
