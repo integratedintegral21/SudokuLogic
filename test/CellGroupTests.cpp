@@ -10,6 +10,7 @@
 #include "Row.h"
 #include "Column.h"
 #include "SquareBox.h"
+#include "CustomConstraintCellGroup.h"
 #include "Cell.h"
 #include "functional"
 #include "utils.h"
@@ -33,6 +34,7 @@ struct TestSuiteCellGroupFixture{
         row = make_shared<Row>(cells);
         col = make_shared<Column>(cells);
         box = make_shared<SquareBox>(cells);
+        sumGroup = make_shared<CustomConstraintCellGroup>(cells, sumConstraint);
     }
 };
 
@@ -42,6 +44,11 @@ BOOST_FIXTURE_TEST_SUITE(TestSuiteCellGroup, TestSuiteCellGroupFixture)
         BOOST_REQUIRE(this->row != nullptr);
         BOOST_REQUIRE(this->col != nullptr);
         BOOST_REQUIRE(this->box != nullptr);
+        BOOST_REQUIRE(this->sumGroup != nullptr);
+    }
+
+    BOOST_AUTO_TEST_CASE(SumConstraintTest) {
+
     }
 
     BOOST_AUTO_TEST_CASE(AllowanceTest) {

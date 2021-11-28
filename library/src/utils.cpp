@@ -8,7 +8,6 @@
 #include <utils.h>
 #include <Sudoku.h>
 #include <thread>
-#include <numeric>
 #include "Cell.h"
 
 
@@ -38,6 +37,7 @@ Sudoku Utils::solveSudoku(const Sudoku &sudoku) {
     if(sudoku.isSolved()){
         return sudoku;
     }
+    // looks for the cell with the largest number of allowed numbers
     int maxAllowedNumbers = 0;
     int maxAllowedNumbersCoord = 1;
     for(int i = 1 ; i <= 81 ; i++){
@@ -59,7 +59,7 @@ Sudoku Utils::solveSudoku(const Sudoku &sudoku) {
     }
     vector<thread> threads;
     for(SudokuPtr thSudoku: threadedSudokus){
-        threads.emplace_back(thread(solverWrapper, thSudoku));
+        threads.emplace_back(thread([](SudokuPtr sudoku){sudoku->solve();}, thSudoku));
     }
     for(auto& th: threads){
         th.join();
@@ -78,8 +78,10 @@ function<bool(const vector<CellPtr>&, int)> Utils::getSumConstraints(int expecte
         bool finalNum = true;
         int emptyCount = 0;
         // checking if there is exactly one free slot
-        for (const CellPtr &cell: cells) {
-            if (cell->isEmpty()) {
+        auto init = cells.begin();
+        auto end = cells.end();
+        for(auto current = init; current < end; current++){
+            if ((*current)->isEmpty()) {
                 emptyCount++;
             }
             // more than one empty cell, the candidate number is not final
@@ -88,8 +90,6 @@ function<bool(const vector<CellPtr>&, int)> Utils::getSumConstraints(int expecte
             }
         }
         int sum = 0;
-        auto init = cells.begin();
-        auto end = cells.end();
         for(auto current = init; current < end; current++){
             // count a cell only if it is not empty
             sum += (*current)->getNumber() * !(*current)->isEmpty();
