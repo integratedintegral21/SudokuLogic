@@ -13,7 +13,7 @@ using namespace std;
 
 CellVerifiers::CellUniqueGroup::CellUniqueGroup(const std::vector<CellPtr> &cells): CellGroup(cells) {}
 
-bool CellVerifiers::CellUniqueGroup::isNumberAllowed(int number) {
+bool CellVerifiers::CellUniqueGroup::isNumberAllowed(int number) const{
     return !any_of(cells.begin(), cells.end(), [number](const CellPtr& cell){
         return cell->getNumber() == number;
     });

@@ -17,7 +17,7 @@ public:
      * @param number A tested number
      * @return false if the number is already in a group object. True otherwise
      */
-    bool isNumberAllowed(int number) override;
+    bool isNumberAllowed(int number) const override;
 };
 
 

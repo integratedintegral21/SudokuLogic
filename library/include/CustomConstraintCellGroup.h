@@ -20,7 +20,7 @@ public:
      */
     CustomConstraintCellGroup(const std::vector<CellPtr> &cells,
                               std::function<bool(const std::vector<CellPtr>&, int)> constraint);
-    bool isNumberAllowed(int number) override;
+    bool isNumberAllowed(int number) const override;
 };
 
 

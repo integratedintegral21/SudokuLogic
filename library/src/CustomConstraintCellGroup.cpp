@@ -10,7 +10,7 @@ CellVerifiers::CustomConstraintCellGroup::CustomConstraintCellGroup(
         std::function<bool(const std::vector<CellPtr>&, int)>  constraint): CellVerifiers::CellGroup(cells),
         constraint(std::move(constraint)){}
 
-bool CellVerifiers::CustomConstraintCellGroup::isNumberAllowed(int number) {
+bool CellVerifiers::CustomConstraintCellGroup::isNumberAllowed(int number) const{
     return this->constraint(this->cells, number);
 }
 
