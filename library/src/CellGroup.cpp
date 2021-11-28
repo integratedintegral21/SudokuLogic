@@ -14,3 +14,7 @@ CellVerifiers::CellGroup::CellGroup(const vector<CellPtr> &cells) {
     }
 }
 
+std::vector<CellPtr> CellVerifiers::CellGroup::getCells() const {
+    return std::vector<CellPtr>(this->cells);
+}
+
