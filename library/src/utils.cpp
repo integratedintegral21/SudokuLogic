@@ -89,6 +89,10 @@ function<bool(const vector<CellPtr>&, int)> Utils::getSumConstraints(int expecte
                 finalNum = false;
             }
         }
+        // no more slots available, return false
+        if(emptyCount == 0){
+            return false;
+        }
         int sum = 0;
         for(auto current = init; current < end; current++){
             // count a cell only if it is not empty

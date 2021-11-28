@@ -29,6 +29,8 @@ set(SOURCE_TEST_FILES
         ../library/include/Column.h
         ../library/src/SquareBox.cpp
         ../library/include/SquareBox.h
+        ../library/include/CustomConstraintCellGroup.h
+        ../library/src/CustomConstraintCellGroup.cpp
         )
 set(CMAKE_BUILD_TYPE Debug)
 add_executable (LibraryTest ${SOURCE_TEST_FILES} master.cpp)
