@@ -47,6 +47,19 @@ BOOST_FIXTURE_TEST_SUITE(TestSuiteCellGroup, TestSuiteCellGroupFixture)
         BOOST_REQUIRE(this->sumGroup != nullptr);
     }
 
+    BOOST_AUTO_TEST_CASE(GetterTest) {
+        vector<CellPtr> getRowResult = row->getCells();
+        vector<CellPtr> getColResult = col->getCells();
+        vector<CellPtr> getBoxResult = box->getCells();
+        vector<CellPtr> getSumResult = sumGroup->getCells();
+        for (int i = 0 ; i < cells.size(); i++){
+            BOOST_TEST(cells[i] == getRowResult[i]);
+            BOOST_TEST(cells[i] == getColResult[i]);
+            BOOST_TEST(cells[i] == getBoxResult[i]);
+            BOOST_TEST(cells[i] == getSumResult[i]);
+        }
+    }
+
     BOOST_AUTO_TEST_CASE(SumConstraintTest) {
         // Single cell case
         vector<CellPtr> cells1= {
