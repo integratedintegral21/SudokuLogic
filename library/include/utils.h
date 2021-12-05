@@ -7,10 +7,11 @@
 
 #include "vector"
 #include "functional"
+#include "CellGroup.h"
 
 namespace Utils{
     Sudoku solveSudoku(const Sudoku& sudoku);
-    std::vector<std::vector<CellPos>> getSimpleConstraints();
+    std::vector<CellVerifiers::CellGroup::SharedPtr> getSimpleGroup(const std::vector<CellPtr>& cells);
     std::function<bool(const std::vector<CellPtr>&, int)> getSumConstraints(int expectedSum);
 }
 

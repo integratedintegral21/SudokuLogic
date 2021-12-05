@@ -13,24 +13,48 @@
 
 using namespace std;
 
-vector<vector<CellPos>> Utils::getSimpleConstraints(){
-    vector<vector<CellPos>> simpleConstraints;
-    for (int sqRow = 0 ; sqRow <= 2 ; sqRow++){
-        for (int sqCol = 0 ; sqCol <= 2 ; sqCol++){
-            vector<CellPos> square;
-            for (int i = 0 ; i <= 2; i++){
-                for (int j = 0 ; j <= 2; j++){
-                    square.push_back(make_tuple(3 * sqRow + i + 1, 3 * sqCol + j + 1));
-                }
-            }
-            simpleConstraints.push_back(square);
-        }
-    }
-    return simpleConstraints;
-}
-
 void solverWrapper(SudokuPtr sudoku){
     sudoku->solve();
+}
+
+std::vector<CellVerifiers::CellGroup::SharedPtr> Utils::getSimpleGroup(const std::vector<CellPtr>& cells){
+    if (cells.size() != 81){
+        throw invalid_argument("Cells' array size should be 81");
+    }
+    vector<CellVerifiers::CellGroup::SharedPtr> rows(9);
+    vector<CellVerifiers::CellGroup::SharedPtr> cols(9);
+    vector<CellVerifiers::CellGroup::SharedPtr> boxes(9);
+    for (int i = 0 ; i < 9 ; i++){
+        vector<CellPtr> rowCells(9);
+        vector<CellPtr> colCells(9);
+        vector<CellPtr> boxCells(9);
+        for (int j = 0 ; j < 9 ; j++){
+            rowCells[i] = cells[9 * i + j];
+            colCells[i] = cells[9 * j + i];
+        }
+        int boxInitialRow = i / 3;       // i div 3
+        int boxInitialCol = i % 3;
+        for (int rowOffset = 0; rowOffset <= 2; rowOffset++){
+            for (int colOffset = 0; colOffset <= 2; colOffset++){
+                boxCells[i] = cells[9 * (boxInitialRow + rowOffset) + (boxInitialCol + colOffset)];
+            }
+        }
+        rows[i] = make_shared<CellVerifiers::Row>(rowCells);
+        cols[i] = make_shared<CellVerifiers::Column>(colCells);
+        boxes[i] = make_shared<CellVerifiers::SquareBox>(boxCells);
+    }
+    vector<CellVerifiers::CellGroup::SharedPtr> concatenatedGroups(rows);
+    concatenatedGroups.insert(
+            concatenatedGroups.end(),
+            make_move_iterator(cols.begin()),
+            make_move_iterator(cols.end())
+            );
+    concatenatedGroups.insert(
+            concatenatedGroups.end(),
+            make_move_iterator(boxes.begin()),
+            make_move_iterator(boxes.end())
+    );
+    return concatenatedGroups;
 }
 
 Sudoku Utils::solveSudoku(const Sudoku &sudoku) {
