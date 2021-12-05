@@ -11,7 +11,7 @@
 
 using namespace std;
 
-Sudoku::Sudoku(const vector<CellPtr>& initialBoard, const std::vector<CellVerifiers::CellGroup> & cellGroups)
+Sudoku::Sudoku(const vector<CellPtr>& initialBoard, const std::vector<CellVerifiers::CellGroup::SharedPtr> & cellGroups)
 try{
     if(initialBoard.size() > 81){
         throw invalid_argument("Too many initial positions given");
@@ -28,10 +28,10 @@ catch (const invalid_argument& e){
     throw e;
 }
 
-void Sudoku::initializeCellsConstraints(const std::vector<CellVerifiers::CellGroup>& groups){
-    this->cellsConstraints = std::vector<std::vector<CellVerifiers::CellGroup>>(81);
-    for (const CellVerifiers::CellGroup& group: groups){
-        std::vector<CellPtr> cellsInGroup = group.getCells();
+void Sudoku::initializeCellsConstraints(const std::vector<CellVerifiers::CellGroup::SharedPtr>& groups){
+    this->cellsConstraints = std::vector<std::vector<CellVerifiers::CellGroup::SharedPtr>>(81);
+    for (shared_ptr<CellVerifiers::CellGroup> group: groups){
+        std::vector<CellPtr> cellsInGroup = group->getCells();
         // if a cell is in this group, assign this group to the cell
         for (int cellNr = 0 ; cellNr < 81 ; cellNr++){
             for (const CellPtr& groupCell: cellsInGroup){
@@ -276,8 +276,8 @@ try{
     }
     // is allowed in all of cell's groups
     return all_of(this->cellsConstraints[cellIndex].begin(), this->cellsConstraints[cellIndex].end(),
-                  [num](const CellVerifiers::CellGroup& cellGroup){
-                      return cellGroup.isNumberAllowed(num);
+                  [num](const CellVerifiers::CellGroup::SharedPtr & cellGroup){
+                      return cellGroup->isNumberAllowed(num);
     });
 }
 catch(const invalid_argument& e){

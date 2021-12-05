@@ -28,6 +28,7 @@ namespace CellVerifiers{
          */
         virtual bool isNumberAllowed(int number) const;
         std::vector<CellPtr> getCells() const;
+        typedef std::shared_ptr<CellGroup> SharedPtr;
     };
     class CellUniqueGroup;
     class Row;

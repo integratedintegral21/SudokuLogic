@@ -24,7 +24,7 @@ private:
     // list containing cell separators
     std::vector<std::vector<std::string>> verticalBorders;
     // assign groups to each cell
-    std::vector<std::vector<CellVerifiers::CellGroup>> cellsConstraints;
+    std::vector<std::vector<CellVerifiers::CellGroup::SharedPtr>> cellsConstraints;
 
     const std::string verticalSeparator = "│";
     const std::string leftUpperCorner = "┌";
@@ -43,7 +43,7 @@ private:
     void fillWithAllowedNumbers(CellPos & cellPos);
     void initializeBorders();
     // initializes constraints
-    void initializeCellsConstraints(const std::vector<CellVerifiers::CellGroup>& groups);
+    void initializeCellsConstraints(const std::vector<CellVerifiers::CellGroup::SharedPtr>& groups);
     static int getFlattenedCoord(int row, int col) ;
     int getFlattenedIndex(int row, int col) const;
     std::string getUpperHorizontalLine(bool isLong) const;
@@ -72,7 +72,7 @@ public:
      * @param initialBoard vector of NumPositions containing initial state of the board. Throws invalid_argument
      * @param constraints vector of vectors containing coordinates of cells where numbers cannot repeat
      */
-    Sudoku(const std::vector<CellPtr>& initialBoard, const std::vector<CellVerifiers::CellGroup> & cellGroups);
+    Sudoku(const std::vector<CellPtr>& initialBoard, const std::vector<CellVerifiers::CellGroup::SharedPtr> & cellGroups);
     Sudoku(const Sudoku& sudoku);
     /**
      * @param showAllowedNumbers the function includes allowed numbers in the string if true
