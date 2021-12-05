@@ -23,6 +23,8 @@ private:
     std::vector<std::vector<int>> constraintsList;
     // list containing cell separators
     std::vector<std::vector<std::string>> verticalBorders;
+    // assign groups to each cell
+    std::vector<std::vector<CellVerifiers::CellGroup>> cellsConstraints;
 
     const std::string verticalSeparator = "│";
     const std::string leftUpperCorner = "┌";
@@ -34,16 +36,14 @@ private:
     const std::string upperJunction = "┬";
     const std::string lowerJunction = "┴";
 
-    std::vector<CellVerifiers::CellUniqueGroup> rows;
-    std::vector<CellVerifiers::CellUniqueGroup> cols;
-    std::vector<CellVerifiers::CellUniqueGroup> boxes;
+    std::vector<CellVerifiers::CellGroup> cellGroups;
 
     // clears allowed numbers and fills cells with allowed number based on non-empty filled cells
     void fillWithAllowedNumbers();
     void fillWithAllowedNumbers(CellPos & cellPos);
     void initializeBorders();
-    // initializes constraintsList
-    void initializeConstraintsList(const std::vector<std::vector<CellPos>>& constraints);
+    // initializes constraints
+    void initializeCellsConstraints(const std::vector<CellVerifiers::CellGroup>& groups);
     static int getFlattenedCoord(int row, int col) ;
     int getFlattenedIndex(int row, int col) const;
     std::string getUpperHorizontalLine(bool isLong) const;
@@ -67,12 +67,12 @@ public:
      * @brief calls 2-arguments constructor with simple constraints (classic sudoku puzzle)
      * @param initialBoard vector of NumPositions containing initial state of the board. Throws invalid_argument
      */
-    explicit Sudoku(const std::vector<NumPosition>& initialBoard);
+    explicit Sudoku(const std::vector<CellPtr>& initialBoard);
     /**
      * @param initialBoard vector of NumPositions containing initial state of the board. Throws invalid_argument
      * @param constraints vector of vectors containing coordinates of cells where numbers cannot repeat
      */
-    Sudoku(const std::vector<NumPosition>& initialBoard, const std::vector<std::vector<CellPos>>& constraints);
+    Sudoku(const std::vector<CellPtr>& initialBoard, const std::vector<CellVerifiers::CellGroup> & cellGroups);
     Sudoku(const Sudoku& sudoku);
     /**
      * @param showAllowedNumbers the function includes allowed numbers in the string if true

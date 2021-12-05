@@ -11,25 +11,15 @@
 
 using namespace std;
 
-Sudoku::Sudoku(const vector<NumPosition>& initialBoard, const vector<vector<CellPos>>& constraints)
+Sudoku::Sudoku(const vector<CellPtr>& initialBoard, const std::vector<CellVerifiers::CellGroup> & cellGroups)
 try{
     if(initialBoard.size() > 81){
         throw invalid_argument("Too many initial positions given");
     }
-    for (int i = 0 ; i < 9*9 ; i++){
-        this->board.push_back(make_shared<Cell>());
+    for (const CellPtr& cell: initialBoard){
+        this->board.push_back(cell);
     }
-    this->constraintsList = std::vector<std::vector<int>>(81);
-    this->initializeConstraintsList(constraints);
-    this->fillWithAllowedNumbers();
-    for(auto& numPos: initialBoard){
-        if(!isNumPosValid(numPos)){
-            throw invalid_argument("NumPosition invalid");
-        }
-        if (!this->isNumberAllowed(numPos))
-            throw invalid_argument("Board invalid");
-        this->setNumber(numPos);
-    }
+    this->initializeCellsConstraints(cellGroups);
     this->initializeBorders();
     this->longHorizontalBar = getHorizontalBar(true);
     this->shortHorizontalBar = getHorizontalBar(false);
@@ -38,7 +28,22 @@ catch (const invalid_argument& e){
     throw e;
 }
 
-Sudoku::Sudoku(const std::vector<NumPosition>& initialBoard): Sudoku(initialBoard, Utils::getSimpleConstraints()) {}
+void Sudoku::initializeCellsConstraints(const std::vector<CellVerifiers::CellGroup>& groups){
+    this->cellsConstraints = std::vector<std::vector<CellVerifiers::CellGroup>>(81);
+    for (const CellVerifiers::CellGroup& group: groups){
+        std::vector<CellPtr> cellsInGroup = group.getCells();
+        // if a cell is in this group, assign this group to the cell
+        for (int cellNr = 0 ; cellNr < 81 ; cellNr++){
+            for (const CellPtr& groupCell: cellsInGroup){
+                if (groupCell == this->board[cellNr]){
+                    this->cellsConstraints[cellNr].push_back(group);
+                }
+            }
+        }
+    }
+}
+
+// Sudoku::Sudoku(const std::vector<NumPosition>& initialBoard): Sudoku(initialBoard, Utils::getSimpleConstraints()) {}
 
 string Sudoku::getBoardString(bool showAllowedNumbers) const {
     string boardString;
@@ -269,7 +274,11 @@ try{
     if(!cellPtr->isEmpty()){
         return false;
     }
-    return cellPtr->isNumberAllowed(num);
+    // is allowed in all of cell's groups
+    return all_of(this->cellsConstraints[cellIndex].begin(), this->cellsConstraints[cellIndex].end(),
+                  [num](const CellVerifiers::CellGroup& cellGroup){
+                      return cellGroup.isNumberAllowed(num);
+    });
 }
 catch(const invalid_argument& e){
     throw e;
@@ -318,17 +327,6 @@ std::string Sudoku::getHorizontalBar(bool isLong) {
         horizontalBar += "\u2500";
     }
     return horizontalBar;
-}
-
-void Sudoku::initializeConstraintsList(const std::vector<std::vector<CellPos>>& constraints) {
-    for (int row = 1 ; row <= 9 ; row++){
-        for (int col = 1; col <= 9 ; col++){
-            int index = this->getFlattenedIndex(row, col);
-            CellPtr cell = this->board[index];
-            vector<int> constrainedCells = this->getCellIndexesFromConstraints(make_pair(row, col), constraints);
-            this->constraintsList[index] = constrainedCells;
-        }
-    }
 }
 
 bool Sudoku::isCellPosValid(CellPos cellPos) {
@@ -444,3 +442,5 @@ Sudoku::Sudoku(const Sudoku &sudoku) {
     this->longHorizontalBar = sudoku.longHorizontalBar;
     this->shortHorizontalBar = sudoku.shortHorizontalBar;
 }
+
+

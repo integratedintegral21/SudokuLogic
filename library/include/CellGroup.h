@@ -26,7 +26,7 @@ namespace CellVerifiers{
          * Checks if a number can be inserted based on other cells' numbers
          * @return true if the number can be inserted
          */
-        virtual bool isNumberAllowed(int number) const = 0;
+        virtual bool isNumberAllowed(int number) const;
         std::vector<CellPtr> getCells() const;
     };
     class CellUniqueGroup;

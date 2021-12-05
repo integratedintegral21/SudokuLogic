@@ -18,3 +18,7 @@ std::vector<CellPtr> CellVerifiers::CellGroup::getCells() const {
     return std::vector<CellPtr>(this->cells);
 }
 
+bool CellVerifiers::CellGroup::isNumberAllowed(int number) const {
+    return false;
+}
+
