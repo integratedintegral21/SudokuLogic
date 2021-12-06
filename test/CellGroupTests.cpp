@@ -130,5 +130,54 @@ BOOST_FIXTURE_TEST_SUITE(TestSuiteCellGroup, TestSuiteCellGroupFixture)
         BOOST_TEST(sumGroup->isNumberAllowed(1));
         BOOST_TEST(!sumGroup->isNumberAllowed(2));
     }
+    BOOST_AUTO_TEST_CASE(SimpleSudokuGroupsTest){
+        vector<NumPosition> simpleBoard = {
+                make_tuple(1, 4, 2),
+                make_tuple(1, 5, 6),
+                make_tuple(1, 7, 7),
+                make_tuple(1, 9, 1),
+                make_tuple(2, 1, 6),
+                make_tuple(2, 2, 8),
+                make_tuple(2, 5, 7),
+                make_tuple(2, 8, 9),
+                make_tuple(3, 1, 1),
+                make_tuple(3 ,2, 9),
+                make_tuple(3 ,6, 4),
+                make_tuple(3 ,7 ,5),
+                make_tuple(4, 1, 8),
+                make_tuple(4, 2, 2),
+                make_tuple(4, 4, 1),
+                make_tuple(4, 8, 4),
+                make_tuple(5, 3, 4),
+                make_tuple(5, 4, 6),
+                make_tuple(5, 6, 2),
+                make_tuple(5, 7, 9),
+                make_tuple(6, 2, 5),
+                make_tuple(6, 6, 3),
+                make_tuple(6, 8, 2),
+                make_tuple(6, 9, 8),
+                make_tuple(7, 3, 9),
+                make_tuple(7, 4, 3),
+                make_tuple(7, 8, 7),
+                make_tuple(7, 9, 4),
+                make_tuple(8, 2, 4),
+                make_tuple(8, 5, 5),
+                make_tuple(8, 8, 3),
+                make_tuple(8, 9, 6),
+                make_tuple(9, 1, 7),
+                make_tuple(9, 3, 3),
+                make_tuple(9, 5, 1),
+                make_tuple(9, 6, 8),
+        };
+        vector<CellPtr> cells = Utils::getCellsFromNumPoses(simpleBoard);
+        vector<CellGroup::SharedPtr> cellGroups = Utils::getSimpleGroups(cells);
+        BOOST_TEST(cellGroups.size() == 27);
+        vector<CellGroup::SharedPtr> rows(9);
+        vector<CellGroup::SharedPtr> cols(9);
+        vector<CellGroup::SharedPtr> boxes(9);
+        copy(cellGroups.begin(), cellGroups.begin() + 9, rows.begin());
+        copy(cellGroups.begin() + 9, cellGroups.begin() + 18, cols.begin());
+        copy(cellGroups.begin() + 18, cellGroups.begin() + 27, boxes.begin());
+    }
 
 BOOST_AUTO_TEST_SUITE_END()

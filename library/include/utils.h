@@ -22,7 +22,7 @@ namespace Utils{
      * @param cells a vector of shared pointers to cells
      * @return a vector of shared pointers to cell groups
      */
-    std::vector<CellVerifiers::CellGroup::SharedPtr> getSimpleGroup(const std::vector<CellPtr>& cells);
+    std::vector<CellVerifiers::CellGroup::SharedPtr> getSimpleGroups(const std::vector<CellPtr>& cells);
     /**
      * Returns a predicate which is true if a vector of Cells sums up to expectedSum
      * @param expectedSum

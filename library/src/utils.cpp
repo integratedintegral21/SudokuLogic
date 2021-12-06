@@ -18,7 +18,7 @@ void solverWrapper(SudokuPtr sudoku){
     sudoku->solve();
 }
 
-std::vector<CellVerifiers::CellGroup::SharedPtr> Utils::getSimpleGroup(const std::vector<CellPtr>& cells){
+std::vector<CellVerifiers::CellGroup::SharedPtr> Utils::getSimpleGroups(const std::vector<CellPtr>& cells){
     if (cells.size() != 81){
         throw invalid_argument("Cells' array size should be 81");
     }
@@ -30,8 +30,8 @@ std::vector<CellVerifiers::CellGroup::SharedPtr> Utils::getSimpleGroup(const std
         vector<CellPtr> colCells(9);
         vector<CellPtr> boxCells(9);
         for (int j = 0 ; j < 9 ; j++){
-            rowCells[i] = cells[9 * i + j];
-            colCells[i] = cells[9 * j + i];
+            rowCells[j] = cells[9 * i + j];
+            colCells[j] = cells[9 * j + i];
         }
         int boxInitialRow = i / 3;       // i div 3
         int boxInitialCol = i % 3;
