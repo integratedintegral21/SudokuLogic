@@ -9,6 +9,7 @@
 #include <Sudoku.h>
 #include <thread>
 #include "Cell.h"
+#include "iostream"
 
 
 using namespace std;
@@ -129,4 +130,30 @@ function<bool(const vector<CellPtr>&, int)> Utils::getSumConstraints(int expecte
         // otherwise, check if there is 'space' for next candidate numbers
         return sum + candidateNum < expectedSum;
     };
+}
+
+std::vector<CellPtr> Utils::getCellsFromNumPoses(const std::vector<NumPosition> &numPositions) {
+    if (numPositions.size() > 81) {
+        throw invalid_argument("More than 81 numPositions given, so the board is over-defined");
+    }
+    std::vector<CellPtr> cells(81);
+    // initialize empty cells
+    for (CellPtr& cell: cells){
+        cell = make_shared<Cell>();
+    }
+    for (const NumPosition& numPosition: numPositions){
+        int row = std::get<0>(numPosition) - 1;
+        int col = std::get<1>(numPosition) - 1;
+        int num = std::get<2>(numPosition);
+        if (row < 0 || row > 8 || col < 0 | col > 8 || num < 1 || num > 9){
+            throw invalid_argument("Invalid row/col/num value");
+        }
+        int cellIndex = 9 * row + col;
+        CellPtr cell = cells[cellIndex];
+        if (!cell->isEmpty()){
+            throw invalid_argument("Over-definition error. Some cell is defined by more than 1 numPosition");
+        }
+        cell->setNumber(num);
+    }
+    return cells;
 }

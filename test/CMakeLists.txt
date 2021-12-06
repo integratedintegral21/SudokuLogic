@@ -10,7 +10,6 @@ include_directories(
 )
 set(SOURCE_TEST_FILES
         CellTest.cpp
-        SudokuTest.cpp
         CellGroupTests.cpp
         # only for debugging
         ../library/src/Sudoku.cpp

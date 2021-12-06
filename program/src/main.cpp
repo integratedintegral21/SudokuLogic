@@ -75,6 +75,7 @@ int main(){
                     make_tuple(9,3,6),
             }
     };
+    /*
     vector<vector<CellPos>> simpleConstraints = Utils::getSimpleConstraints();
     Sudoku sudoku(simpleBoards[1]);
     cout << sudoku.getBoardString() << endl;
@@ -84,5 +85,11 @@ int main(){
     time(&end);
     cout << solvedSudoku.getBoardString() << endl;
     cout << "Solved in " << fixed << double(end - start) << setprecision(5) << " sec" << endl;
+     */
+    vector<CellPtr> cells = Utils::getCellsFromNumPoses(simpleBoards[0]);
+    vector<CellVerifiers::CellGroup::SharedPtr> groups = Utils::getSimpleGroup(cells);
+    Sudoku sudoku(cells, groups);
+    cout << sudoku.getBoardString() << endl;
+    cout << sudoku.isNumberAllowed(make_tuple(1, 1, 2)) << endl;
     return 0;
 }
