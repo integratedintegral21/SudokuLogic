@@ -2,8 +2,8 @@
 // Created by wojciech on 23.11.2021.
 //
 
-#include "CellGroup.h"
-#include "Cell.h"
+#include "CellVerifiers/CellGroup.h"
+#include "GameComponents/Cell.h"
 #include "iostream"
 
 using namespace std;

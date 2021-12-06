@@ -5,7 +5,7 @@
 #include <iostream>
 #include <iomanip>
 #include <unistd.h>
-#include "Sudoku.h"
+#include "GameComponents/Sudoku.h"
 #include "utils.h"
 #include "time.h"
 
@@ -87,9 +87,9 @@ int main(){
     cout << "Solved in " << fixed << double(end - start) << setprecision(5) << " sec" << endl;
      */
     vector<CellPtr> cells = Utils::getCellsFromNumPoses(simpleBoards[0]);
-    vector<CellVerifiers::CellGroup::SharedPtr> groups = Utils::getSimpleGroup(cells);
+    vector<CellVerifiers::CellGroup::SharedPtr> groups = Utils::getSimpleGroups(cells);
     Sudoku sudoku(cells, groups);
     cout << sudoku.getBoardString() << endl;
-    cout << sudoku.isNumberAllowed(make_tuple(1, 1, 2)) << endl;
+    cout << sudoku.isNumberAllowed(make_tuple(9, 4, 5)) << endl;
     return 0;
 }

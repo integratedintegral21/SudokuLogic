@@ -6,9 +6,9 @@
 #include <vector>
 #include <tuple>
 #include <utils.h>
-#include <Sudoku.h>
+#include <GameComponents/Sudoku.h>
 #include <thread>
-#include "Cell.h"
+#include "GameComponents/Cell.h"
 #include "iostream"
 
 

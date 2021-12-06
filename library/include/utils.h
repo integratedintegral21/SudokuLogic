@@ -7,7 +7,7 @@
 
 #include "vector"
 #include "functional"
-#include "CellGroup.h"
+#include "CellVerifiers/CellGroup.h"
 
 namespace Utils{
     /**

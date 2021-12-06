@@ -5,24 +5,24 @@ set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
 set(SOURCE_FILES
-        src/Sudoku.cpp
-        src/Cell.cpp
-        src/CellGroup.cpp
+        src/GameComponents/Sudoku.cpp
+        src/GameComponents/Cell.cpp
+        src/CellVerifiers/CellGroup.cpp
         src/utils.cpp
-        src/CellUniqueGroup.cpp
-        include/Cell.h
-        include/CellGroup.h
+        src/CellVerifiers/CellUniqueGroup.cpp
+        include/GameComponents/Cell.h
+        include/CellVerifiers/CellGroup.h
         include/typedefs.h
         include/utils.h
-        include/CellUniqueGroup.h
-        src/Row.cpp
-        include/Row.h
-        src/Column.cpp
-        include/Column.h
-        src/SquareBox.cpp
-        include/SquareBox.h
-        src/CustomConstraintCellGroup.cpp
-        include/CustomConstraintCellGroup.h)
+        include/CellVerifiers/CellUniqueGroup.h
+        src/CellVerifiers/Row.cpp
+        include/CellVerifiers/Row.h
+        src/CellVerifiers/Column.cpp
+        include/CellVerifiers/Column.h
+        src/CellVerifiers/SquareBox.cpp
+        include/CellVerifiers/SquareBox.h
+        src/CellVerifiers/CustomConstraintCellGroup.cpp
+        include/CellVerifiers/CustomConstraintCellGroup.h)
 add_library(SudokuLogicLibrary SHARED ${SOURCE_FILES})
 target_link_libraries(SudokuLogicLibrary PUBLIC Threads::Threads)
 

@@ -2,7 +2,7 @@
 // Created by wojciech on 27.11.2021.
 //
 
-#include "CustomConstraintCellGroup.h"
+#include "CellVerifiers/CustomConstraintCellGroup.h"
 #include <utility>
 
 CellVerifiers::CustomConstraintCellGroup::CustomConstraintCellGroup(

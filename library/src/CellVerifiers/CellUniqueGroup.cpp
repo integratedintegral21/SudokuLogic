@@ -3,10 +3,10 @@
 //
 
 #include <algorithm>
-#include "CellUniqueGroup.h"
+#include "CellVerifiers/CellUniqueGroup.h"
 #include "typedefs.h"
 #include "memory"
-#include "Cell.h"
+#include "GameComponents/Cell.h"
 #include "iostream"
 
 using namespace std;

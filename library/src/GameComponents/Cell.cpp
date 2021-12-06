@@ -2,7 +2,7 @@
 // Created by wojciech on 28/07/2021.
 //
 
-#include "Cell.h"
+#include "GameComponents/Cell.h"
 #include <stdexcept>
 #include <iostream>
 

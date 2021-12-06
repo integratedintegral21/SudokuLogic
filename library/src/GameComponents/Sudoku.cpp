@@ -2,8 +2,8 @@
 // Created by wojciech on 28/07/2021.
 //
 
-#include "Sudoku.h"
-#include "Cell.h"
+#include "GameComponents/Sudoku.h"
+#include "GameComponents/Cell.h"
 #include <stdexcept>
 #include <string>
 #include <algorithm>

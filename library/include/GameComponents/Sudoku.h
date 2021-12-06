@@ -9,10 +9,10 @@
 #include <string>
 #include <map>
 #include "typedefs.h"
-#include "CellUniqueGroup.h"
-#include "Row.h"
-#include "Column.h"
-#include "SquareBox.h"
+#include "CellVerifiers/CellUniqueGroup.h"
+#include "CellVerifiers/Row.h"
+#include "CellVerifiers/Column.h"
+#include "CellVerifiers/SquareBox.h"
 
 
 class Sudoku {
