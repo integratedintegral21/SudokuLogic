@@ -33,11 +33,11 @@ std::vector<CellVerifiers::CellGroup::SharedPtr> Utils::getSimpleGroups(const st
             rowCells[j] = cells[9 * i + j];
             colCells[j] = cells[9 * j + i];
         }
-        int boxInitialRow = i / 3;       // i div 3
-        int boxInitialCol = i % 3;
+        int boxInitialRow = i / 3 * 3;
+        int boxInitialCol = i % 3 * 3;
         for (int rowOffset = 0; rowOffset <= 2; rowOffset++){
             for (int colOffset = 0; colOffset <= 2; colOffset++){
-                boxCells[i] = cells[9 * (boxInitialRow + rowOffset) + (boxInitialCol + colOffset)];
+                boxCells[3 * rowOffset + colOffset] = cells[9 * (boxInitialRow + rowOffset) + (boxInitialCol + colOffset)];
             }
         }
         rows[i] = make_shared<CellVerifiers::Row>(rowCells);

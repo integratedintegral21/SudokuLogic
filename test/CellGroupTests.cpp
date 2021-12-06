@@ -178,6 +178,54 @@ BOOST_FIXTURE_TEST_SUITE(TestSuiteCellGroup, TestSuiteCellGroupFixture)
         copy(cellGroups.begin(), cellGroups.begin() + 9, rows.begin());
         copy(cellGroups.begin() + 9, cellGroups.begin() + 18, cols.begin());
         copy(cellGroups.begin() + 18, cellGroups.begin() + 27, boxes.begin());
+        // check if not present numbers are allowed in groups and present numbers are not allowed
+        for (int i = 0; i < 9; i++){
+            int row = i, col = i, box = i;
+            // already inside a group
+            vector <int> notAllowedRow;
+            vector <int> notAllowedCol;
+            vector <int> notAllowedBox;
+            for (int colIndex = 0; colIndex < 9; colIndex++){
+                if (!cells[9 * row + colIndex]->isEmpty()){
+                    notAllowedRow.push_back(cells[9 * row + colIndex]->getNumber());
+                }
+            }
+            for (int rowIndex = 0; rowIndex < 9; rowIndex++){
+                if (!cells[9 * rowIndex + col]->isEmpty()){
+                    notAllowedCol.push_back(cells[9 * rowIndex + col]->getNumber());
+                }
+            }
+            int boxInitialRow = i / 3 * 3;
+            int boxInitialCol = i % 3 * 3;
+            for (int rowOffset = 0; rowOffset <= 2; rowOffset++){
+                for (int colOffset = 0; colOffset <= 2; colOffset++){
+                    int cellIndex = 9 * (boxInitialRow + rowOffset) + (boxInitialCol + colOffset);
+                    if (!cells[cellIndex]->isEmpty()){
+                        notAllowedBox.push_back(cells[cellIndex]->getNumber());
+                    }
+                }
+            }
+            vector <bool> allowedRowMask(10);
+            vector <bool> allowedColMask(10);
+            vector <bool> allowedBoxMask(10);
+            for (int j = 0; j < 10; j++){
+                allowedRowMask[j] = true;
+                allowedColMask[j] = true;
+                allowedBoxMask[j] = true;
+            }
+            for (int num: notAllowedRow){
+                allowedRowMask[num] = false;
+            }
+            for (int num: notAllowedCol){
+                allowedColMask[num] = false;
+            }
+            for (int num: notAllowedBox){
+                allowedBoxMask[num] = false;
+            }
+            for (int num = 1; num <= 9; num++){
+                BOOST_TEST(rows[i]->isNumberAllowed(num) == allowedRowMask[num]);
+            }
+        }
     }
 
 BOOST_AUTO_TEST_SUITE_END()
