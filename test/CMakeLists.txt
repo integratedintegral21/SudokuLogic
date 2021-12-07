@@ -30,7 +30,7 @@ set(SOURCE_TEST_FILES
         ../library/include/CellVerifiers/SquareBox.h
         ../library/include/CellVerifiers/CustomConstraintCellGroup.h
         ../library/src/CellVerifiers/CustomConstraintCellGroup.cpp
-        )
+        ../library/include/GameComponents/GameComponents.h)
 set(CMAKE_BUILD_TYPE Debug)
 add_executable (LibraryTest ${SOURCE_TEST_FILES} master.cpp)
 target_link_libraries (LibraryTest

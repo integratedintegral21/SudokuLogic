@@ -7,12 +7,6 @@
 
 #include "memory"
 
-class Cell;
-class Sudoku;
-
-typedef std::shared_ptr<Cell> CellPtr;
-typedef std::shared_ptr<Sudoku> SudokuPtr;
-
 // (row, col, number)
 typedef std::tuple<int, int, int> NumPosition;
 // (row, col)

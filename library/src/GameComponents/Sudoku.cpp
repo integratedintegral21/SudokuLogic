@@ -6,6 +6,9 @@
 #include "GameComponents/Cell.h"
 
 using namespace std;
+using GameComponents::Sudoku;
 
 
+Sudoku::~Sudoku() {
 
+}

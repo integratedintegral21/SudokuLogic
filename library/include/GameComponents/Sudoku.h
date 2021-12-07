@@ -13,9 +13,10 @@
 #include "CellVerifiers/Row.h"
 #include "CellVerifiers/Column.h"
 #include "CellVerifiers/SquareBox.h"
+#include "GameComponents/GameComponents.h"
 
 
-class Sudoku {
+class GameComponents::Sudoku {
 private:
     // flattened 9x9 board
     std::vector<CellPtr> board;

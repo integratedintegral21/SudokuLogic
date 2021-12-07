@@ -107,7 +107,7 @@ BOOST_FIXTURE_TEST_SUITE(TestSuiteCellGroup, TestSuiteCellGroupFixture)
         // remove a number from each cell and check if it becomes allowed
         for (int number = 1; number <= 9 ; number++){
             int cellIndex = number - 1;
-            cells[cellIndex]->unset();
+            cells[cellIndex]->clearCell();
             BOOST_TEST(row->isNumberAllowed(number));
             BOOST_TEST(col->isNumberAllowed(number));
             BOOST_TEST(box->isNumberAllowed(number));

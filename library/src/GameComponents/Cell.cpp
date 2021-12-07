@@ -7,6 +7,7 @@
 #include <iostream>
 
 using namespace std;
+using GameComponents::Cell;
 
 Cell::Cell(int number)
 try
@@ -14,7 +15,6 @@ try
     if(!isNumberValid(number)) {
         throw invalid_argument("Invalid number");
     }
-    this->initStates();
     this->setNumber(number);
 }
 catch (const invalid_argument& e){
@@ -22,7 +22,7 @@ catch (const invalid_argument& e){
 }
 
 Cell::Cell() {
-    this->initStates();
+
 }
 
 int Cell::getNumber() const {
@@ -37,41 +37,8 @@ Cell::~Cell() {
 
 }
 
-bool Cell::isNumberAllowed(int number) const
-try{
-    if(!isNumberValid(number))
-        throw invalid_argument("Invalid number");
-    return this->allowedNumbers[number - 1];
-}
-catch (const invalid_argument& e){
-    throw e;
-}
+bool Cell::isNumberAllowed(int number) const {
 
-
-void Cell::initStates() {
-    for (bool& state: this->allowedNumbers){
-        state = false;
-    }
-}
-
-void Cell::setNumberAllowed(int number)
-try{
-    if(!isNumberValid(number))
-        throw invalid_argument("Invalid number");
-    this->allowedNumbers[number - 1] = true;
-}
-catch (const invalid_argument& e){
-    throw e;
-}
-
-void Cell::setNumberNotAllowed(int number)
-try{
-    if(!isNumberValid(number))
-        throw invalid_argument("Invalid number");
-    this->allowedNumbers[number - 1] = false;
-}
-catch (const invalid_argument& e){
-    throw e;
 }
 
 void Cell::setNumber(int number)
@@ -80,7 +47,6 @@ try{
         throw invalid_argument("Invalid number");
     }
     Cell::number = number;
-    // this->setNumberAllowed(number);
 }
 catch (const invalid_argument& e){
     throw e;
@@ -91,17 +57,11 @@ bool Cell::isNumberValid(int number) const {
     return number >= 1 && number <= 9;
 }
 
-void Cell::unset() {
+void Cell::clearCell() {
     this->number = -1;
 }
 
 std::vector<int> Cell::getAllowedNumbers() const {
-    vector<int> allowedNumbers;
-    for(int num = 1 ; num <= 9; num++){
-        if(this->isNumberAllowed(num)){
-            allowedNumbers.push_back(num);
-        }
-    }
-    return allowedNumbers;
+
 }
 

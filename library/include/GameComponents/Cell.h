@@ -6,19 +6,15 @@
 #define CINEMA_CELL_H
 
 #include <vector>
+#include "GameComponents/GameComponents.h"
 
 /**
  * @brief Represents single sudoku cell
  */
-class Cell {
+class GameComponents::Cell{
 private:
     // a number0 inside a cell object (-1 if empty)
     int number = -1;
-    // possible numbers inside
-    bool allowedNumbers[9];
-
-    // initializes all allowedNumbers with false
-    void initStates();
     // checks if number is in range <1, 9>
     bool isNumberValid(int number) const;
 public:
@@ -53,17 +49,11 @@ public:
      * @param number
      */
     void setNumber(int number);
-    void unset();
     /**
-     * @brief Adds the given number to allowed numbers
-     * @param number
+     * @brief Makes the cell empty
      */
-    void setNumberAllowed(int number);
-    /**
-     * @brief Removes the given number form allowed numbers
-     * @param number
-     */
-    void setNumberNotAllowed(int number);
+    void clearCell();
+
     std::vector<int> getAllowedNumbers() const;
 
     virtual ~Cell();
