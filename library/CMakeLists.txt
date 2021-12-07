@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.4)
-project(SudokuLogicLibrary VERSION 0.2.0)
+project(SudokuLogicLibrary VERSION 1.0.0)
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
