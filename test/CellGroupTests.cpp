@@ -24,7 +24,7 @@ struct TestSuiteCellGroupFixture{
     shared_ptr<CellGroup> box;
     // all number must sum up to a certain number
     shared_ptr<CellGroup> sumGroup;
-    vector<CellPtr> cells;
+    vector<Cell::SharedPtr> cells;
     // 1 + 2 + ... + 9 = 45
     const int expectedSum = 45;
     const function<bool(const vector<CellPtr>&, int)> sumConstraint = Utils::getSumConstraints(expectedSum);

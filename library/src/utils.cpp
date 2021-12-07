@@ -13,12 +13,15 @@
 
 
 using namespace std;
+using namespace CellVerifiers;
+using namespace GameComponents;
+
 /*
 void solverWrapper(SudokuPtr sudoku){
     sudoku->solve();
 }
-
-std::vector<CellVerifiers::CellGroup::SharedPtr> Utils::getSimpleGroups(const std::vector<CellPtr>& cells){
+*/
+std::vector<CellVerifiers::CellGroup::SharedPtr> Utils::getSimpleGroups(const std::vector<Cell::SharedPtr>& cells){
     if (cells.size() != 81){
         throw invalid_argument("Cells' array size should be 81");
     }
@@ -26,9 +29,9 @@ std::vector<CellVerifiers::CellGroup::SharedPtr> Utils::getSimpleGroups(const st
     vector<CellVerifiers::CellGroup::SharedPtr> cols(9);
     vector<CellVerifiers::CellGroup::SharedPtr> boxes(9);
     for (int i = 0 ; i < 9 ; i++){
-        vector<CellPtr> rowCells(9);
-        vector<CellPtr> colCells(9);
-        vector<CellPtr> boxCells(9);
+        vector<Cell::SharedPtr> rowCells(9);
+        vector<Cell::SharedPtr> colCells(9);
+        vector<Cell::SharedPtr> boxCells(9);
         for (int j = 0 ; j < 9 ; j++){
             rowCells[j] = cells[9 * i + j];
             colCells[j] = cells[9 * j + i];
@@ -57,7 +60,7 @@ std::vector<CellVerifiers::CellGroup::SharedPtr> Utils::getSimpleGroups(const st
     );
     return concatenatedGroups;
 }
-
+/*
 Sudoku Utils::solveSudoku(const Sudoku &sudoku) {
     if(sudoku.isSolved()){
         return sudoku;
@@ -96,9 +99,9 @@ Sudoku Utils::solveSudoku(const Sudoku &sudoku) {
     }
     return sudoku;
 }
-
-function<bool(const vector<CellPtr>&, int)> Utils::getSumConstraints(int expectedSum) {
-    return [expectedSum](const vector<CellPtr> &cells, int candidateNum) {
+*/
+function<bool(const vector<Cell::SharedPtr>&, int)> Utils::getSumConstraints(int expectedSum) {
+    return [expectedSum](const vector<Cell::SharedPtr> &cells, int candidateNum) {
         // is the candidateNumber the last to add
         bool finalNum = true;
         int emptyCount = 0;
@@ -132,13 +135,13 @@ function<bool(const vector<CellPtr>&, int)> Utils::getSumConstraints(int expecte
     };
 }
 
-std::vector<CellPtr> Utils::getCellsFromNumPoses(const std::vector<NumPosition> &numPositions) {
+std::vector<Cell::SharedPtr> Utils::getCellsFromNumPoses(const std::vector<NumPosition> &numPositions) {
     if (numPositions.size() > 81) {
         throw invalid_argument("More than 81 numPositions given, so the board is over-defined");
     }
-    std::vector<CellPtr> cells(81);
+    std::vector<Cell::SharedPtr> cells(81);
     // initialize empty cells
-    for (CellPtr& cell: cells){
+    for (Cell::SharedPtr& cell: cells){
         cell = make_shared<Cell>();
     }
     for (const NumPosition& numPosition: numPositions){
@@ -149,7 +152,7 @@ std::vector<CellPtr> Utils::getCellsFromNumPoses(const std::vector<NumPosition> 
             throw invalid_argument("Invalid row/col/num value");
         }
         int cellIndex = 9 * row + col;
-        CellPtr cell = cells[cellIndex];
+        Cell::SharedPtr cell = cells[cellIndex];
         if (!cell->isEmpty()){
             throw invalid_argument("Over-definition error. Some cell is defined by more than 1 numPosition");
         }
@@ -157,4 +160,3 @@ std::vector<CellPtr> Utils::getCellsFromNumPoses(const std::vector<NumPosition> 
     }
     return cells;
 }
-*/

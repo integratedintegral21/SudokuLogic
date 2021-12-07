@@ -8,6 +8,7 @@
 #include "vector"
 #include "functional"
 #include "CellVerifiers/CellGroup.h"
+#include "GameComponents/Cell.h"
 
 namespace Utils{
     /**
@@ -22,13 +23,14 @@ namespace Utils{
      * @param cells a vector of shared pointers to cells
      * @return a vector of shared pointers to cell groups
      */
-    //std::vector<CellVerifiers::CellGroup::SharedPtr> getSimpleGroups(const std::vector<CellPtr>& cells);
+    std::vector<CellVerifiers::CellGroup::SharedPtr> getSimpleGroups(
+            const std::vector<GameComponents::Cell::SharedPtr>& cells);
     /**
      * Returns a predicate which is true if a vector of Cells sums up to expectedSum
      * @param expectedSum
      * @return A predicate taking a vector of shared pointers to cells and returns a bool value
      */
-    //std::function<bool(const std::vector<CellPtr>&, int)> getSumConstraints(int expectedSum);
+    std::function<bool(const std::vector<GameComponents::Cell::SharedPtr>&, int)> getSumConstraints(int expectedSum);
     /**
      * Takes an array of tuples (row, column, number) and build a vector of cells of pointers.
      * @throws invalid_exception if at least one cell is over-defined (two numPositions pointing to
@@ -37,7 +39,7 @@ namespace Utils{
      * @param numPositions
      * @return A vector of shared pointers to cells of length 81
      */
-    //std::vector<CellPtr> getCellsFromNumPoses(const std::vector<NumPosition>& numPositions);
+    std::vector<GameComponents::Cell::SharedPtr> getCellsFromNumPoses(const std::vector<NumPosition>& numPositions);
 }
 
 #endif //CINEMA_UTILS_H
