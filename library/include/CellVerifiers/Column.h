@@ -9,7 +9,7 @@
 
 class CellVerifiers::Column: public CellVerifiers::CellUniqueGroup{
 public:
-    explicit Column(const std::vector<CellPtr> &cells);
+    explicit Column(const std::vector<GameComponents::Cell::SharedPtr> &cells);
 };
 
 #endif //SUDOKULOGICLIBRARY_COLUMN_H

@@ -4,17 +4,30 @@
 
 #include <algorithm>
 #include "CellVerifiers/CellUniqueGroup.h"
-#include "typedefs.h"
-#include "memory"
 #include "GameComponents/Cell.h"
-#include "iostream"
 
 using namespace std;
+using GameComponents::Cell;
 
-CellVerifiers::CellUniqueGroup::CellUniqueGroup(const std::vector<CellPtr> &cells): CellGroup(cells) {}
+CellVerifiers::CellUniqueGroup::CellUniqueGroup(const std::vector<Cell::SharedPtr> &cells): CellGroup(cells) {
+    for (int num = 1; num < 9; num++){
+        this->usedNumberMask[num - 1] = true;
+    }
+    for (const auto &cell: cells) {
+        if (!cell->isEmpty()){
+            this->usedNumberMask[cell->getNumber() - 1] = false;
+        }
+    }
+}
 
 bool CellVerifiers::CellUniqueGroup::isNumberAllowed(int number) const{
-    return !any_of(cells.begin(), cells.end(), [number](const CellPtr& cell){
-        return cell->getNumber() == number;
-    });
+    return this->usedNumberMask[number - 1];
+}
+
+void CellVerifiers::CellUniqueGroup::notifyAdd(int number) {
+    this->usedNumberMask[number - 1] = false;
+}
+
+void CellVerifiers::CellUniqueGroup::notifyRemove(int number) {
+    this->usedNumberMask[number - 1] = true;
 }

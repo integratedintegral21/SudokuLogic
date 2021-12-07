@@ -13,7 +13,7 @@
 
 
 using namespace std;
-
+/*
 void solverWrapper(SudokuPtr sudoku){
     sudoku->solve();
 }
@@ -157,3 +157,4 @@ std::vector<CellPtr> Utils::getCellsFromNumPoses(const std::vector<NumPosition> 
     }
     return cells;
 }
+*/

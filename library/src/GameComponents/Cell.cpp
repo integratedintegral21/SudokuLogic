@@ -3,11 +3,14 @@
 //
 
 #include "GameComponents/Cell.h"
+#include "CellVerifiers/CellGroup.h"
 #include <stdexcept>
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 using GameComponents::Cell;
+using CellVerifiers::CellGroup;
 
 Cell::Cell(int number)
 try
@@ -61,7 +64,14 @@ void Cell::clearCell() {
     this->number = -1;
 }
 
-std::vector<int> Cell::getAllowedNumbers() const {
+void GameComponents::Cell::addGroup(CellGroup::SharedPtr cellGroup) {
+    this->groups.push_back(cellGroup);
+}
 
+void GameComponents::Cell::removeGroup(CellGroup::SharedPtr cellGroup) {
+    std::remove_if(this->groups.begin(), this->groups.end(),
+                   [cellGroup](const CellGroup::SharedPtr& cellGroup1){
+                       return cellGroup1 == cellGroup;
+                   });
 }
 

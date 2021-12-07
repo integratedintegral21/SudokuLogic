@@ -11,7 +11,7 @@
 
 class CellVerifiers::Row: public CellVerifiers::CellUniqueGroup {
 public:
-    explicit Row(const std::vector<CellPtr>& cells);
+    explicit Row(const std::vector<GameComponents::Cell::SharedPtr>& cells);
 };
 
 #endif //SUDOKULOGICLIBRARY_ROW_H

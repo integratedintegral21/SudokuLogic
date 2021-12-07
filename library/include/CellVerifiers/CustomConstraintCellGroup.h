@@ -7,19 +7,20 @@
 
 #include "CellGroup.h"
 #include "functional"
+#include "GameComponents/Cell.h"
 
 class CellVerifiers::CustomConstraintCellGroup: public CellVerifiers::CellGroup{
 protected:
     // Returns true if cells hold given condition
-    std::function<bool(const std::vector<CellPtr>&, int)> constraint;
+    std::function<bool(const std::vector<GameComponents::Cell::SharedPtr>&, int)> constraint;
 public:
     /**
      * Constructor
      * @param cells A vector of list of shared pointers to cells
      * @param constraint A predicate which all cells in the group and a candidate number must hold
      */
-    CustomConstraintCellGroup(const std::vector<CellPtr> &cells,
-                              std::function<bool(const std::vector<CellPtr>&, int)> constraint);
+    CustomConstraintCellGroup(const std::vector<GameComponents::Cell::SharedPtr> &cells,
+                              std::function<bool(const std::vector<GameComponents::Cell::SharedPtr>&, int)> constraint);
     bool isNumberAllowed(int number) const override;
 };
 

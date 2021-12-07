@@ -6,7 +6,9 @@
 #define CINEMA_CELL_H
 
 #include <vector>
+#include <memory>
 #include "GameComponents/GameComponents.h"
+#include "CellVerifiers/CellVerifiers.h"
 
 /**
  * @brief Represents single sudoku cell
@@ -17,6 +19,7 @@ private:
     int number = -1;
     // checks if number is in range <1, 9>
     bool isNumberValid(int number) const;
+    std::vector<std::shared_ptr<CellVerifiers::CellGroup>> groups;
 public:
     /**
      * @brief Initializes an empty cell. No numbers allowed by default
@@ -54,9 +57,22 @@ public:
      */
     void clearCell();
 
-    std::vector<int> getAllowedNumbers() const;
+    /**
+     * @brief Adds a group where cell is present
+     * @param cellGroup
+     */
+    virtual void addGroup(std::shared_ptr<CellVerifiers::CellGroup> cellGroup);
+    /**
+     * @brief Removes a group from groups where cell is present
+     * @param cellGroup
+     */
+    virtual void removeGroup(std::shared_ptr<CellVerifiers::CellGroup> cellGroup);
 
-    virtual ~Cell();
+    ~Cell();
+
+    //---------------------------------------
+
+    typedef std::shared_ptr<Cell> SharedPtr;
 };
 
 

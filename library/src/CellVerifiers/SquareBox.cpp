@@ -4,4 +4,4 @@
 
 #include "CellVerifiers/SquareBox.h"
 
-CellVerifiers::SquareBox::SquareBox(const std::vector<CellPtr> &cells) : CellUniqueGroup(cells) {}
+CellVerifiers::SquareBox::SquareBox(const std::vector<Cell::SharedPtr> &cells) : CellUniqueGroup(cells) {}

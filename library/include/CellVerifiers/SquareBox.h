@@ -9,7 +9,7 @@
 
 class CellVerifiers::SquareBox: public CellUniqueGroup{
 public:
-    explicit SquareBox(const std::vector<CellPtr> &cells);
+    explicit SquareBox(const std::vector<GameComponents::Cell::SharedPtr> &cells);
 };
 
 

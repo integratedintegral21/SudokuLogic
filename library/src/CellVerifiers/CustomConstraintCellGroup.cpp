@@ -5,9 +5,11 @@
 #include "CellVerifiers/CustomConstraintCellGroup.h"
 #include <utility>
 
+using namespace GameComponents;
+
 CellVerifiers::CustomConstraintCellGroup::CustomConstraintCellGroup(
-        const std::vector<CellPtr> &cells,
-        std::function<bool(const std::vector<CellPtr>&, int)>  constraint): CellVerifiers::CellGroup(cells),
+        const std::vector<Cell::SharedPtr> &cells,
+        std::function<bool(const std::vector<Cell::SharedPtr>&, int)>  constraint): CellVerifiers::CellGroup(cells),
         constraint(std::move(constraint)){}
 
 bool CellVerifiers::CustomConstraintCellGroup::isNumberAllowed(int number) const{

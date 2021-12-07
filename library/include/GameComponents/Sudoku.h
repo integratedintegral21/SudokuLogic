@@ -19,7 +19,7 @@
 class GameComponents::Sudoku {
 private:
     // flattened 9x9 board
-    std::vector<CellPtr> board;
+    std::vector<std::shared_ptr<GameComponents::Cell>> board;
 public:
     virtual ~Sudoku();
 };
