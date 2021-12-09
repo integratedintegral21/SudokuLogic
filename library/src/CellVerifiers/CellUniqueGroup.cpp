@@ -10,13 +10,14 @@ using namespace std;
 using GameComponents::Cell;
 
 CellVerifiers::CellUniqueGroup::CellUniqueGroup(const std::vector<Cell::SharedPtr> &cells): CellGroup(cells) {
-    for (int num = 1; num < 9; num++){
+    for (int num = 1; num <= 9; num++){
         this->usedNumberMask[num - 1] = true;
     }
     for (const auto &cell: cells) {
         if (!cell->isEmpty()){
             this->usedNumberMask[cell->getNumber() - 1] = false;
         }
+        cell->addGroup(make_shared<CellUniqueGroup>(*this));
     }
 }
 

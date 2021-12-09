@@ -42,7 +42,7 @@ public:
      */
     virtual void notifyRemove(int number) = 0;
 
-    virtual ~CellGroup();
+    // virtual ~CellGroup();
 
     //-----------------------------------------
 

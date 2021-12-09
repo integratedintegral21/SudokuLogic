@@ -12,7 +12,6 @@ using GameComponents::Cell;
 CellVerifiers::CellGroup::CellGroup(const vector<GameComponents::Cell::SharedPtr> &cells) {
     for (const Cell::SharedPtr& cell: cells){
         this->cells.push_back(cell);
-        cell->addGroup(shared_ptr<CellGroup>(this));
     }
 }
 
@@ -20,8 +19,11 @@ std::vector<Cell::SharedPtr> CellVerifiers::CellGroup::getCells() const {
     return std::vector<Cell::SharedPtr>(this->cells);
 }
 
-CellVerifiers::CellGroup::~CellGroup() {
-    for (const Cell::SharedPtr& cell: this->cells) {
-        cell->removeGroup(shared_ptr<CellGroup>(this));
-    }
-}
+//CellVerifiers::CellGroup::~CellGroup() {
+//    while(cells.size() > 0){
+//        Cell::SharedPtr cell = cells[0];
+//        cells.erase(cells.begin());
+//        cell->removeGroup(shared_ptr<CellGroup>(this));
+//    }
+//}
+

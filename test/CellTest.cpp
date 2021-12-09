@@ -8,6 +8,7 @@
 #include <memory>
 
 using namespace std;
+using namespace GameComponents;
 
 struct TestSuiteCellFixture{
     int number0 = 7;
@@ -18,8 +19,8 @@ struct TestSuiteCellFixture{
             11, 0, 10
     };
 
-    CellPtr cell0;
-    CellPtr cell1;
+    Cell::SharedPtr cell0;
+    Cell::SharedPtr cell1;
 
     TestSuiteCellFixture(){
         cell0 = make_shared<Cell>();
@@ -70,35 +71,7 @@ BOOST_FIXTURE_TEST_SUITE(TestSuiteCell, TestSuiteCellFixture)
     }
 
     BOOST_AUTO_TEST_CASE(PossibleNumbersTest){
-        for (int num: invalidNumbers){
-            BOOST_CHECK_EXCEPTION(cell0->isNumberAllowed(num), invalid_argument, [](const logic_error& e){
-                string expectedMsg = "Invalid number";
-                return e.what() == expectedMsg;
-            });
-        }
-        for (int num: invalidNumbers){
-            BOOST_CHECK_EXCEPTION(cell0->setNumberAllowed(num), invalid_argument, [](const logic_error& e){
-                string expectedMsg = "Invalid number";
-                return e.what() == expectedMsg;
-            });
-        }
-        for (int num: invalidNumbers){
-            BOOST_CHECK_EXCEPTION(cell0->setNumberNotAllowed(num), invalid_argument, [](const logic_error& e){
-                string expectedMsg = "Invalid number";
-                return e.what() == expectedMsg;
-            });
-        }
-        for (int num = 1 ; num <= 5 ; num++){
-            cell0->setNumberAllowed(num);
-            BOOST_TEST(cell0->isNumberAllowed(num));
-        }
-        for (int num = 6 ; num <= 9 ; num++){
-            BOOST_TEST(!cell0->isNumberAllowed(num));
-        }
-        for (int num = 1 ; num <= 5 ; num++){
-            cell0->setNumberNotAllowed(num);
-            BOOST_TEST(!cell0->isNumberAllowed(num));
-        }
+
     }
     BOOST_AUTO_TEST_CASE(NumberUnsetterTest) {
         cell1->clearCell();

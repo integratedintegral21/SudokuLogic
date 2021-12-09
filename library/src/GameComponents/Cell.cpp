@@ -36,9 +36,9 @@ bool Cell::isEmpty() const {
     return this->number == -1;
 }
 
-Cell::~Cell() {
-
-}
+//Cell::~Cell() {
+//
+//}
 
 bool Cell::isNumberAllowed(int number) const {
 
@@ -50,6 +50,9 @@ try{
         throw invalid_argument("Invalid number");
     }
     Cell::number = number;
+    for (const auto &group: groups) {
+        group->notifyAdd(number);
+    }
 }
 catch (const invalid_argument& e){
     throw e;
@@ -69,9 +72,6 @@ void GameComponents::Cell::addGroup(CellGroup::SharedPtr cellGroup) {
 }
 
 void GameComponents::Cell::removeGroup(CellGroup::SharedPtr cellGroup) {
-    std::remove_if(this->groups.begin(), this->groups.end(),
-                   [cellGroup](const CellGroup::SharedPtr& cellGroup1){
-                       return cellGroup1 == cellGroup;
-                   });
+    this->groups.erase(std::remove(this->groups.begin(), this->groups.end(), cellGroup), this->groups.end());
 }
 

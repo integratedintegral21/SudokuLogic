@@ -22,6 +22,10 @@ public:
     CustomConstraintCellGroup(const std::vector<GameComponents::Cell::SharedPtr> &cells,
                               std::function<bool(const std::vector<GameComponents::Cell::SharedPtr>&, int)> constraint);
     bool isNumberAllowed(int number) const override;
+
+    void notifyAdd(int number) override;
+
+    void notifyRemove(int number) override;
 };
 
 

@@ -68,7 +68,7 @@ public:
      */
     virtual void removeGroup(std::shared_ptr<CellVerifiers::CellGroup> cellGroup);
 
-    ~Cell();
+    //~Cell();
 
     //---------------------------------------
 
