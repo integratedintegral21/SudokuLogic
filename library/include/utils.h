@@ -7,7 +7,7 @@
 
 #include "vector"
 #include "functional"
-#include "CellVerifiers/CellGroup.h"
+#include "CellVerifiers/CellGroupObserver.h"
 #include "GameComponents/Cell.h"
 
 namespace Utils{

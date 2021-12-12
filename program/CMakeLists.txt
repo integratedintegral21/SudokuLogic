@@ -6,7 +6,6 @@ set(CMAKE_CXX_FLAGS -pthread)
 
 set(SOURCE_FILES src/main.cpp
         # only for debugging
-        ../library/src/GameComponents/Sudoku.cpp
         ../library/src/utils.cpp
         ../library/include/typedefs.h
         ../library/include/utils.h

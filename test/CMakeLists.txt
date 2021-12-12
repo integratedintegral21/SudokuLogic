@@ -12,7 +12,6 @@ set(SOURCE_TEST_FILES
         CellTest.cpp
         CellGroupTests.cpp
         # only for debugging
-        ../library/src/GameComponents/Sudoku.cpp
         ../library/src/utils.cpp
         ../library/include/typedefs.h
         ../library/include/utils.h

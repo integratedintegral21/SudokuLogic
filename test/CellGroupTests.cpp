@@ -5,7 +5,7 @@
 #include <numeric>
 #include "boost/test/unit_test.hpp"
 #include "typedefs.h"
-#include "CellVerifiers/CellGroup.h"
+#include "CellVerifiers/CellGroupObserver.h"
 #include "memory"
 #include "CellVerifiers/Row.h"
 #include "CellVerifiers/Column.h"
