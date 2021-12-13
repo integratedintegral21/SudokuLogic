@@ -5,13 +5,13 @@
 
 #include "boost/test/unit_test.hpp"
 #include "CellVerifiers/UniqueCellGroup.h"
-#include "CellVerifiers/IntegerSumCellGroup.h"
+#include "CellVerifiers/UnsignedIntegerSumCellGroup.h"
 #include "GameComponents/Cell.h"
 
 using namespace std;
 using CellVerifiers::CellGroupObserver;
 using CellVerifiers::UniqueCellGroup;
-using CellVerifiers::IntegerSumCellGroup;
+using CellVerifiers::UnsignedIntegerSumCellGroup;
 using GameComponents::Cell;
 
 struct TestSuiteCellGroupFixture{
@@ -20,7 +20,7 @@ struct TestSuiteCellGroupFixture{
     TestSuiteCellGroupFixture(){
         groups.push_back(make_shared<UniqueCellGroup>());
         // 1 + 2 + 3 + ... + 9 = 45
-        groups.push_back(make_shared<IntegerSumCellGroup>(45, 9));
+        groups.push_back(make_shared<UnsignedIntegerSumCellGroup>(45, 9));
         for (int i = 0 ; i < 9 ; i++){
             cells.push_back(make_shared<Cell>());
             for (const auto &group: groups) {
@@ -53,5 +53,22 @@ BOOST_FIXTURE_TEST_SUITE(TestSuiteCellGroup, TestSuiteCellGroupFixture)
             cells[num - 1]->clearCell();
             BOOST_TEST(uniqueGroup->isNumberAllowed(num));
         }
+    }
+
+    BOOST_AUTO_TEST_CASE(IntegerSumCellGroupTest){
+        auto intSumGroup = groups[1];
+        BOOST_TEST(!intSumGroup->isNumberAllowed(-1));
+        for (int num = 1; num <= 7; num++){
+            BOOST_TEST(intSumGroup->isNumberAllowed(num));
+            cells[num - 1]->setNumber(num);
+        }
+        BOOST_TEST(intSumGroup->isNumberAllowed(15));
+        BOOST_TEST(!intSumGroup->isNumberAllowed(17));
+        BOOST_TEST(!intSumGroup->isNumberAllowed(19));
+
+        cells[7]->setNumber(8);
+        BOOST_TEST(intSumGroup->isNumberAllowed(9));
+        BOOST_TEST(!intSumGroup->isNumberAllowed(8));
+        BOOST_TEST(!intSumGroup->isNumberAllowed(10));
     }
 BOOST_AUTO_TEST_SUITE_END()

@@ -7,13 +7,16 @@
 
 #include "CellVerifiers/AggregatedCellGroup.h"
 
-class CellVerifiers::IntegerSumCellGroup: public CellVerifiers::AggregatedCellGroup<int>{
+class CellVerifiers::UnsignedIntegerSumCellGroup: public CellVerifiers::AggregatedCellGroup<unsigned int>{
 public:
-    explicit IntegerSumCellGroup(int desiredResult, int groupSize): AggregatedCellGroup(
-            desiredResult, 0, intSubtractAggregationFunction, intSumAggregationFunction),
-                                                                    emptySlots(groupSize){}
+    explicit UnsignedIntegerSumCellGroup(int desiredResult, int groupSize): AggregatedCellGroup(
+            desiredResult, 0, intSumAggregationFunction, intSubtractAggregationFunction),
+                                                                            emptySlots(groupSize){}
 
     [[nodiscard]] bool isNumberAllowed(int number) const override {
+        if (number < 0){
+            return false;
+        }
         if (this->emptySlots == 0){
             return false;
         }
@@ -24,7 +27,7 @@ public:
     }
 
     void notifySet(int number) override {
-        CellVerifiers::AggregatedCellGroup<int>::notifySet(number);
+        AggregatedCellGroup::notifySet(number);
         emptySlots--;
     }
 

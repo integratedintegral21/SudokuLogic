@@ -13,7 +13,7 @@ namespace CellVerifiers{
     template <typename T>
     class AggregatedCellGroup;
 
-    class IntegerSumCellGroup;
+    class UnsignedIntegerSumCellGroup;
 }
 
 #endif //SUDOKULOGICLIBRARY_CELLVERIFIERS_H

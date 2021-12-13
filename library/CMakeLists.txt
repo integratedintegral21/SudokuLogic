@@ -18,7 +18,7 @@ set(SOURCE_FILES
         src/GameComponents/AggregatedCellGroup.cpp
         include/CellVerifiers/AggregatedCellGroup.h
         src/GameComponents/IntegerSumCellGroup.cpp
-        include/CellVerifiers/IntegerSumCellGroup.h)
+        include/CellVerifiers/UnsignedIntegerSumCellGroup.h)
 add_library(SudokuLogicLibrary SHARED ${SOURCE_FILES})
 target_link_libraries(SudokuLogicLibrary PUBLIC Threads::Threads)
 
