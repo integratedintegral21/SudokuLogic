@@ -11,14 +11,14 @@ set(SOURCE_FILES
         include/GameComponents/GameComponents.h
         src/GameComponents/Cell.cpp include/GameComponents/Cell.h
         include/CellVerifiers/CellVerifiers.h
-        src/GameComponents/CellGroupObserver.cpp
+        src/CellVerifiers/CellGroupObserver.cpp
         include/CellVerifiers/CellGroupObserver.h
-        src/GameComponents/UniqueCellGroup.cpp
+        src/CellVerifiers/UniqueCellGroup.cpp
         include/CellVerifiers/UniqueCellGroup.h
-        src/GameComponents/AggregatedCellGroup.cpp
+        src/CellVerifiers/AggregatedCellGroup.cpp
         include/CellVerifiers/AggregatedCellGroup.h
-        src/GameComponents/IntegerSumCellGroup.cpp
-        include/CellVerifiers/UnsignedIntegerSumCellGroup.h)
+        src/CellVerifiers/IntegerSumCellGroup.cpp
+        include/CellVerifiers/UnsignedIntegerSumCellGroup.h src/GameComponents/Sudoku.cpp include/GameComponents/Sudoku.h)
 add_library(SudokuLogicLibrary SHARED ${SOURCE_FILES})
 target_link_libraries(SudokuLogicLibrary PUBLIC Threads::Threads)
 
