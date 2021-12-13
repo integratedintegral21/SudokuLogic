@@ -35,3 +35,9 @@ void GameComponents::Sudoku::setNumber(int row, int column, int number) {
     Cell::SharedPtr cell = this->cells[cellIndex];
     cell->setNumber(number);
 }
+
+int GameComponents::Sudoku::getNumber(int row, int column) const {
+    int cellIndex = getCellIndex(row, column);
+    Cell::SharedPtr cell = this->cells[cellIndex];
+    return cell->getNumber();
+}
