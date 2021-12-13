@@ -55,14 +55,17 @@ struct TestSuiteSudokuFixture{
             make_tuple(9, 6, 8),
     };
 
+    vector<Cell::SharedPtr> simpleBoard;
+    vector<Cell::SharedPtr> simpleBoardWithGroups;
+
     TestSuiteSudokuFixture(){
         for (int i = 0; i < 81; ++i) {
             emptyBoard.push_back(make_shared<Cell>());
         }
         emptyBoardWithGroups = Utils::getSimpleSudokuCells(emptyBoard);
 
-        vector<Cell::SharedPtr> simpleBoard = Utils::getCellsFromNumPoses(simpleBoardPoses);
-        vector<Cell::SharedPtr> simpleBoardWithGroups = Utils::getSimpleSudokuCells(simpleBoard);
+        simpleBoard = Utils::getCellsFromNumPoses(simpleBoardPoses);
+        simpleBoardWithGroups = Utils::getSimpleSudokuCells(simpleBoard);
     }
 };
 
@@ -73,6 +76,28 @@ BOOST_FIXTURE_TEST_SUITE(SudokuTest, TestSuiteSudokuFixture)
         for (const auto &cell: emptyBoardWithGroups) {
             for (int num = 1; num <= 9; num++){
                 BOOST_TEST(cell->isNumberAllowed(num));
+            }
+        }
+        // are numbers in cells not allowed in their groups
+        for (int i = 0; i < 81; ++i) {
+            if (simpleBoardWithGroups[i]->isEmpty()){
+                continue;
+            }
+            int rowIndex = i / 9;
+            int columnIndex = i % 9;
+            int boxIndex = (rowIndex / 3) * 3 + (columnIndex / 3);
+            int boxInitialRow = (rowIndex / 3) * 3;
+            int boxInitialCol = (columnIndex / 3) * 3;
+            int number = simpleBoardWithGroups[i]->getNumber();
+            // check current row
+            for (int j = 0; j < 9; ++j) {
+                int cellIndex = 9 * rowIndex + j;
+                BOOST_TEST(!simpleBoardWithGroups[9 * rowIndex + j]->isNumberAllowed(number));
+            }
+            // check current column
+            for (int j = 0; j < 9; ++j) {
+                int cellIndex = 9 * j + columnIndex;
+                BOOST_TEST(!simpleBoardWithGroups[9 * j + columnIndex]->isNumberAllowed(number));
             }
         }
     }
