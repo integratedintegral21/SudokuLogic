@@ -46,3 +46,15 @@ int GameComponents::Cell::getNumber() const {
 const std::vector<std::shared_ptr<CellVerifiers::CellGroupObserver>> &GameComponents::Cell::getGroups() const {
     return groups;
 }
+
+bool GameComponents::Cell::isNumberAllowed(int number) const {
+    if (number < 1 || number > 9){
+        throw std::invalid_argument("Cell: Given number must be between [1, 9]");
+    }
+    for (const auto &group: groups) {
+        if (!group->isNumberAllowed(number)){
+            return false;
+        }
+    }
+    return false;
+}

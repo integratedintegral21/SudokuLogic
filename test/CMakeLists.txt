@@ -15,7 +15,7 @@ set(SOURCE_TEST_FILES
         ../library/src/utils.cpp
         ../library/include/typedefs.h
         ../library/include/utils.h
-        ../library/include/GameComponents/GameComponents.h)
+        ../library/include/GameComponents/GameComponents.h SudokuTest.cpp)
 set(CMAKE_BUILD_TYPE Debug)
 add_executable (LibraryTest ${SOURCE_TEST_FILES} master.cpp)
 target_link_libraries (LibraryTest

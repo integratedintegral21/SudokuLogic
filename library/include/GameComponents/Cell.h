@@ -26,6 +26,7 @@ public:
     /**
      * Writes number in a cell object
      * @param number - a number to be set [1, 9]
+     * @throws invalid_argument if the number is not between 1 and 9
      * @throws invalid_argument if number is not between 1 and 9
      */
     void setNumber(int number);
@@ -48,6 +49,13 @@ public:
      * @return a constant reference to the vector
      */
     [[nodiscard]] const std::vector<std::shared_ptr<CellVerifiers::CellGroupObserver>> &getGroups() const;
+    /**
+     * Returns true if given number can be set in a cell object
+     * @param number integer
+     * @throws invalid_argument if the number is not between 1 and 9
+     * @return true if all groups allow the number
+     */
+    [[nodiscard]] bool isNumberAllowed(int number) const;
 
     typedef std::shared_ptr<Cell> SharedPtr;
 };
