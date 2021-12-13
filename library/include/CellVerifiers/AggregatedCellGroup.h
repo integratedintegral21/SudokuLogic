@@ -10,7 +10,7 @@
 
 
 template <typename T>
-class CellVerifiers::AggregatedCellGroup: private CellVerifiers::CellGroupObserver{
+class CellVerifiers::AggregatedCellGroup: public CellVerifiers::CellGroupObserver{
 public:
     AggregatedCellGroup(T desiredResult, T currentResult, const std::function<T(T, int)> &aggregationFunction,
                         const std::function<T(T, int)> &aggregationInversionFunction) : desiredResult(desiredResult),

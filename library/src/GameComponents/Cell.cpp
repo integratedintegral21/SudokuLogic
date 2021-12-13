@@ -21,10 +21,10 @@ void GameComponents::Cell::setNumber(int number) {
 }
 
 void GameComponents::Cell::clearCell() {
-    this->number = 0;
     for (const auto &group: this->groups) {
-        group->notifyClear(number);
+        group->notifyClear(this->number);
     }
+    this->number = 0;
 }
 
 GameComponents::Cell::Cell(int number){
