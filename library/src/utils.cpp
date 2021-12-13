@@ -115,14 +115,14 @@ vector<Cell::SharedPtr> Utils::getSimpleSudokuCells(const vector<Cell::SharedPtr
         cell->addGroupObserver(boxes[boxIndex]);
         if (!cell->isEmpty()){
             if (!rows[rowIndex]->isNumberAllowed(cell->getNumber()) ||
-                !columns[rowIndex]->isNumberAllowed(cell->getNumber()) ||
-                !boxes[rowIndex]->isNumberAllowed(cell->getNumber())){
+                !columns[columnIndex]->isNumberAllowed(cell->getNumber()) ||
+                !boxes[boxIndex]->isNumberAllowed(cell->getNumber())){
                 throw invalid_argument("At least one cell is not unique in its groups");
             }
             // add the number inside the cell to not allowed
             rows[rowIndex]->notifySet(cell->getNumber());
-            columns[rowIndex]->notifySet(cell->getNumber());
-            boxes[rowIndex]->notifySet(cell->getNumber());
+            columns[columnIndex]->notifySet(cell->getNumber());
+            boxes[boxIndex]->notifySet(cell->getNumber());
         }
     }
     return {cells};
