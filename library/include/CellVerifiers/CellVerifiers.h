@@ -12,6 +12,8 @@ namespace CellVerifiers{
 
     template <typename T>
     class AggregatedCellGroup;
+
+    class IntegerSumCellGroup;
 }
 
 #endif //SUDOKULOGICLIBRARY_CELLVERIFIERS_H

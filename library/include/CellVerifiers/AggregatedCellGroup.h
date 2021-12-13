@@ -20,7 +20,6 @@ public:
                                                                                         aggregationInversionFunction(
                                                                                                 aggregationInversionFunction) {}
 
-private:
     void notifySet(int number) override {
         this->currentResult = aggregationFunction(this->currentResult, number);
     }
@@ -29,7 +28,7 @@ private:
         this->currentResult = aggregationInversionFunction(this->currentResult, number);
     }
 
-private:
+protected:
     T desiredResult;
     T currentResult;
     std::function<T(T, int)> aggregationFunction;

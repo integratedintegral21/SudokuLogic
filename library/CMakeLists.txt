@@ -9,7 +9,7 @@ set(SOURCE_FILES
         include/typedefs.h
         include/utils.h
         include/GameComponents/GameComponents.h
-        src/GameComponents/Cell.cpp include/GameComponents/Cell.h include/CellVerifiers/CellVerifiers.h src/GameComponents/CellGroupObserver.cpp include/CellVerifiers/CellGroupObserver.h src/GameComponents/UniqueCellGroup.cpp include/CellVerifiers/UniqueCellGroup.h src/GameComponents/AggregatedCellGroup.cpp include/CellVerifiers/AggregatedCellGroup.h)
+        src/GameComponents/Cell.cpp include/GameComponents/Cell.h include/CellVerifiers/CellVerifiers.h src/GameComponents/CellGroupObserver.cpp include/CellVerifiers/CellGroupObserver.h src/GameComponents/UniqueCellGroup.cpp include/CellVerifiers/UniqueCellGroup.h src/GameComponents/AggregatedCellGroup.cpp include/CellVerifiers/AggregatedCellGroup.h src/GameComponents/IntegerSumCellGroup.cpp include/CellVerifiers/IntegerSumCellGroup.h)
 add_library(SudokuLogicLibrary SHARED ${SOURCE_FILES})
 target_link_libraries(SudokuLogicLibrary PUBLIC Threads::Threads)
 
