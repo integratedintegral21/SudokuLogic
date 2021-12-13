@@ -17,12 +17,12 @@ private:
     // observers
     std::vector<std::shared_ptr<CellVerifiers::CellGroupObserver>> groups;
 public:
-    Cell(int number);
-
-/**
+    Cell();
+    explicit Cell(int number);
+    /**
      * @return true if a cell object is empty
      */
-    bool isEmpty() const;
+    [[nodiscard]] bool isEmpty() const;
     /**
      * Writes number in a cell object
      * @param number - a number to be set [1, 9]
@@ -38,6 +38,18 @@ public:
      * @param groupObserver a shared pointer to the observer
      */
     void addGroupObserver(const std::shared_ptr<CellVerifiers::CellGroupObserver>& groupObserver);
+    /**
+     * Returns the number in a cell object
+     * @return an integer
+     */
+    [[nodiscard]] int getNumber() const;
+    /**
+     * Returns a copy of vector of shared pointers to cell's groups
+     * @return a constant reference to the vector
+     */
+    [[nodiscard]] const std::vector<std::shared_ptr<CellVerifiers::CellGroupObserver>> &getGroups() const;
+
+    typedef std::shared_ptr<Cell> SharedPtr;
 };
 
 

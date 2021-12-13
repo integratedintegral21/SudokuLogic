@@ -4,79 +4,60 @@
 
 #include "boost/test/unit_test.hpp"
 #include "GameComponents/Cell.h"
-#include "typedefs.h"
-#include <memory>
+#include "CellVerifiers/UniqueCellGroup.h"
+#include <stdexcept>
 
 using namespace std;
-using namespace GameComponents;
+using GameComponents::Cell;
+using CellVerifiers::UniqueCellGroup;
+using CellVerifiers::CellGroupObserver;
 
 struct TestSuiteCellFixture{
-    int number0 = 7;
-    int validNumbers[3] = {
-            5,1,9
-    };
-    int invalidNumbers[3] = {
-            11, 0, 10
-    };
-
-    Cell::SharedPtr cell0;
-    Cell::SharedPtr cell1;
-
+    int number = 1;
+    Cell::SharedPtr cell;
+    Cell::SharedPtr emptyCell;
+    CellGroupObserver::SharedPtr groupObserver = make_shared<UniqueCellGroup>();
     TestSuiteCellFixture(){
-        cell0 = make_shared<Cell>();
-        cell1 = make_shared<Cell>(number0);
+        cell = make_shared<Cell>(number);
+        emptyCell = make_shared<Cell>();
+        cell->addGroupObserver(groupObserver);
     }
 };
 
 BOOST_FIXTURE_TEST_SUITE(TestSuiteCell, TestSuiteCellFixture)
 
     BOOST_AUTO_TEST_CASE(ConstructorTest){
-        BOOST_REQUIRE(cell0->getNumber() == -1);
-        BOOST_REQUIRE(cell1->getNumber() == number0);
+        BOOST_REQUIRE(cell != nullptr);
+        BOOST_REQUIRE(emptyCell != nullptr);
 
-        for(int num = 1 ; num <= 9 ; num++){
-            BOOST_TEST(cell0->isNumberAllowed(num) == false);
-            if (num != number0)
-                BOOST_TEST(cell1->isNumberAllowed(num) == false);
-        }
+        BOOST_TEST(!cell->isEmpty());
+        BOOST_TEST(emptyCell->isEmpty());
 
-        BOOST_CHECK_EXCEPTION(make_shared<Cell>(invalidNumbers[0]), invalid_argument, [](const logic_error& e){
-            string expectedMsg = "Invalid number";
-            return e.what() == expectedMsg;
-        });
-    }
-    BOOST_AUTO_TEST_CASE(NumberSetterTest) {
-        for (int num: validNumbers){
-            cell0->setNumber(num);
-            BOOST_TEST(cell0->getNumber() == num);
-        }
-        int currentNumber = cell0->getNumber();
-        for (int num: invalidNumbers){
-            BOOST_CHECK_EXCEPTION(cell0->setNumber(num), invalid_argument, [](const logic_error& e){
-                string expectedMsg = "Invalid number";
-                return e.what() == expectedMsg;
-            });
-            BOOST_TEST(cell0->getNumber() == currentNumber);
-        }
-    }
-    BOOST_AUTO_TEST_CASE(IsEmptyTest) {
-        BOOST_TEST(cell0->isEmpty() == true);
-        BOOST_TEST(cell1->isEmpty() == false);
-
-        cell0->setNumber(validNumbers[0]);
-        cell1->setNumber(validNumbers[0]);
-
-        BOOST_TEST(cell0->isEmpty() == false);
-        BOOST_TEST(cell1->isEmpty() == false);
+        BOOST_TEST(cell->getNumber() == number);
+        BOOST_TEST(emptyCell->getNumber() == 0);
     }
 
-    BOOST_AUTO_TEST_CASE(PossibleNumbersTest){
+    BOOST_AUTO_TEST_CASE(SettersTest){
+        cell->setNumber(5);
+        BOOST_TEST(cell->getNumber() == 5);
 
-    }
-    BOOST_AUTO_TEST_CASE(NumberUnsetterTest) {
-        cell1->clearCell();
-        BOOST_TEST(cell1->isEmpty());
+        cell->clearCell();
+        BOOST_TEST(cell->getNumber() == 0);
+        BOOST_TEST(cell->isEmpty());
+
+        BOOST_CHECK_THROW(cell->setNumber(-1), invalid_argument);
+        BOOST_CHECK_THROW(cell->setNumber(0), invalid_argument);
+        BOOST_CHECK_THROW(cell->setNumber(10), invalid_argument);
+        BOOST_CHECK_THROW(cell->setNumber(11), invalid_argument);
     }
 
+    BOOST_AUTO_TEST_CASE(GroupObserversTest){
+        vector<CellGroupObserver::SharedPtr> groups = cell->getGroups();
+        BOOST_TEST(cell->getGroups().size() == 1);
+
+        // separation test
+        groups[0] = make_shared<UniqueCellGroup>();
+        BOOST_TEST(cell->getGroups() != groups);
+    }
 
 BOOST_AUTO_TEST_SUITE_END()

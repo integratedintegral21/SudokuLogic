@@ -3,7 +3,7 @@ project(SudokuLibraryTest)
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 enable_testing()
 find_package (Boost 1.60.0 COMPONENTS "unit_test_framework" REQUIRED)
-find_library(SUDOKU_LIBRARY SudokuLogicLibrary HINTS ../library REQUIRED)
+find_library(SUDOKU_LIBRARY SudokuLogicLibrary HINTS ../library/cmake-build-debug REQUIRED)
 include_directories(
         ${CMAKE_CURRENT_SOURCE_DIR}/include
         ${Boost_INCLUDE_DIRS}

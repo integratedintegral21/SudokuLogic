@@ -34,3 +34,15 @@ GameComponents::Cell::Cell(int number){
 void GameComponents::Cell::addGroupObserver(const std::shared_ptr<CellVerifiers::CellGroupObserver>& groupObserver) {
     this->groups.push_back(groupObserver);
 }
+
+GameComponents::Cell::Cell() {
+
+}
+
+int GameComponents::Cell::getNumber() const {
+    return number;
+}
+
+const std::vector<std::shared_ptr<CellVerifiers::CellGroupObserver>> &GameComponents::Cell::getGroups() const {
+    return groups;
+}
