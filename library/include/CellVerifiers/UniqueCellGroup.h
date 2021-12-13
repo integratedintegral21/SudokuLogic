@@ -9,7 +9,7 @@
 
 class CellVerifiers::UniqueCellGroup: public CellVerifiers::CellGroupObserver{
 private:
-    bool allowanceMask[10]{};
+    bool allowanceMask[9]{};
 public:
     UniqueCellGroup();
 

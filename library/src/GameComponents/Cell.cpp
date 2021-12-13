@@ -56,5 +56,5 @@ bool GameComponents::Cell::isNumberAllowed(int number) const {
             return false;
         }
     }
-    return false;
+    return true;
 }

@@ -69,7 +69,12 @@ struct TestSuiteSudokuFixture{
 BOOST_FIXTURE_TEST_SUITE(SudokuTest, TestSuiteSudokuFixture)
 
     BOOST_AUTO_TEST_CASE(SimpleSudokuGetterTest){
-
+        // all number should be allowed in every cell of an empty board
+        for (const auto &cell: emptyBoardWithGroups) {
+            for (int num = 1; num <= 9; num++){
+                BOOST_TEST(cell->isNumberAllowed(num));
+            }
+        }
     }
 
 BOOST_AUTO_TEST_SUITE_END()
