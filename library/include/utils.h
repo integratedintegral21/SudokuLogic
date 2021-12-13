@@ -9,6 +9,7 @@
 #include "functional"
 #include "CellVerifiers/CellGroupObserver.h"
 #include "GameComponents/Cell.h"
+#include "typedefs.h"
 
 namespace Utils{
     /**
@@ -16,21 +17,14 @@ namespace Utils{
      * @param sudoku a reference to a Sudoku object
      * @return a solved Sudoku object
      */
-    //Sudoku solveSudoku(const Sudoku& sudoku);
+    // GameComponents::Sudoku solveSudoku(const GameComponents::Sudoku& sudoku);
     /**
-     * Given a vector of 81 cells returns CellGroups for a traditional sudoku
-     * @throws invalid_exception if the number of cells ≠ 81
-     * @param cells a vector of shared pointers to cells
-     * @return a vector of shared pointers to cell groups
+     * Takes a list of empty cells and adds appropriate groups such they from a simple sudoku board
+     * @param cells a vector of shared pointers to Cell objects
+     * @throw invalid_argument if number of cells is not 81 or not all cells are unique in groups
+     * @return a vector of shared pointers to cells with groups assigned
      */
-    std::vector<CellVerifiers::CellGroup::SharedPtr> getSimpleGroups(
-            const std::vector<GameComponents::Cell::SharedPtr>& cells);
-    /**
-     * Returns a predicate which is true if a vector of Cells sums up to expectedSum
-     * @param expectedSum
-     * @return A predicate taking a vector of shared pointers to cells and returns a bool value
-     */
-    std::function<bool(const std::vector<GameComponents::Cell::SharedPtr>&, int)> getSumConstraints(int expectedSum);
+    std::vector<GameComponents::Cell::SharedPtr> getSimpleSudokuCells(const std::vector<GameComponents::Cell::SharedPtr>& cells);
     /**
      * Takes an array of tuples (row, column, number) and build a vector of cells of pointers.
      * @throws invalid_exception if at least one cell is over-defined (two numPositions pointing to

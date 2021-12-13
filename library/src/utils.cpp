@@ -2,64 +2,29 @@
 // Created by wojciech on 01/08/2021.
 //
 
-//#include <typedefs.h>
-//#include <vector>
-//#include <tuple>
-//#include <utils.h>
-//#include <GameComponents/Sudoku.h>
-//#include <thread>
-//#include "GameComponents/Cell.h"
-//#include "iostream"
-//
-//
-//using namespace std;
-//using namespace CellVerifiers;
-//using namespace GameComponents;
-//
+#include <typedefs.h>
+#include <vector>
+#include <tuple>
+#include <utils.h>
+#include <GameComponents/Sudoku.h>
+#include <thread>
+#include "GameComponents/Cell.h"
+#include "CellVerifiers/CellGroupObserver.h"
+#include "CellVerifiers/UniqueCellGroup.h"
+#include <stdexcept>
+
+
+using namespace std;
+using GameComponents::Cell;
+using CellVerifiers::CellGroupObserver;
+using CellVerifiers::UniqueCellGroup;
+
 ///*
 //void solverWrapper(SudokuPtr sudoku){
 //    sudoku->solve();
 //}
 //*/
-//std::vector<CellVerifiers::CellGroupObserver::SharedPtr> Utils::getSimpleGroups(const std::vector<Cell::SharedPtr>& cells){
-//    if (cells.size() != 81){
-//        throw invalid_argument("Cells' array size should be 81");
-//    }
-//    vector<CellVerifiers::CellGroupObserver::SharedPtr> rows(9);
-//    vector<CellVerifiers::CellGroupObserver::SharedPtr> cols(9);
-//    vector<CellVerifiers::CellGroupObserver::SharedPtr> boxes(9);
-//    for (int i = 0 ; i < 9 ; i++){
-//        vector<Cell::SharedPtr> rowCells(9);
-//        vector<Cell::SharedPtr> colCells(9);
-//        vector<Cell::SharedPtr> boxCells(9);
-//        for (int j = 0 ; j < 9 ; j++){
-//            rowCells[j] = cells[9 * i + j];
-//            colCells[j] = cells[9 * j + i];
-//        }
-//        int boxInitialRow = i / 3 * 3;
-//        int boxInitialCol = i % 3 * 3;
-//        for (int rowOffset = 0; rowOffset <= 2; rowOffset++){
-//            for (int colOffset = 0; colOffset <= 2; colOffset++){
-//                boxCells[3 * rowOffset + colOffset] = cells[9 * (boxInitialRow + rowOffset) + (boxInitialCol + colOffset)];
-//            }
-//        }
-//        rows[i] = make_shared<CellVerifiers::Row>(rowCells);
-//        cols[i] = make_shared<CellVerifiers::Column>(colCells);
-//        boxes[i] = make_shared<CellVerifiers::SquareBox>(boxCells);
-//    }
-//    vector<CellVerifiers::CellGroupObserver::SharedPtr> concatenatedGroups(rows);
-//    concatenatedGroups.insert(
-//            concatenatedGroups.end(),
-//            make_move_iterator(cols.begin()),
-//            make_move_iterator(cols.end())
-//            );
-//    concatenatedGroups.insert(
-//            concatenatedGroups.end(),
-//            make_move_iterator(boxes.begin()),
-//            make_move_iterator(boxes.end())
-//    );
-//    return concatenatedGroups;
-//}
+
 ///*
 //Sudoku Utils::solveSudoku(const Sudoku &sudoku) {
 //    if(sudoku.isSolved()){
@@ -99,64 +64,66 @@
 //    }
 //    return sudoku;
 //}
-//*/
-//function<bool(const vector<Cell::SharedPtr>&, int)> Utils::getSumConstraints(int expectedSum) {
-//    return [expectedSum](const vector<Cell::SharedPtr> &cells, int candidateNum) {
-//        // is the candidateNumber the last to add
-//        bool finalNum = true;
-//        int emptyCount = 0;
-//        // checking if there is exactly one free slot
-//        auto init = cells.begin();
-//        auto end = cells.end();
-//        for(auto current = init; current < end; current++){
-//            if ((*current)->isEmpty()) {
-//                emptyCount++;
-//            }
-//            // more than one empty cell, the candidate number is not final
-//            if (emptyCount >= 2) {
-//                finalNum = false;
-//            }
-//        }
-//        // no more slots available, return false
-//        if(emptyCount == 0){
-//            return false;
-//        }
-//        int sum = 0;
-//        for(auto current = init; current < end; current++){
-//            // count a cell only if it is not empty
-//            sum += (*current)->getNumber() * !(*current)->isEmpty();
-//        }
-//        if (finalNum) {
-//            // the sum of all cells and the candidate number must add up to the desired value
-//            return sum + candidateNum == expectedSum;
-//        }
-//        // otherwise, check if there is 'space' for next candidate numbers
-//        return sum + candidateNum < expectedSum;
-//    };
-//}
-//
-//std::vector<Cell::SharedPtr> Utils::getCellsFromNumPoses(const std::vector<NumPosition> &numPositions) {
-//    if (numPositions.size() > 81) {
-//        throw invalid_argument("More than 81 numPositions given, so the board is over-defined");
-//    }
-//    std::vector<Cell::SharedPtr> cells(81);
-//    // initialize empty cells
-//    for (Cell::SharedPtr& cell: cells){
-//        cell = make_shared<Cell>();
-//    }
-//    for (const NumPosition& numPosition: numPositions){
-//        int row = std::get<0>(numPosition) - 1;
-//        int col = std::get<1>(numPosition) - 1;
-//        int num = std::get<2>(numPosition);
-//        if (row < 0 || row > 8 || col < 0 | col > 8 || num < 1 || num > 9){
-//            throw invalid_argument("Invalid row/col/num value");
-//        }
-//        int cellIndex = 9 * row + col;
-//        Cell::SharedPtr cell = cells[cellIndex];
-//        if (!cell->isEmpty()){
-//            throw invalid_argument("Over-definition error. Some cell is defined by more than 1 numPosition");
-//        }
-//        cell->setNumber(num);
-//    }
-//    return cells;
-//}
+
+std::vector<Cell::SharedPtr> Utils::getCellsFromNumPoses(const std::vector<NumPosition> &numPositions) {
+    if (numPositions.size() > 81) {
+        throw invalid_argument("More than 81 numPositions given, so the board is over-defined");
+    }
+    std::vector<Cell::SharedPtr> cells(81);
+    // initialize empty cells
+    for (Cell::SharedPtr& cell: cells){
+        cell = make_shared<Cell>();
+    }
+    for (const NumPosition& numPosition: numPositions){
+        int row = std::get<0>(numPosition) - 1;
+        int col = std::get<1>(numPosition) - 1;
+        int num = std::get<2>(numPosition);
+        if (row < 0 || row > 8 || col < 0 | col > 8 || num < 1 || num > 9){
+            throw invalid_argument("Invalid row/col/num value");
+        }
+        int cellIndex = 9 * row + col;
+        Cell::SharedPtr cell = cells[cellIndex];
+        if (!cell->isEmpty()){
+            throw invalid_argument("Over-definition error. Some cell is defined by more than 1 numPosition");
+        }
+        cell->setNumber(num);
+    }
+    return cells;
+}
+
+vector<Cell::SharedPtr> Utils::getSimpleSudokuCells(const vector<Cell::SharedPtr> &cells) {
+    if (cells.size() != 81){
+        throw invalid_argument("Number of cells is not 81");
+    }
+    vector<CellGroupObserver::SharedPtr> rows(9);
+    vector<CellGroupObserver::SharedPtr> columns(9);
+    vector<CellGroupObserver::SharedPtr> boxes(9);
+
+    for (int i = 0 ; i < 9 ; i++){
+        rows[i] = make_shared<UniqueCellGroup>();
+        columns[i] = make_shared<UniqueCellGroup>();
+        boxes[i] = make_shared<UniqueCellGroup>();
+    }
+
+    for (int i = 0; i < 81; ++i) {
+        Cell::SharedPtr cell = cells[i];
+        int rowIndex = i / 9;
+        int columnIndex = i % 9;
+        int boxIndex = (rowIndex / 3) * 3 + (columnIndex / 3);
+        cell->addGroupObserver(rows[rowIndex]);
+        cell->addGroupObserver(columns[columnIndex]);
+        cell->addGroupObserver(boxes[boxIndex]);
+        if (!cell->isEmpty()){
+            if (!rows[rowIndex]->isNumberAllowed(cell->getNumber()) ||
+                !columns[rowIndex]->isNumberAllowed(cell->getNumber()) ||
+                !boxes[rowIndex]->isNumberAllowed(cell->getNumber())){
+                throw invalid_argument("At least one cell is not unique in its groups");
+            }
+            // add the number inside the cell to not allowed
+            rows[rowIndex]->notifySet(cell->getNumber());
+            columns[rowIndex]->notifySet(cell->getNumber());
+            boxes[rowIndex]->notifySet(cell->getNumber());
+        }
+    }
+    return {cells};
+}
