@@ -9,9 +9,11 @@
 
 class CellVerifiers::UniqueCellGroup: public CellVerifiers::CellGroupObserver{
 private:
-    bool allowanceMask[9]{};
+    bool allowanceMask[9];
 public:
     UniqueCellGroup();
+
+    UniqueCellGroup(const UniqueCellGroup& uniqueCellGroup);
 
     void notifySet(int number) override;
 

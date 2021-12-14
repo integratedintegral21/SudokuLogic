@@ -10,6 +10,7 @@
 
 class CellVerifiers::CellGroupObserver {
 public:
+    CellGroupObserver(const CellGroupObserver& cellGroupObserver);
     /**
      * Notifies a group object when a number is set in a cell
      * @param number

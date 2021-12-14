@@ -12,6 +12,14 @@
 template <typename T>
 class CellVerifiers::AggregatedCellGroup: public CellVerifiers::CellGroupObserver{
 public:
+    /**
+     * Takes a desired aggregation result after completing the group, an initial aggregation result,
+     * an aggregation and inversion function
+     * @param desiredResult the desired result
+     * @param currentResult the base case
+     * @param aggregationFunction the aggregation function
+     * @param aggregationInversionFunction the inversion function
+     */
     AggregatedCellGroup(T desiredResult, T currentResult, const std::function<T(T, int)> &aggregationFunction,
                         const std::function<T(T, int)> &aggregationInversionFunction) : desiredResult(desiredResult),
                                                                                         currentResult(currentResult),
@@ -19,6 +27,13 @@ public:
                                                                                                 aggregationFunction),
                                                                                         aggregationInversionFunction(
                                                                                                 aggregationInversionFunction) {}
+
+    AggregatedCellGroup(const AggregatedCellGroup<T>& aggregatedCellGroup){
+        this->desiredResult(aggregatedCellGroup.desiredResult);
+        this->currentResult(aggregatedCellGroup.currentResult);
+        this->aggregationFunction = std::move(aggregatedCellGroup.aggregationFunction);
+        this->aggregationInversionFunction = std::move(aggregatedCellGroup.aggregationInversionFunction);
+    }
 
     void notifySet(int number) override {
         this->currentResult = aggregationFunction(this->currentResult, number);

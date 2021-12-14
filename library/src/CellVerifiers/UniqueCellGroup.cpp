@@ -22,3 +22,10 @@ CellVerifiers::UniqueCellGroup::UniqueCellGroup() {
         this->allowanceMask[num - 1] = true;
     }
 }
+
+CellVerifiers::UniqueCellGroup::UniqueCellGroup(const CellVerifiers::UniqueCellGroup &uniqueCellGroup) {
+    for (int num = 1; num <= 9; num++){
+        // copy allowanceMask
+        this->allowanceMask[num - 1] = uniqueCellGroup.isNumberAllowed(num);
+    }
+}

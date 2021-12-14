@@ -21,14 +21,18 @@ private:
 
     // Solver object
     std::shared_ptr<Solvers::SudokuSolver> solver;
-public:
-    Sudoku(const std::vector<Cell::SharedPtr> &cells, const std::shared_ptr<Solvers::SudokuSolver> &solver);
 
 private:
 
     // assumes row and column indices start from 0
     static int getCellIndex(int row, int column);
 public:
+    /**
+     * Takes cells with assigned groups and a solver
+     * @param cells a vector of shared pointers to cells
+     * @param solver a shared pointer to the solver
+     */
+    Sudoku(const std::vector<Cell::SharedPtr> &cells, const std::shared_ptr<Solvers::SudokuSolver> &solver);
     /**
      * Checks if a given number is allowed to be set at a given position
      * @param row 0 ≤ row ≤ 8

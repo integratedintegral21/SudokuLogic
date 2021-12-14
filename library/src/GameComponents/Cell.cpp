@@ -58,3 +58,10 @@ bool GameComponents::Cell::isNumberAllowed(int number) const {
     }
     return true;
 }
+
+GameComponents::Cell::Cell(const GameComponents::Cell &cell) {
+    this->number = cell.number;
+    std::vector<CellVerifiers::CellGroupObserver::SharedPtr> otherGroups = cell.getGroups();
+
+}
+

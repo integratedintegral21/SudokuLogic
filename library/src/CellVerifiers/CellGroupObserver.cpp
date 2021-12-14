@@ -3,3 +3,7 @@
 //
 
 #include "CellVerifiers/CellGroupObserver.h"
+
+CellVerifiers::CellGroupObserver::CellGroupObserver(const CellVerifiers::CellGroupObserver &cellGroupObserver) {
+
+}

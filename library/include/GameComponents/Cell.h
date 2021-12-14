@@ -17,8 +17,20 @@ private:
     // observers
     std::vector<std::shared_ptr<CellVerifiers::CellGroupObserver>> groups;
 public:
+    /**
+     * Initializes an empty cell
+     */
     Cell();
+    /**
+     * Initializes a cell with a number inside
+     * @param number
+     */
     explicit Cell(int number);
+    /**
+     * A copying constructor
+     * @param cell
+     */
+    Cell(const Cell& cell);
     /**
      * @return true if a cell object is empty
      */
