@@ -80,31 +80,11 @@ BOOST_FIXTURE_TEST_SUITE(SudokuTest, TestSuiteSudokuFixture)
         }
         // are numbers in cells not allowed in their groups and are number not present in any of the groups allowed
         for (int i = 0; i < 81; ++i) {
-            if (simpleBoardWithGroups[i]->isEmpty()){
-                continue;
-            }
             int rowIndex = i / 9;
             int columnIndex = i % 9;
             int boxInitialRow = (rowIndex / 3) * 3;
             int boxInitialCol = (columnIndex / 3) * 3;
             int number = simpleBoardWithGroups[i]->getNumber();
-            // check current row
-            for (int j = 0; j < 9; ++j) {
-                int cellIndex = 9 * rowIndex + j;
-                BOOST_TEST(!simpleBoardWithGroups[cellIndex]->isNumberAllowed(number));
-            }
-            // check current column
-            for (int j = 0; j < 9; ++j) {
-                int cellIndex = 9 * j + columnIndex;
-                BOOST_TEST(!simpleBoardWithGroups[cellIndex]->isNumberAllowed(number));
-            }
-            // check current box
-            for (int rowOffset = 0; rowOffset <= 2; ++rowOffset) {
-                for (int columnOffset = 0; columnOffset <= 2; ++columnOffset) {
-                    int cellIndex = 9 * (boxInitialRow + rowOffset) + boxInitialCol + columnOffset;
-                    BOOST_TEST(!simpleBoardWithGroups[cellIndex]->isNumberAllowed(number));
-                }
-            }
 
             vector<bool> rowNumbersPresence(9);
             vector<bool> columnNumbersPresence(9);
