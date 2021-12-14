@@ -53,7 +53,7 @@ public:
      */
     [[nodiscard]] int getNumber(int row, int column) const;
 
-    typename std::shared_ptr<GameComponents::Sudoku> SharedPtr;
+    typedef std::shared_ptr<GameComponents::Sudoku> SharedPtr;
 };
 
 

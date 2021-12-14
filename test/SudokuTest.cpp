@@ -6,9 +6,13 @@
 #include "utils.h"
 #include "GameComponents/Cell.h"
 #include "GameComponents/Sudoku.h"
+#include "SudokuSolvers/SingleThreadBacktrackingSolver.h"
+#include <stdexcept>
 
 using GameComponents::Cell;
 using GameComponents::Sudoku;
+using Solvers::SudokuSolver;
+using Solvers::SingleThreadBacktrackingSolver;
 
 using namespace std;
 
@@ -58,6 +62,9 @@ struct TestSuiteSudokuFixture{
     vector<Cell::SharedPtr> simpleBoard;
     vector<Cell::SharedPtr> simpleBoardWithGroups;
 
+    SudokuSolver::SharedPtr sudokuSolver;
+    Sudoku::SharedPtr simpleSudoku;
+
     TestSuiteSudokuFixture(){
         for (int i = 0; i < 81; ++i) {
             emptyBoard.push_back(make_shared<Cell>());
@@ -66,12 +73,21 @@ struct TestSuiteSudokuFixture{
 
         simpleBoard = Utils::getCellsFromNumPoses(simpleBoardPoses);
         simpleBoardWithGroups = Utils::getSimpleSudokuCells(simpleBoard);
+
+        sudokuSolver = make_shared<SingleThreadBacktrackingSolver>();
+        simpleSudoku = make_shared<Sudoku>(simpleBoardWithGroups, sudokuSolver);
     }
 };
 
 BOOST_FIXTURE_TEST_SUITE(SudokuTest, TestSuiteSudokuFixture)
 
-    BOOST_AUTO_TEST_CASE(SimpleSudokuGetterTest){
+    BOOST_AUTO_TEST_CASE(ConstructorTest){
+        BOOST_REQUIRE(simpleSudoku != nullptr);
+
+        BOOST_CHECK_THROW(make_shared<Sudoku>(vector<Cell::SharedPtr>(), sudokuSolver), invalid_argument);
+    }
+
+    BOOST_AUTO_TEST_CASE(SimpleSudokuTest){
         // all number should be allowed in every cell of an empty board
         for (const auto &cell: emptyBoardWithGroups) {
             for (int num = 1; num <= 9; num++){
@@ -129,6 +145,23 @@ BOOST_FIXTURE_TEST_SUITE(SudokuTest, TestSuiteSudokuFixture)
                 }
             }
         }
+    }
+
+    BOOST_AUTO_TEST_CASE(SimpleSudokuAllowanceTest){
+        for (int row = 0; row < 9; ++row) {
+            for (int col = 0; col < 9; ++col) {
+                Cell::SharedPtr cell = this->simpleBoardWithGroups[9 * row + col];
+                for (int num = 1; num <= 9; ++num){
+                    BOOST_TEST(cell->isNumberAllowed(num) == simpleSudoku->isNumberAllowed(row, col, num));
+                }
+            }
+        }
+        BOOST_TEST(!simpleSudoku->isNumberAllowed(-1, 5, 5));
+        BOOST_TEST(!simpleSudoku->isNumberAllowed(9, 5, 5));
+        BOOST_TEST(!simpleSudoku->isNumberAllowed(5, 0, 5));
+        BOOST_TEST(!simpleSudoku->isNumberAllowed(5, 9, 5));
+        BOOST_TEST(!simpleSudoku->isNumberAllowed(5, 5, 0));
+        BOOST_TEST(!simpleSudoku->isNumberAllowed(5, 5, 10));
     }
 
 BOOST_AUTO_TEST_SUITE_END()

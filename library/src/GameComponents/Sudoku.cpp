@@ -13,7 +13,7 @@ int GameComponents::Sudoku::getCellIndex(int row, int column) {
 }
 
 bool GameComponents::Sudoku::isNumberAllowed(int row, int column, int number) const {
-    if (row < 0 || row >= NR_ROWS || column < 0 || column > NR_COLUMNS || number < 1 || number > 9){
+    if (row < 0 || row >= NR_ROWS || column < 0 || column >= NR_COLUMNS || number < 1 || number > 9){
         return false;
     }
     int cellIndex = getCellIndex(row, column);
@@ -43,4 +43,11 @@ int GameComponents::Sudoku::getNumber(int row, int column) const {
 }
 
 GameComponents::Sudoku::Sudoku(const vector<Cell::SharedPtr> &cells, const shared_ptr<Solvers::SudokuSolver> &solver)
-        : cells(cells), solver(solver) {}
+        : solver(solver) {
+    if (cells.size() != 81){
+        throw invalid_argument("Expected 81 cells");
+    }
+    for (const auto &cell: cells) {
+        this->cells.push_back(cell);
+    }
+}
