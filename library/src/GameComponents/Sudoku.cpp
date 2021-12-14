@@ -41,3 +41,6 @@ int GameComponents::Sudoku::getNumber(int row, int column) const {
     Cell::SharedPtr cell = this->cells[cellIndex];
     return cell->getNumber();
 }
+
+GameComponents::Sudoku::Sudoku(const vector<Cell::SharedPtr> &cells, const shared_ptr<Solvers::SudokuSolver> &solver)
+        : cells(cells), solver(solver) {}

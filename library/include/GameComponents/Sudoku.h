@@ -6,10 +6,11 @@
 #define SUDOKULOGICLIBRARY_SUDOKU_H
 
 
-#include "GameComponents/GameComponents.h"
-#include "GameComponents/Cell.h"
-#include "typedefs.h"
+#include "GameComponents.h"
+#include "SudokuSolvers/SudokuSolver.h"
+#include "Cell.h"
 #include <vector>
+#include <memory>
 
 class GameComponents::Sudoku {
 private:
@@ -17,6 +18,13 @@ private:
     const static int NR_COLUMNS = 9;
     // 81 cells
     std::vector<Cell::SharedPtr> cells;
+
+    // Solver object
+    std::shared_ptr<Solvers::SudokuSolver> solver;
+public:
+    Sudoku(const std::vector<Cell::SharedPtr> &cells, const std::shared_ptr<Solvers::SudokuSolver> &solver);
+
+private:
 
     // assumes row and column indices start from 0
     static int getCellIndex(int row, int column);
@@ -44,6 +52,8 @@ public:
      * @return the number at given position (0 if empty)
      */
     [[nodiscard]] int getNumber(int row, int column) const;
+
+    typename std::shared_ptr<GameComponents::Sudoku> SharedPtr;
 };
 
 
