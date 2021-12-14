@@ -78,26 +78,75 @@ BOOST_FIXTURE_TEST_SUITE(SudokuTest, TestSuiteSudokuFixture)
                 BOOST_TEST(cell->isNumberAllowed(num));
             }
         }
-        // are numbers in cells not allowed in their groups
+        // are numbers in cells not allowed in their groups and are number not present in any of the groups allowed
         for (int i = 0; i < 81; ++i) {
             if (simpleBoardWithGroups[i]->isEmpty()){
                 continue;
             }
             int rowIndex = i / 9;
             int columnIndex = i % 9;
-            int boxIndex = (rowIndex / 3) * 3 + (columnIndex / 3);
             int boxInitialRow = (rowIndex / 3) * 3;
             int boxInitialCol = (columnIndex / 3) * 3;
             int number = simpleBoardWithGroups[i]->getNumber();
             // check current row
             for (int j = 0; j < 9; ++j) {
                 int cellIndex = 9 * rowIndex + j;
-                BOOST_TEST(!simpleBoardWithGroups[9 * rowIndex + j]->isNumberAllowed(number));
+                BOOST_TEST(!simpleBoardWithGroups[cellIndex]->isNumberAllowed(number));
             }
             // check current column
             for (int j = 0; j < 9; ++j) {
                 int cellIndex = 9 * j + columnIndex;
-                BOOST_TEST(!simpleBoardWithGroups[9 * j + columnIndex]->isNumberAllowed(number));
+                BOOST_TEST(!simpleBoardWithGroups[cellIndex]->isNumberAllowed(number));
+            }
+            // check current box
+            for (int rowOffset = 0; rowOffset <= 2; ++rowOffset) {
+                for (int columnOffset = 0; columnOffset <= 2; ++columnOffset) {
+                    int cellIndex = 9 * (boxInitialRow + rowOffset) + boxInitialCol + columnOffset;
+                    BOOST_TEST(!simpleBoardWithGroups[cellIndex]->isNumberAllowed(number));
+                }
+            }
+
+            vector<bool> rowNumbersPresence(9);
+            vector<bool> columnNumbersPresence(9);
+            vector<bool> boxNumbersPresence(9);
+            for (int j = 0; j < 9; ++j) {
+                rowNumbersPresence[j] = false;
+                columnNumbersPresence[j] = false;
+                boxNumbersPresence[j] = false;
+            }
+            // check current row
+            for (int j = 0; j < 9; ++j) {
+                int cellIndex = 9 * rowIndex + j;
+                if(!simpleBoardWithGroups[cellIndex]->isEmpty()){
+                    int num = simpleBoardWithGroups[cellIndex]->getNumber();
+                    rowNumbersPresence[num - 1] = true;
+                }
+            }
+            // check current column
+            for (int j = 0; j < 9; ++j) {
+                int cellIndex = 9 * j + columnIndex;
+                if(!simpleBoardWithGroups[cellIndex]->isEmpty()){
+                    int num = simpleBoardWithGroups[cellIndex]->getNumber();
+                    columnNumbersPresence[num - 1] = true;
+                }
+            }
+            // check current box
+            for (int rowOffset = 0; rowOffset <= 2; ++rowOffset) {
+                for (int columnOffset = 0; columnOffset <= 2; ++columnOffset) {
+                    int cellIndex = 9 * (boxInitialRow + rowOffset) + boxInitialCol + columnOffset;
+                    if(!simpleBoardWithGroups[cellIndex]->isEmpty()){
+                        int num = simpleBoardWithGroups[cellIndex]->getNumber();
+                        boxNumbersPresence[num - 1] = true;
+                    }
+                }
+            }
+            for (int num = 1; num <= 9; num++){
+                if (rowNumbersPresence[num - 1] || columnNumbersPresence[num - 1] || boxNumbersPresence[num - 1]){
+                    BOOST_TEST(!simpleBoardWithGroups[i]->isNumberAllowed(num));
+                }
+                else{
+                    BOOST_TEST(simpleBoardWithGroups[i]->isNumberAllowed(num));
+                }
             }
         }
     }
