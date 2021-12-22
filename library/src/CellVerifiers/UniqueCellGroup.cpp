@@ -23,9 +23,13 @@ CellVerifiers::UniqueCellGroup::UniqueCellGroup() {
     }
 }
 
-CellVerifiers::UniqueCellGroup::UniqueCellGroup(const CellVerifiers::UniqueCellGroup &uniqueCellGroup) {
-    for (int num = 1; num <= 9; num++){
-        // copy allowanceMask
-        this->allowanceMask[num - 1] = uniqueCellGroup.isNumberAllowed(num);
+std::shared_ptr<CellVerifiers::CellGroupObserver> CellVerifiers::UniqueCellGroup::clone() const {
+    std::shared_ptr<CellGroupObserver> newGroup = std::make_shared<UniqueCellGroup>();
+    for (int i = 0; i < 9; ++i) {
+        if (!allowanceMask[i]){
+            newGroup->notifySet(i + 1);
+        }
     }
+    return newGroup;
 }
+

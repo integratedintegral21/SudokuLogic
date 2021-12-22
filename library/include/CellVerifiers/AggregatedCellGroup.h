@@ -28,12 +28,6 @@ public:
                                                                                         aggregationInversionFunction(
                                                                                                 aggregationInversionFunction) {}
 
-    AggregatedCellGroup(const AggregatedCellGroup<T>& aggregatedCellGroup){
-        this->desiredResult(aggregatedCellGroup.desiredResult);
-        this->currentResult(aggregatedCellGroup.currentResult);
-        this->aggregationFunction = std::move(aggregatedCellGroup.aggregationFunction);
-        this->aggregationInversionFunction = std::move(aggregatedCellGroup.aggregationInversionFunction);
-    }
 
     void notifySet(int number) override {
         this->currentResult = aggregationFunction(this->currentResult, number);

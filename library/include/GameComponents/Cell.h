@@ -10,7 +10,7 @@
 #include "memory"
 #include "vector"
 
-class GameComponents::Cell {
+class GameComponents::Cell{
 private:
     // empty by default
     int number = 0;
@@ -26,11 +26,6 @@ public:
      * @param number
      */
     explicit Cell(int number);
-    /**
-     * A copying constructor
-     * @param cell
-     */
-    Cell(const Cell& cell);
     /**
      * @return true if a cell object is empty
      */
@@ -68,6 +63,7 @@ public:
      * @return true if all groups allow the number
      */
     [[nodiscard]] bool isNumberAllowed(int number) const;
+    std::shared_ptr<Cell> clone() const;
 
     typedef std::shared_ptr<Cell> SharedPtr;
 };

@@ -10,7 +10,6 @@
 
 class CellVerifiers::CellGroupObserver {
 public:
-    CellGroupObserver(const CellGroupObserver& cellGroupObserver);
     /**
      * Notifies a group object when a number is set in a cell
      * @param number
@@ -29,6 +28,8 @@ public:
      * @return true if the number can be set, false otherwise
      */
     [[nodiscard]] virtual bool isNumberAllowed(int number) const = 0;
+
+    virtual std::shared_ptr<CellVerifiers::CellGroupObserver> clone() const = 0;
 
     typedef std::shared_ptr<CellVerifiers::CellGroupObserver> SharedPtr;
 };

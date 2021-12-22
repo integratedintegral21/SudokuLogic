@@ -13,13 +13,13 @@ private:
 public:
     UniqueCellGroup();
 
-    UniqueCellGroup(const UniqueCellGroup& uniqueCellGroup);
-
     void notifySet(int number) override;
 
     void notifyClear(int number) override;
 
     [[nodiscard]] bool isNumberAllowed(int number) const override;
+
+    std::shared_ptr<CellVerifiers::CellGroupObserver> clone() const override;
 
 };
 

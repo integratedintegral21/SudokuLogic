@@ -59,9 +59,10 @@ bool GameComponents::Cell::isNumberAllowed(int number) const {
     return true;
 }
 
-GameComponents::Cell::Cell(const GameComponents::Cell &cell) {
-    this->number = cell.number;
-    std::vector<CellVerifiers::CellGroupObserver::SharedPtr> otherGroups = cell.getGroups();
-
+std::shared_ptr<GameComponents::Cell> GameComponents::Cell::clone() const{
+    if (this->number >= 1 && this->number <= 9){
+        return std::make_shared<Cell>(Cell(this->number));
+    }
+    return std::make_shared<Cell>(Cell());
 }
 
