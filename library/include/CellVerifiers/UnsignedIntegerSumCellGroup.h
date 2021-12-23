@@ -9,7 +9,7 @@
 
 class CellVerifiers::UnsignedIntegerSumCellGroup: public CellVerifiers::AggregatedCellGroup<unsigned int>{
 public:
-    explicit UnsignedIntegerSumCellGroup(int desiredResult, int groupSize): AggregatedCellGroup(
+    explicit UnsignedIntegerSumCellGroup(unsigned int desiredResult, unsigned int groupSize): AggregatedCellGroup(
             desiredResult, 0, intSumAggregationFunction, intSubtractAggregationFunction),
                                                                             emptySlots(groupSize){}
 
@@ -29,6 +29,10 @@ public:
     void notifySet(int number) override {
         AggregatedCellGroup::notifySet(number);
         emptySlots--;
+    }
+
+    [[nodiscard]] std::shared_ptr<CellVerifiers::CellGroupObserver> clone() const override {
+        return std::make_shared<UnsignedIntegerSumCellGroup>(desiredResult, 0);
     }
 
     void notifyClear(int number) override {

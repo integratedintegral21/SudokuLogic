@@ -9,7 +9,7 @@
 
 class CellVerifiers::UniqueCellGroup: public CellVerifiers::CellGroupObserver{
 private:
-    bool allowanceMask[9];
+    bool allowanceMask[9]{};
 public:
     UniqueCellGroup();
 
@@ -19,7 +19,7 @@ public:
 
     [[nodiscard]] bool isNumberAllowed(int number) const override;
 
-    std::shared_ptr<CellVerifiers::CellGroupObserver> clone() const override;
+    virtual std::shared_ptr<CellVerifiers::CellGroupObserver> clone() const override;
 
 };
 
