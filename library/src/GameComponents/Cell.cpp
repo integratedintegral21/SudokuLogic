@@ -14,13 +14,20 @@ void GameComponents::Cell::setNumber(int number) {
     if (number < 1 || number > 9){
         throw std::invalid_argument("Cell: Given number must be between [1, 9]");
     }
+    int oldNumber = this->number;
     this->number = number;
     for (const auto &group: this->groups) {
+        if (oldNumber >= 1){
+            group->notifyClear(oldNumber);
+        }
         group->notifySet(number);
     }
 }
 
 void GameComponents::Cell::clearCell() {
+    if (this->number < 1){
+        return;
+    }
     for (const auto &group: this->groups) {
         group->notifyClear(this->number);
     }
@@ -32,6 +39,9 @@ GameComponents::Cell::Cell(int number){
 }
 
 void GameComponents::Cell::addGroupObserver(const std::shared_ptr<CellVerifiers::CellGroupObserver>& groupObserver) {
+    if (this->number > 0){
+        groupObserver->notifySet(number);
+    }
     this->groups.push_back(groupObserver);
 }
 

@@ -30,6 +30,8 @@ BOOST_FIXTURE_TEST_SUITE(TestSuiteCell, TestSuiteCellFixture)
         BOOST_REQUIRE(cell != nullptr);
         BOOST_REQUIRE(emptyCell != nullptr);
 
+        BOOST_TEST(!groupObserver->isNumberAllowed(number));
+
         BOOST_TEST(!cell->isEmpty());
         BOOST_TEST(emptyCell->isEmpty());
 
@@ -43,6 +45,9 @@ BOOST_FIXTURE_TEST_SUITE(TestSuiteCell, TestSuiteCellFixture)
 
         cell->clearCell();
         BOOST_TEST(cell->getNumber() == 0);
+        BOOST_TEST(cell->isEmpty());
+        // double cleared cell
+        cell->clearCell();
         BOOST_TEST(cell->isEmpty());
 
         BOOST_CHECK_THROW(cell->setNumber(-1), invalid_argument);

@@ -53,6 +53,13 @@ BOOST_FIXTURE_TEST_SUITE(TestSuiteCellGroup, TestSuiteCellGroupFixture)
             cells[num - 1]->clearCell();
             BOOST_TEST(uniqueGroup->isNumberAllowed(num));
         }
+        // changing cell's number
+        cells[0]->setNumber(2);
+        BOOST_TEST(!uniqueGroup->isNumberAllowed(2));
+        cells[0]->setNumber(1);
+        BOOST_TEST(!uniqueGroup->isNumberAllowed(1));
+        BOOST_TEST(uniqueGroup->isNumberAllowed(2));
+
     }
 
     BOOST_AUTO_TEST_CASE(IntegerSumCellGroupTest){
