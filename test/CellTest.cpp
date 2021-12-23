@@ -60,4 +60,11 @@ BOOST_FIXTURE_TEST_SUITE(TestSuiteCell, TestSuiteCellFixture)
         BOOST_TEST(cell->getGroups() != groups);
     }
 
+    BOOST_AUTO_TEST_CASE(CloneTest){
+        groupObserver->notifySet(number);
+        Cell::SharedPtr cellClone = cell->clone();
+        BOOST_TEST(cellClone->getNumber() == number);
+        BOOST_TEST(!cellClone->isNumberAllowed(number));
+    }
+
 BOOST_AUTO_TEST_SUITE_END()

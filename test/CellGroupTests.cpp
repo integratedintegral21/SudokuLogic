@@ -71,4 +71,33 @@ BOOST_FIXTURE_TEST_SUITE(TestSuiteCellGroup, TestSuiteCellGroupFixture)
         BOOST_TEST(!intSumGroup->isNumberAllowed(8));
         BOOST_TEST(!intSumGroup->isNumberAllowed(10));
     }
+
+    BOOST_AUTO_TEST_CASE(UniqueCloneTest){
+        for (int num = 1; num <= 5; num++){
+            cells[num - 1]->setNumber(num);
+        }
+        CellGroupObserver::SharedPtr clonedUniqueGroup = groups[0]->clone();
+        for (int num = 1; num <= 5; num++){
+            BOOST_TEST(!clonedUniqueGroup->isNumberAllowed(num));
+        }
+        for (int num = 6; num <= 9; num++){
+            BOOST_TEST(clonedUniqueGroup->isNumberAllowed(num));
+        }
+    }
+
+    BOOST_AUTO_TEST_CASE(SumCloneTest){
+        for (int num = 1; num <= 7; num++){
+            cells[num - 1]->setNumber(num);
+        }
+        CellGroupObserver::SharedPtr clonedSumGroup = groups[1]->clone();
+        BOOST_TEST(clonedSumGroup->isNumberAllowed(15));
+        BOOST_TEST(!clonedSumGroup->isNumberAllowed(17));
+        BOOST_TEST(!clonedSumGroup->isNumberAllowed(19));
+
+        clonedSumGroup->notifySet(8);
+        BOOST_TEST(clonedSumGroup->isNumberAllowed(9));
+        BOOST_TEST(!clonedSumGroup->isNumberAllowed(8));
+        BOOST_TEST(!clonedSumGroup->isNumberAllowed(10));
+    }
+
 BOOST_AUTO_TEST_SUITE_END()

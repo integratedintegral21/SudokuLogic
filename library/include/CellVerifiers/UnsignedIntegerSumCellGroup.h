@@ -32,7 +32,9 @@ public:
     }
 
     [[nodiscard]] std::shared_ptr<CellVerifiers::CellGroupObserver> clone() const override {
-        return std::make_shared<UnsignedIntegerSumCellGroup>(desiredResult, 0);
+        std::shared_ptr<UnsignedIntegerSumCellGroup> newGroup = std::make_shared<UnsignedIntegerSumCellGroup>(desiredResult, emptySlots);
+        newGroup->currentResult = currentResult;
+        return newGroup;
     }
 
     void notifyClear(int number) override {

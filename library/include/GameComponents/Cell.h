@@ -63,7 +63,7 @@ public:
      * @return true if all groups allow the number
      */
     [[nodiscard]] bool isNumberAllowed(int number) const;
-    std::shared_ptr<Cell> clone() const;
+    [[nodiscard]] std::shared_ptr<Cell> clone() const;
 
     typedef std::shared_ptr<Cell> SharedPtr;
 };
