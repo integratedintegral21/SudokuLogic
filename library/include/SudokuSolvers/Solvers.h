@@ -12,4 +12,7 @@ namespace Solvers{
     class SudokuSolver;
     class SingleThreadBacktrackingSolver;
     class MultiThreadBacktrackingSolver;
+
+    class FiniteNumberSequence;
+    class FiniteCircularNumberSequence;
 }
