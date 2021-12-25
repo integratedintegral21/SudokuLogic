@@ -84,7 +84,7 @@ std::vector<Cell::SharedPtr> Utils::getCellsFromNumPoses(const std::vector<NumPo
         int cellIndex = 9 * row + col;
         Cell::SharedPtr cell = cells[cellIndex];
         if (!cell->isEmpty()){
-            throw invalid_argument("Over-definition error. Some cell is defined by more than 1 numPosition");
+            throw logic_error("Over-definition error. Some cell is defined by more than 1 numPosition");
         }
         cell->setNumber(num);
     }
@@ -110,9 +110,6 @@ vector<Cell::SharedPtr> Utils::getSimpleSudokuCells(const vector<Cell::SharedPtr
         int rowIndex = i / 9;
         int columnIndex = i % 9;
         int boxIndex = (rowIndex / 3) * 3 + (columnIndex / 3);
-        cell->addGroupObserver(rows[rowIndex]);
-        cell->addGroupObserver(columns[columnIndex]);
-        cell->addGroupObserver(boxes[boxIndex]);
         if (!cell->isEmpty()){
             if (!rows[rowIndex]->isNumberAllowed(cell->getNumber()) ||
                 !columns[columnIndex]->isNumberAllowed(cell->getNumber()) ||
@@ -124,6 +121,9 @@ vector<Cell::SharedPtr> Utils::getSimpleSudokuCells(const vector<Cell::SharedPtr
             columns[columnIndex]->notifySet(cell->getNumber());
             boxes[boxIndex]->notifySet(cell->getNumber());
         }
+        cell->addGroupObserver(rows[rowIndex]);
+        cell->addGroupObserver(columns[columnIndex]);
+        cell->addGroupObserver(boxes[boxIndex]);
     }
     return {cells};
 }
