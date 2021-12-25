@@ -28,7 +28,7 @@ bool GameComponents::Sudoku::isNumberAllowed(int row, int column, int number) co
 }
 
 void GameComponents::Sudoku::setNumber(int row, int column, int number) {
-    if (!isNumberAllowed(row, column, number)){
+    if (!isNumberAllowed(row, column, number)) {
         throw invalid_argument("The given number is not allowed");
     }
     int cellIndex = getCellIndex(row, column);
@@ -50,4 +50,16 @@ GameComponents::Sudoku::Sudoku(const vector<Cell::SharedPtr> &cells, const share
     for (const auto &cell: cells) {
         this->cells.push_back(cell);
     }
+}
+
+std::vector<std::vector<int>> GameComponents::Sudoku::getBoard() const {
+    vector<vector<int>> board;
+    for (int i = 0; i < 9; ++i) {
+        vector<int> row;
+        for (int j = 0; j < 9; ++j) {
+            row.push_back(this->getNumber(i, j));
+        }
+        board.push_back(row);
+    }
+    return board;
 }

@@ -1,14 +1,10 @@
 cmake_minimum_required(VERSION 3.19)
 
 project(Program)
-find_library(SUDOKU_LIBRARY SudokuLogicLibrary HINTS ../library REQUIRED)
+find_library(SUDOKU_LIBRARY SudokuLogicLibrary HINTS ../library/cmake-build-debug REQUIRED)
 set(CMAKE_CXX_FLAGS -pthread)
 
 set(SOURCE_FILES src/main.cpp
-        # only for debugging
-        ../library/src/utils.cpp
-        ../library/include/typedefs.h
-        ../library/include/utils.h
         )
 
 add_executable(Program ${SOURCE_FILES})

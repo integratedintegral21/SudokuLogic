@@ -6,6 +6,8 @@
 #include <iomanip>
 #include <unistd.h>
 #include "GameComponents/Sudoku.h"
+#include "GameComponents/Cell.h"
+#include "SudokuSolvers/SingleThreadBacktrackingSolver.h"
 #include "utils.h"
 #include "time.h"
 
@@ -75,10 +77,29 @@ int main(){
                     make_tuple(9,3,6),
             }
     };
-    vector<CellPtr> cells = Utils::getCellsFromNumPoses(simpleBoards[0]);
-    vector<CellVerifiers::CellGroup::SharedPtr> groups = Utils::getSimpleGroups(cells);
-    Sudoku sudoku(cells, groups);
-    cout << sudoku.getBoardString() << endl;
-    cout << sudoku.isNumberAllowed(make_tuple(9, 4, 5)) << endl;
+    vector<GameComponents::Cell::SharedPtr> cells = Utils::getCellsFromNumPoses(simpleBoards[0]);
+    vector<GameComponents::Cell::SharedPtr> cellsWithGroups = Utils::getSimpleSudokuCells(cells);
+    GameComponents::Sudoku sudoku(cellsWithGroups, make_shared<Solvers::SingleThreadBacktrackingSolver>());
+    vector<vector<int>> board = sudoku.getBoard();
+    for (int i = 0; i < 9; ++i) {
+        cout << "|";
+        for (int j = 0; j < 9; ++j) {
+            int number = board[i][j];
+            if (number == 0){
+                cout << " ";
+            }
+            else{
+                cout << number;
+            }
+            cout << "|";
+            if (j % 3 == 2 && j < 8){
+                cout << "  |";
+            }
+        }
+        cout << endl;
+        if (i % 3 == 2 && i < 8){
+            cout << endl;
+        }
+    }
     return 0;
 }

@@ -56,6 +56,11 @@ public:
      * @return the number at given position (0 if empty)
      */
     [[nodiscard]] int getNumber(int row, int column) const;
+    /**
+     * Returns a list of lists of integers representing the board's state
+     * @return a vector of vectors of ints
+     */
+    std::vector<std::vector<int>> getBoard() const;
 
     typedef std::shared_ptr<GameComponents::Sudoku> SharedPtr;
 };
