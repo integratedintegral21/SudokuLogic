@@ -114,7 +114,7 @@ vector<Cell::SharedPtr> Utils::getSimpleSudokuCells(const vector<Cell::SharedPtr
             if (!rows[rowIndex]->isNumberAllowed(cell->getNumber()) ||
                 !columns[columnIndex]->isNumberAllowed(cell->getNumber()) ||
                 !boxes[boxIndex]->isNumberAllowed(cell->getNumber())){
-                throw invalid_argument("At least one cell is not unique in its groups");
+                throw logic_error("At least one cell is not unique in its groups");
             }
             // add the number inside the cell to not allowed
             rows[rowIndex]->notifySet(cell->getNumber());
