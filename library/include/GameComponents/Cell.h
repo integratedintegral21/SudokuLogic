@@ -63,6 +63,10 @@ public:
      * @return true if all groups allow the number
      */
     [[nodiscard]] bool isNumberAllowed(int number) const;
+    /**
+     * Returns a deep copy of the current object
+     * @return a shred pointer to the copy
+     */
     [[nodiscard]] std::shared_ptr<Cell> clone() const;
 
     typedef std::shared_ptr<Cell> SharedPtr;

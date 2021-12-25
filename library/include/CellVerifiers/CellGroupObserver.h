@@ -29,6 +29,10 @@ public:
      */
     [[nodiscard]] virtual bool isNumberAllowed(int number) const = 0;
 
+    /**
+     * Returns a deep copy of the current object
+     * @return a shred pointer to the copy
+     */
     virtual std::shared_ptr<CellVerifiers::CellGroupObserver> clone() const = 0;
 
     typedef std::shared_ptr<CellVerifiers::CellGroupObserver> SharedPtr;
