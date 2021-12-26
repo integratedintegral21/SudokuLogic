@@ -13,6 +13,5 @@ namespace Solvers{
     class SingleThreadBacktrackingSolver;
     class MultiThreadBacktrackingSolver;
 
-    class FiniteNumberSequence;
-    class FiniteCircularNumberSequence;
+    class CircularSubsequentNumbersSequence;
 }
