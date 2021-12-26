@@ -162,6 +162,10 @@ BOOST_FIXTURE_TEST_SUITE(SudokuTest, TestSuiteSudokuFixture)
         BOOST_TEST(!simpleSudoku->isNumberAllowed(5, 9, 5));
         BOOST_TEST(!simpleSudoku->isNumberAllowed(5, 5, 0));
         BOOST_TEST(!simpleSudoku->isNumberAllowed(5, 5, 10));
+
+        BOOST_TEST(simpleSudoku->isNumberAllowed(0, 1, 3));
+        simpleSudoku->setNumber(0, 0, 3);
+        BOOST_TEST(!simpleSudoku->isNumberAllowed(0, 1, 3));
     }
 
 BOOST_AUTO_TEST_SUITE_END()

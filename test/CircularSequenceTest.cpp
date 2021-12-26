@@ -14,19 +14,20 @@ struct TestSuiteCircularSequenceFixture{
 
 BOOST_FIXTURE_TEST_SUITE(TestSuiteCirularSequence, TestSuiteCircularSequenceFixture)
     BOOST_AUTO_TEST_CASE(IterationMethodsTest){
-        BOOST_TEST(*(circularSubsequentNumbersSequence.begin()) == 1);
-        BOOST_TEST(*(circularSubsequentNumbersSequence.end()) == 9);
-        BOOST_TEST(*(circularSubsequentNumbersSequence.startingNumber()) == 5);
+        BOOST_TEST(*(circularSubsequentNumbersSequence.beginIt()) == 5);
+        BOOST_TEST(*(circularSubsequentNumbersSequence.lastIt()) == 4);
     }
     BOOST_AUTO_TEST_CASE(IteratorIncrementationTest){
         // General case
-        Solvers::CircularSubsequentNumbersSequence::Iterator it = circularSubsequentNumbersSequence.begin();
-        for (int i = 2; i <= 9; ++i) {
+        Solvers::CircularSubsequentNumbersSequence::Iterator it = circularSubsequentNumbersSequence.beginIt();
+        for (int i = 6; i <= 9; ++i) {
             ++it;
             BOOST_TEST(*it == i);
         }
-        ++it;
-        BOOST_TEST(*it == 1);
+        for (int i = 1; i <= 5; ++i) {
+            ++it;
+            BOOST_TEST(*it == i);
+        }
         // Edge case (1 element)
         it = Solvers::CircularSubsequentNumbersSequence::Iterator(1, 1, 1);
         BOOST_TEST(*it == 1);
@@ -36,13 +37,15 @@ BOOST_FIXTURE_TEST_SUITE(TestSuiteCirularSequence, TestSuiteCircularSequenceFixt
     }
 
     BOOST_AUTO_TEST_CASE(IteratorDecrementationTest){
-        Solvers::CircularSubsequentNumbersSequence::Iterator it = circularSubsequentNumbersSequence.end();
-        for (int i = 8; i >= 1; i--){
+        Solvers::CircularSubsequentNumbersSequence::Iterator it = circularSubsequentNumbersSequence.lastIt();
+        for (int i = 3; i >= 1; i--){
             --it;
             BOOST_TEST(*it == i);
         }
-        --it;
-        BOOST_TEST(*it == 9);
+        for (int i = 9; i >= 4; i--){
+            --it;
+            BOOST_TEST(*it == i);
+        }
     }
 
 BOOST_AUTO_TEST_SUITE_END()

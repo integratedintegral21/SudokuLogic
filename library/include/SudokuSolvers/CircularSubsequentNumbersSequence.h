@@ -64,9 +64,8 @@ public:
 
     CircularSubsequentNumbersSequence(int first, int last, int start);
 
-    [[nodiscard]] Iterator begin() const { return {first, last, first}; }
-    [[nodiscard]] Iterator end() const { return {first, last, last}; }
-    [[nodiscard]] Iterator startingNumber() const { return {first, last, start}; }
+    [[nodiscard]] Iterator beginIt() const { return {first, last, start}; }
+    [[nodiscard]] Iterator lastIt() const { return  --Iterator(first, last, start);}
 };
 
 
