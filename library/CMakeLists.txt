@@ -20,7 +20,7 @@ set(SOURCE_FILES
         src/CellVerifiers/IntegerSumCellGroup.cpp
         include/CellVerifiers/UnsignedIntegerSumCellGroup.h
         src/GameComponents/Sudoku.cpp
-        include/GameComponents/Sudoku.h include/SudokuSolvers/Solvers.h src/SudokuSolvers/SudokuSolver.cpp include/SudokuSolvers/SudokuSolver.h src/SudokuSolvers/SingleThreadBacktrackingSolver.cpp include/SudokuSolvers/SingleThreadBacktrackingSolver.h src/SudokuSolvers/MultiThreadBacktrackingSolver.cpp include/SudokuSolvers/MultiThreadBacktrackingSolver.h src/SudokuSolvers/FiniteNumberSequence.cpp include/SudokuSolvers/FiniteNumberSequence.h src/SudokuSolvers/FiniteCircularNumberSequence.cpp include/SudokuSolvers/FiniteCircularNumberSequence.h)
+        include/GameComponents/Sudoku.h include/SudokuSolvers/Solvers.h src/SudokuSolvers/SudokuSolver.cpp include/SudokuSolvers/SudokuSolver.h src/SudokuSolvers/SingleThreadBacktrackingSolver.cpp include/SudokuSolvers/SingleThreadBacktrackingSolver.h src/SudokuSolvers/MultiThreadBacktrackingSolver.cpp include/SudokuSolvers/MultiThreadBacktrackingSolver.h src/SudokuSolvers/CircularSubsequentNumbersSequence.cpp include/SudokuSolvers/CircularSubsequentNumbersSequence.h)
 add_library(SudokuLogicLibrary SHARED ${SOURCE_FILES})
 target_link_libraries(SudokuLogicLibrary PUBLIC Threads::Threads)
 
